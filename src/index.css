@@ -5,18 +5,6 @@
 @import "@fontsource-variable/montserrat";
 
 @custom-variant dark (&:where(.dark, .dark *));
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    min-height: 100vh;
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-}
-
 :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -68,26 +56,25 @@ body {
   --secondary-200: #fde68a;
   --secondary-300: #fcd34d;
   --secondary-400: #fbbf24;
-  --secondary-500: #D4AF37; /* base */
+  --secondary-500: #D4AF37; 
   --secondary-600: #b8942f;
   --secondary-700: #927324;
   --secondary-800: #6b531a;
   --secondary-900: #4a3a12;
   --secondary-950: #2b210a;
 
-   --neutral-50:  #f9fafb;
-  --neutral-100: #f3f4f6;
-  --neutral-200: #e5e7eb;
-  --neutral-300: #d1d5db;
-  --neutral-400: #9ca3af;
-  --neutral-500: #777774; /* base */
-  --neutral-600: #52525b;
-  --neutral-700: #3f3f46;
-  --neutral-800: #27272a;
-  --neutral-900: #18181b;
-  --neutral-950: #0a0a0a;
+   --neutral-50:  #F2F0ED;
+  --neutral-100: #E4E2DE;
+  --neutral-200: #C8C6C3;
+  --neutral-300: #ACABA8;
+  --neutral-400: #91918D; 
+  --neutral-500: #777774;
+  --neutral-600: #5E5E5C;
+  --neutral-700: #474744;
+  --neutral-800: #30312E;
+  --neutral-900: #1B1C1A;
+  --neutral-950: #000000;
 }
-
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
@@ -201,6 +188,19 @@ body {
         --color-neutral-950: var(--neutral-950);
 
 }
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+
+
 
 @layer base {
   * {

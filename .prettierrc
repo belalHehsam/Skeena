@@ -7,7 +7,7 @@
   "tailwindPreserveDuplicates": true,
   "endOfLine": "auto",
   "importOrder": [
-    "^(.*).css$",
+    "^.*\\.css$",
     "^react$",
     "^react-dom/client$",
     "^react-router$",
@@ -26,5 +26,6 @@
     "^@/translations/(.*)$",
     "^@/assets/(.*)$"
   ],
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"]
 }

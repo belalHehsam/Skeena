@@ -60,3 +60,12 @@ export type GetAllPostsResponse = {
 		};
 	};
 };
+
+export type AnalyzePostResponse = {
+	status: "success";
+	data: {
+		moderation: ModerationInfo;
+		recommendation: Recommendation | null;
+	};
+};
+

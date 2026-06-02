@@ -17,9 +17,10 @@ import {
 import EmojiPicker from 'emoji-picker-react';
 import { Button } from "@/components/ui/button";
 import { useCreatePost } from "../hooks/useCreatePost";
+import { useAnalyzePost } from "../hooks/useAnalyzePost";
 import { RecommendationCard } from "./RecommendationCard";
 import { TipTapEditor, type TipTapEditorRef } from "./TipTapEditor";
-import type { CreatePostResponse, ModerationInfo, Recommendation } from "../types/post";
+import type { CreatePostResponse, AnalyzePostResponse, ModerationInfo, Recommendation } from "../types/post";
 
 const CATEGORIES = [
 	{ value: "quran", label: "Quran", icon: BookOpen },
@@ -55,11 +56,14 @@ export function CreatePostForm() {
 
 	const [moderation, setModeration] = useState<ModerationInfo | null>(null);
 	const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
+	const [isRecommendationAttached, setIsRecommendationAttached] = useState(false);
 	const [rejectionError, setRejectionError] = useState<{ content: string; violations: string[] } | null>(null);
-	const [isSubmitting, setIsSubmitting] = useState(false); // To handle fake loading or real mutation
 	const [showSuccess, setShowSuccess] = useState(false);
+	const [step, setStep] = useState<"draft" | "review">("draft");
 
-	const { mutate: createPost, isPending } = useCreatePost();
+	const { mutate: createPost, isPending: isCreating } = useCreatePost();
+	const { mutate: analyzePost, isPending: isAnalyzing } = useAnalyzePost();
+	const isPending = isCreating || isAnalyzing;
 
 
 
@@ -86,42 +90,64 @@ export function CreatePostForm() {
 		removeImage();
 		setModeration(null);
 		setRecommendation(null);
+		setIsRecommendationAttached(false);
 		setRejectionError(null);
 		setShowSuccess(false);
+		setStep("draft");
 	}
 
-	function handleSubmit(e?: FormEvent) {
+	function handleAction(e?: FormEvent) {
 		if (e) e.preventDefault();
-
 		if (!content.trim() || isPending || tags.length === 0) return;
 
-
-		setModeration(null);
-		setRecommendation(null);
 		setRejectionError(null);
 		setShowSuccess(false);
 
 		const formData = new FormData();
 		formData.append("content", content.trim());
 		formData.append("tags", JSON.stringify(tags));
-		formData.append("commentsEnabled", String(commentsEnabled));
-		if (imageFile) formData.append("image", imageFile);
 
-		createPost(formData, {
-			onSuccess: (data: CreatePostResponse) => {
-				setModeration(data.data.moderation);
-				setRecommendation(data.data.post.recommendation ?? null);
-				setShowSuccess(true);
-			},
-			onError: (error: any) => {
-				if (error.status === 422 && error.errorBody) {
-					setRejectionError({
-						content: error.errorBody.content || "Content does not meet guidelines",
-						violations: error.errorBody.violations || [],
-					});
-				}
-			},
-		});
+		if (step === "draft") {
+			// Phase 1: Analyze
+			analyzePost(formData, {
+				onSuccess: (data: AnalyzePostResponse) => {
+					setModeration(data.data.moderation);
+					setRecommendation(data.data.recommendation);
+					setIsRecommendationAttached(false);
+					setStep("review");
+				},
+				onError: (error: any) => {
+					if (error.status === 422 && error.errorBody) {
+						setRejectionError({
+							content: error.errorBody.content || "Content does not meet guidelines",
+							violations: error.errorBody.violations || [],
+						});
+					}
+				},
+			});
+		} else {
+			// Phase 2: Create
+			formData.append("commentsEnabled", String(commentsEnabled));
+			if (imageFile) formData.append("image", imageFile);
+			if (isRecommendationAttached && recommendation) {
+				formData.append("recommendation", JSON.stringify(recommendation));
+			}
+
+			createPost(formData, {
+				onSuccess: () => {
+					setShowSuccess(true);
+				},
+				onError: (error: any) => {
+					if (error.status === 422 && error.errorBody) {
+						setRejectionError({
+							content: error.errorBody.content || "Content does not meet guidelines",
+							violations: error.errorBody.violations || [],
+						});
+						setStep("draft");
+					}
+				},
+			});
+		}
 	}
 
 	const isOverLimit = contentLength > MAX_CONTENT_LENGTH;
@@ -163,7 +189,7 @@ export function CreatePostForm() {
 
 			{/* Main Editor Card */}
 			<div className="overflow-hidden rounded-3xl border border-neutral-100 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-				<form onSubmit={handleSubmit} className="flex min-h-[300px] flex-col p-6">
+				<form onSubmit={handleAction} className="flex min-h-[300px] flex-col p-6">
 					
 
 					<div className="mb-6 flex flex-wrap items-center gap-2 relative">
@@ -271,7 +297,8 @@ export function CreatePostForm() {
 					)}
 
 
-					{recommendation && (
+					{/* Recommendation Prompt */}
+					{step === "review" && recommendation && !isRecommendationAttached && (
 						<div className="mt-6 flex items-start gap-4 rounded-2xl bg-[#F4FCF7] p-5 dark:bg-primary-950/20">
 							<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E6F4EA] dark:bg-primary-900/40">
 								<Sparkles className="h-5 w-5 text-primary-600 dark:text-primary-400" />
@@ -281,17 +308,40 @@ export function CreatePostForm() {
 									AI Suggestion
 								</h4>
 								<p className="text-sm text-neutral-600 dark:text-neutral-400">
-									Would you like to add a relevant Hadith to this post? I noticed you mentioned patience (*Sabr*).
+									We found a relevant {recommendation.type === "quran" ? "Quranic Ayah" : "Hadith"} for your post. Would you like to attach it?
 								</p>
-								<div className="flex items-center gap-4 pt-1">
-									<button type="button" className="rounded-full bg-primary-700 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-primary-800">
-										View Suggestion
+								<div className="mt-2 rounded-xl bg-white p-4 shadow-sm dark:bg-neutral-900/50 border border-neutral-100 dark:border-neutral-800">
+									<p className="mb-2 text-right font-serif text-lg leading-relaxed text-neutral-800 dark:text-neutral-200" dir="rtl" lang="ar">
+										{recommendation.arabicText}
+									</p>
+									<p className="text-sm text-neutral-600 italic dark:text-neutral-400">
+										"{recommendation.translationText}"
+									</p>
+								</div>
+								<div className="flex items-center gap-4 pt-3">
+									<button type="button" onClick={() => setIsRecommendationAttached(true)} className="rounded-full bg-primary-700 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-primary-800">
+										Attach to Post
 									</button>
-									<button type="button" className="text-sm font-medium text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200">
+									<button type="button" onClick={() => setRecommendation(null)} className="text-sm font-medium text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200">
 										Dismiss
 									</button>
 								</div>
 							</div>
+						</div>
+					)}
+
+					{/* Attached Recommendation Card */}
+					{step === "review" && recommendation && isRecommendationAttached && (
+						<div className="mt-6 relative group">
+							<button 
+								type="button" 
+								onClick={() => setIsRecommendationAttached(false)} 
+								className="absolute top-4 right-4 z-10 p-1.5 rounded-full bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 transition-colors opacity-0 group-hover:opacity-100"
+								title="Remove attachment"
+							>
+								<X className="h-4 w-4 text-neutral-500 dark:text-neutral-400" />
+							</button>
+							<RecommendationCard recommendation={recommendation} />
 						</div>
 					)}
 
@@ -329,12 +379,24 @@ export function CreatePostForm() {
 							<span className={`text-sm font-medium ${isOverLimit ? "text-red-500" : "text-neutral-400 dark:text-neutral-500"}`}>
 								{contentLength} / {MAX_CONTENT_LENGTH}
 							</span>
+							
+							{step === "review" && (
+								<Button
+									type="button"
+									variant="outline"
+									onClick={() => setStep("draft")}
+									className="rounded-full px-6 shadow-sm"
+								>
+									Edit Post
+								</Button>
+							)}
+
 							<Button
 								type="submit"
 								disabled={!canSubmit}
 								className="rounded-full bg-primary-600 px-6 font-semibold text-white shadow-sm hover:bg-primary-700"
 							>
-								{isPending ? "Posting..." : "Post"}
+								{isAnalyzing ? "Analyzing..." : isCreating ? "Publishing..." : step === "draft" ? "Review & Get Suggestions" : "Publish Post"}
 							</Button>
 						</div>
 					</div>

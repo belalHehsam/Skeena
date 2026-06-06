@@ -1,11 +1,7 @@
 import { customFetch } from "@/services/customFetch";
-import type { NotificationsResponse } from "../types/notification";
+import type { NotificationsRequestParams, NotificationsResponse } from "../types/notification";
 
-export const getNotifications = (params?: {
-  page?: number;
-  limit?: number;
-  unreadOnly?: boolean;
-}) => {
+export const getNotifications = (params?: NotificationsRequestParams) => {
   const query = new URLSearchParams();
 
   if (params?.page) query.set("page", String(params.page));

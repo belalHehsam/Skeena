@@ -12,6 +12,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useMarkAllNotificationsRead } from "../hooks/useMarkAllNotificationsRead";
 
 // interface NotificationDropdownProps {
 
@@ -20,7 +21,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const NotificationDropdown: FC = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  console.log('is mobile: ', isMobile)
+  const { mutateAsync: markAllNotificationsRead } =
+    useMarkAllNotificationsRead();
   const { data, isLoading, isError } = useNotifications({ limit: 5 });
   const unreadNotifications = useNotificationStore(
     (state) => state.unreadCount,
@@ -28,7 +30,9 @@ const NotificationDropdown: FC = () => {
   const notificationLabel =
     unreadNotifications > 9 ? "9+" : String(unreadNotifications);
 
-  const handleMarkAllAsRead = async () => {};
+  const handleMarkAllAsRead = async () => {
+    markAllNotificationsRead();
+  };
 
   return (
     <Popover>

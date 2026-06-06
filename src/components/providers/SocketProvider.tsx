@@ -1,25 +1,17 @@
+import { type ReactNode, useEffect, useState } from "react";
 import { useUnreadCount } from "@/features/notifications/hooks/useUnreadCount";
-import {
-  registerNotificationListeners,
-  removeNotificationListeners,
-} from "@/features/notifications/socket/notificationListeners";
-import socket from "@/lib/socket";
+import { useNotificationSocket } from "@/features/notifications/hooks/useNotificationSocket";
 import { useNotificationStore } from "@/store/notificationStore";
-import { useQueryClient } from "@tanstack/react-query";
-import { type ReactNode, useEffect } from "react";
+import socket from "@/lib/socket";
 
 type Props = { children: ReactNode };
 
 function SocketProvider({ children }: Props) {
   const user = localStorage.getItem("token");
-  // const user = null;
-  const queryClient = useQueryClient();
-  const incrementUnread = useNotificationStore(
-    (state) => state.incrementUnread,
-  );
+  const [isConnected, setIsConnected] = useState(socket.connected);
+
   const setUnreadCount = useNotificationStore((state) => state.setUnreadCount);
   const { data: unreadData } = useUnreadCount(!!user);
-  console.log("provider reRendered");
 
   useEffect(() => {
     if (unreadData?.data.unreadCount !== undefined) {
@@ -32,21 +24,27 @@ function SocketProvider({ children }: Props) {
 
     socket.connect();
 
-    socket.on("connect", () => {
+    const onConnect = () => {
       console.log("Connected to socket server");
-    });
+      setIsConnected(true);
+    };
 
-    registerNotificationListeners(incrementUnread, queryClient);
+    const onDisconnect = () => setIsConnected(false);
 
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
     socket.on("connect_error", (err) => {
       console.log("Connection error occurred: ", err.message);
     });
 
     return () => {
-      removeNotificationListeners();
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
       socket.disconnect();
     };
-  }, [user, incrementUnread, queryClient]);
+  }, [user]);
+
+  useNotificationSocket(isConnected);
 
   return <>{children}</>;
 }

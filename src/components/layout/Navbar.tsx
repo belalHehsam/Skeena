@@ -1,18 +1,12 @@
-import { Bell, Menu, Search, Settings } from "lucide-react";
+import NotificationPopover from "@/features/notifications/components/NotificationDropdown";
+import { Menu, Search, Settings } from "lucide-react";
 import { Button } from "../ui/button";
-import { useNotificationStore } from "@/store/notificationStore";
 
 interface NavbarProps {
   onMenuClick: () => void;
 }
 
 export function Navbar({ onMenuClick }: NavbarProps) {
-  const unreadNotifications = useNotificationStore(
-    (state) => state.unreadCount,
-  );
-  const notificationLabel =
-    unreadNotifications > 9 ? "9+" : String(unreadNotifications);
-
   return (
     <header className="bg-background sticky top-0 z-40 flex h-16 w-full shrink-0 items-center justify-between border-b px-4 lg:px-6">
       {/* Mobile Menu Button & Search */}
@@ -38,20 +32,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
 
       {/* Actions & Profile */}
       <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative overflow-visible text-neutral-600"
-          aria-label={`Notifications (${unreadNotifications})`}
-        >
-          <Bell className="size-5" />
-          {unreadNotifications > 0 ? (
-            <span className="ring-background absolute -top-1.5 -right-2 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-amber-400 px-1 text-xs leading-none text-white ring-2">
-              {notificationLabel}
-            </span>
-          ) : null}
-          <span className="sr-only">Notifications</span>
-        </Button>
+        <NotificationPopover />
 
         <Button variant="ghost" size="icon" className="text-neutral-600">
           <Settings className="size-5" />

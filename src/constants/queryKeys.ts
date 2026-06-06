@@ -1,7 +1,9 @@
+import type { NotificationsRequestParams } from "@/features/notifications/types/notification";
+
 export const QUERY_KEYS = {
   notifications: {
     all: () => ["notifications"] as const,
-    list: (params?: { limit?: number; page?: number; unreadOnly?: boolean }) =>
+    list: (params?: NotificationsRequestParams) =>
       ["notifications", "list", ...Object.values(params || {})] as const,
     unreadCount: () => ["notifications", "unread-count"] as const,
   },

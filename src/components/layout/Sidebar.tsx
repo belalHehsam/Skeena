@@ -7,12 +7,14 @@ import {
     User,
     LogOut,
     X,
+    Bell,
 } from "lucide-react";
 import { Button } from "../ui/button";
 
 const navLinks = [
     { name: "Home Feed", href: "/", icon: Home },
     { name: "Explore", href: "/explore", icon: Compass },
+    { name: "Notifications", href: "/notifications", icon: Bell },
     { name: "Friends", href: "/friends", icon: Users },
     { name: "Create Post", href: "/create", icon: PlusSquare },
 ];

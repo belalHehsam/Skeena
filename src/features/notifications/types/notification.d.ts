@@ -30,6 +30,12 @@ export interface NotificationsResponse {
   };
 }
 
+export interface NotificationsRequestParams {
+  limit?: number;
+  page?: number;
+  unreadOnly?: boolean;
+}
+
 export interface UnreadCountResponse {
   status: string;
   data: {

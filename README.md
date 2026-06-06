@@ -1,4 +1,4 @@
-# Sakeena
+# Majlis
 
 A React 19 + TypeScript + Vite app with routing, i18n, theme toggling, and data-fetching helpers. The project is structured by feature and shared components to keep teams aligned as it grows.
 

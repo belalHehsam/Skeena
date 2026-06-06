@@ -3,26 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { AuthTextField } from "../components/AuthTextField";
+import { TextField } from "@/components/common/TextField";
 import {
     registerSchema,
     type RegisterFormValues,
-} from "../schemas/authSchemas";
-import { useAuth } from "../hooks/useAuth";
-import { getApiErrorMessage } from "../utils/getApiErrorMessage";
+} from "@/constants/authSchema";
+import { useRegister } from "@/features/auth/hooks/useRegister";
 
 export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const { register: createAccount } = useAuth();
     const navigate = useNavigate();
+
+    const registerMutation = useRegister({
+        onSuccess: () => {
+            navigate("/", { replace: true });
+        },
+    });
 
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -35,24 +38,17 @@ export default function RegisterPage() {
         },
     });
 
-    async function onSubmit(values: RegisterFormValues) {
-        try {
-            await createAccount(
-                {
-                    username: values.username,
-                    displayName: values.displayName,
-                    email: values.email,
-                    password: values.password,
-                    confirmPassword: values.confirmPassword,
-                },
-                true,
-            );
-
-            toast.success("Account created successfully");
-            navigate("/", { replace: true });
-        } catch (error) {
-            toast.error(getApiErrorMessage(error, "Registration failed"));
-        }
+    function onSubmit(values: RegisterFormValues) {
+        registerMutation.mutate({
+            payload: {
+                username: values.username,
+                displayName: values.displayName,
+                email: values.email,
+                password: values.password,
+                confirmPassword: values.confirmPassword,
+            },
+            rememberMe: true,
+        });
     }
 
     return (
@@ -74,7 +70,7 @@ export default function RegisterPage() {
 
             <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <AuthTextField
+                    <TextField
                         id="displayName"
                         label="Full Name"
                         type="text"
@@ -85,7 +81,7 @@ export default function RegisterPage() {
                         {...register("displayName")}
                     />
 
-                    <AuthTextField
+                    <TextField
                         id="username"
                         label="Username"
                         type="text"
@@ -96,7 +92,7 @@ export default function RegisterPage() {
                         {...register("username")}
                     />
 
-                    <AuthTextField
+                    <TextField
                         id="email"
                         label="Email Address"
                         type="email"
@@ -108,7 +104,7 @@ export default function RegisterPage() {
                     />
 
                     <div className="grid gap-4 sm:grid-cols-2">
-                        <AuthTextField
+                        <TextField
                             id="password"
                             label="Password"
                             type={showPassword ? "text" : "password"}
@@ -118,7 +114,9 @@ export default function RegisterPage() {
                             endIcon={
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword((value) => !value)}
+                                    onClick={() =>
+                                        setShowPassword((value) => !value)
+                                    }
                                     className="rounded-sm text-neutral-500 hover:text-neutral-800"
                                     aria-label={
                                         showPassword
@@ -137,7 +135,7 @@ export default function RegisterPage() {
                             {...register("password")}
                         />
 
-                        <AuthTextField
+                        <TextField
                             id="confirmPassword"
                             label="Confirm Password"
                             type={showConfirmPassword ? "text" : "password"}
@@ -148,7 +146,9 @@ export default function RegisterPage() {
                                 <button
                                     type="button"
                                     onClick={() =>
-                                        setShowConfirmPassword((value) => !value)
+                                        setShowConfirmPassword(
+                                            (value) => !value,
+                                        )
                                     }
                                     className="rounded-sm text-neutral-500 hover:text-neutral-800"
                                     aria-label={
@@ -200,9 +200,11 @@ export default function RegisterPage() {
                     <Button
                         type="submit"
                         className="h-10 w-full rounded-md bg-primary text-sm font-semibold text-white hover:bg-primary-600"
-                        disabled={isSubmitting}
+                        disabled={registerMutation.isPending}
                     >
-                        {isSubmitting ? "Creating account..." : "Register"}
+                        {registerMutation.isPending
+                            ? "Creating account..."
+                            : "Register"}
                     </Button>
                 </form>
 

@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
-import NotFound from "../pages/not-found";
-import Home from "../pages/home";
-import { MainLayout } from "../components/layout/MainLayout";
 import RootErrorBoundary from "@/components/errors/RootErrorBoundary";
-import { AuthLayout } from "@/features/auth/components/AuthLayout";
-import LoginPage from "@/features/auth/pages/LoginPage";
-import RegisterPage from "@/features/auth/pages/RegisterPage";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { ProtectedRoute } from "@/features/auth/routes/ProtectedRoute";
 import { PublicOnlyRoute } from "@/features/auth/routes/PublicOnlyRoute";
+import AuthLayout from "@/pages/auth/AuthLayout";
+import LoginPage from "@/pages/auth/LoginPage";
+import RegisterPage from "@/pages/auth/RegisterPage";
+import Home from "@/pages/home";
+import NotFound from "@/pages/not-found";
 
 const router = createBrowserRouter([
     {

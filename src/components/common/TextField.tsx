@@ -5,34 +5,25 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 
-type AuthTextFieldProps = ComponentPropsWithoutRef<"input"> & {
-    label: string;
+type TextFieldProps = ComponentPropsWithoutRef<"input"> & {
+    label?: string;
     error?: string;
     startIcon?: ReactNode;
     endIcon?: ReactNode;
 };
 
-export const AuthTextField = forwardRef<HTMLInputElement, AuthTextFieldProps>(
-    (
-        {
-            label,
-            error,
-            startIcon,
-            endIcon,
-            className,
-            id,
-            ...props
-        },
-        ref,
-    ) => {
+export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
+    ({ label, error, startIcon, endIcon, className, id, ...props }, ref) => {
         return (
             <div className="space-y-1.5">
-                <label
-                    htmlFor={id}
-                    className="text-xs font-semibold text-neutral-800"
-                >
-                    {label}
-                </label>
+                {label && (
+                    <label
+                        htmlFor={id}
+                        className="text-xs font-semibold text-neutral-800"
+                    >
+                        {label}
+                    </label>
+                )}
 
                 <div className="relative">
                     {startIcon && (
@@ -49,7 +40,8 @@ export const AuthTextField = forwardRef<HTMLInputElement, AuthTextFieldProps>(
                             "placeholder:text-neutral-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/15",
                             startIcon ? "pl-9" : "pl-3",
                             endIcon ? "pr-10" : "pr-3",
-                            error && "border-destructive focus:border-destructive focus:ring-destructive/15",
+                            error &&
+                            "border-destructive focus:border-destructive focus:ring-destructive/15",
                             className,
                         )}
                         {...props}
@@ -72,4 +64,4 @@ export const AuthTextField = forwardRef<HTMLInputElement, AuthTextFieldProps>(
     },
 );
 
-AuthTextField.displayName = "AuthTextField";
+TextField.displayName = "TextField";

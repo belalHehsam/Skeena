@@ -1,119 +1,77 @@
 import {
     createContext,
+    useCallback,
     useContext,
     useEffect,
     useState,
     type ReactNode,
 } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/constants/queryKeys";
 import {
     clearStoredToken,
     getStoredToken,
     saveToken,
 } from "../utils/authStorage";
-import {
-    getMeRequest,
-    loginRequest,
-    logoutRequest,
-    registerRequest,
-} from "../services/authService";
-import type {
-    AuthUser,
-    LoginRequest,
-    RegisterRequest,
-} from "../types/auth";
+import { getMeRequest } from "../services/getMeRequest";
+import type { AuthPayload, AuthUser } from "../types/auth";
 
 type AuthContextValue = {
     user: AuthUser | null;
     token: string | null;
     isAuthenticated: boolean;
     isLoading: boolean;
-    login: (payload: LoginRequest, rememberMe?: boolean) => Promise<void>;
-    register: (payload: RegisterRequest, rememberMe?: boolean) => Promise<void>;
-    logout: () => Promise<void>;
+    setAuthSession: (payload: AuthPayload, rememberMe?: boolean) => void;
+    clearAuthSession: () => void;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthUser | null>(null);
     const [token, setToken] = useState<string | null>(() => getStoredToken());
-    const [isLoading, setIsLoading] = useState(Boolean(getStoredToken()));
+    const queryClient = useQueryClient();
+
+    const currentUserQuery = useQuery({
+        queryKey: queryKeys.auth.me,
+        queryFn: getMeRequest,
+        enabled: Boolean(token),
+        retry: false,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    const setAuthSession = useCallback(
+        (payload: AuthPayload, rememberMe = true) => {
+            saveToken(payload.token, rememberMe);
+            setToken(payload.token);
+
+            queryClient.setQueryData(queryKeys.auth.me, {
+                user: payload.user,
+            });
+        },
+        [queryClient],
+    );
+
+    const clearAuthSession = useCallback(() => {
+        clearStoredToken();
+        setToken(null);
+        queryClient.removeQueries({ queryKey: queryKeys.auth.all });
+    }, [queryClient]);
 
     useEffect(() => {
-        let isMounted = true;
-
-        async function loadCurrentUser() {
-            const storedToken = getStoredToken();
-
-            if (!storedToken) {
-                setIsLoading(false);
-                return;
-            }
-
-            try {
-                const data = await getMeRequest();
-
-                if (!isMounted) return;
-
-                setUser(data.user);
-                setToken(storedToken);
-            } catch {
-                clearStoredToken();
-
-                if (!isMounted) return;
-
-                setUser(null);
-                setToken(null);
-            } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
-            }
+        if (token && currentUserQuery.isError) {
+            clearAuthSession();
         }
+    }, [clearAuthSession, currentUserQuery.isError, token]);
 
-        loadCurrentUser();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
-
-    async function login(payload: LoginRequest, rememberMe = true) {
-        const data = await loginRequest(payload);
-
-        saveToken(data.token, rememberMe);
-        setToken(data.token);
-        setUser(data.user);
-    }
-
-    async function register(payload: RegisterRequest, rememberMe = true) {
-        const data = await registerRequest(payload);
-
-        saveToken(data.token, rememberMe);
-        setToken(data.token);
-        setUser(data.user);
-    }
-
-    async function logout() {
-        try {
-            await logoutRequest();
-        } catch {
-            // Even if the backend logout request fails, clear the frontend session.
-        } finally {
-            clearStoredToken();
-            setToken(null);
-            setUser(null);
-        }
-    }
+    const user = token ? currentUserQuery.data?.user ?? null : null;
 
     const value: AuthContextValue = {
         user,
         token,
         isAuthenticated: Boolean(token && user),
-        isLoading,
-        login,
-        register,
-        logout,
+        isLoading: Boolean(token && currentUserQuery.isPending),
+        setAuthSession,
+        clearAuthSession,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

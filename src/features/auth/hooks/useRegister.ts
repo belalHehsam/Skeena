@@ -1,0 +1,34 @@
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { queryKeys } from "@/constants/queryKeys";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
+import { registerRequest } from "../services/registerRequest";
+import type { AuthPayload, RegisterRequest } from "../types/auth";
+import { useAuth } from "./useAuth";
+
+type UseRegisterOptions = {
+    onSuccess?: (payload: AuthPayload) => void;
+};
+
+type RegisterVariables = {
+    payload: RegisterRequest;
+    rememberMe?: boolean;
+};
+
+export function useRegister(options?: UseRegisterOptions) {
+    const { setAuthSession } = useAuth();
+
+    return useMutation({
+        mutationKey: queryKeys.auth.register,
+        mutationFn: ({ payload }: RegisterVariables) =>
+            registerRequest(payload),
+        onSuccess: (payload, variables) => {
+            setAuthSession(payload, variables.rememberMe ?? true);
+            toast.success("Account created successfully");
+            options?.onSuccess?.(payload);
+        },
+        onError: (error) => {
+            toast.error(getApiErrorMessage(error, "Registration failed"));
+        },
+    });
+}

@@ -11,10 +11,10 @@ type ProvidersProps = {
 function Providers({ children }: ProvidersProps) {
     return (
         <DarkModeProvider>
-            <AuthProvider>
-                <TanstackQueryProvider>{children}</TanstackQueryProvider>
+            <TanstackQueryProvider>
+                <AuthProvider>{children}</AuthProvider>
                 <Toaster richColors position="bottom-right" />
-            </AuthProvider>
+            </TanstackQueryProvider>
         </DarkModeProvider>
     );
 }

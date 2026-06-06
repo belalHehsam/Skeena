@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import {
     Home,
     Compass,
@@ -10,6 +9,7 @@ import {
     X,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { useLogout } from "@/features/auth/hooks/useLogout";
 
 const navLinks = [
     { name: "Home Feed", href: "/", icon: Home },
@@ -23,27 +23,39 @@ interface SidebarProps {
 }
 
 export function Sidebar({ onClose }: SidebarProps) {
-
     const location = useLocation();
     const navigate = useNavigate();
-    const { logout } = useAuth();
 
-    async function handleLogout() {
-        await logout();
-        navigate("/login", { replace: true });
+    const logoutMutation = useLogout({
+        onSettled: () => {
+            navigate("/login", { replace: true });
+        },
+    });
+
+    function handleLogout() {
+        logoutMutation.mutate();
     }
 
-
     return (
-        <aside className="flex h-full w-64 flex-col border-r rtl:border-l rtl:border-r-0 bg-background">
+        <aside className="flex h-full w-64 flex-col border-r bg-background rtl:border-l rtl:border-r-0">
             {/* Logo */}
-            <div className="flex pt-3 items-center justify-between px-6">
-                <Link to="/" className="text-2xl font-heading gap-2 flex items-center font-bold text-primary" onClick={onClose}>
+            <div className="flex items-center justify-between px-6 pt-3">
+                <Link
+                    to="/"
+                    className="flex items-center gap-2 font-heading text-2xl font-bold text-primary"
+                    onClick={onClose}
+                >
                     <img src="/logo-icon.png" alt="" className="w-13" />
                     Majlis
                 </Link>
+
                 {onClose && (
-                    <Button variant="ghost" size="icon" className="lg:hidden" onClick={onClose}>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="lg:hidden"
+                        onClick={onClose}
+                    >
                         <X className="h-5 w-5" />
                     </Button>
                 )}
@@ -59,9 +71,10 @@ export function Sidebar({ onClose }: SidebarProps) {
                         <Link
                             key={link.name}
                             to={link.href}
-                            className={`flex items-center gap-3  rounded-lg px-4 py-3 text-sm font-medium transition-colors ${isActive
-                                ? "bg-primary/10 text-primary"
-                                : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+                            onClick={onClose}
+                            className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${isActive
+                                    ? "bg-primary/10 text-primary"
+                                    : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
                                 }`}
                         >
                             <Icon className="h-5 w-5" />
@@ -72,24 +85,27 @@ export function Sidebar({ onClose }: SidebarProps) {
             </nav>
 
             {/* User Profile & Logout */}
-            <div className="flex flex-col gap-2 p-4 mt-auto">
+            <div className="mt-auto flex flex-col gap-2 p-4">
                 <Link
                     to="/profile"
+                    onClick={onClose}
                     className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${location.pathname === "/profile"
-                        ? "bg-primary/10 text-primary border-r-4 rtl:border-l-4 rtl:border-r-0 border-primary"
-                        : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+                            ? "border-r-4 border-primary bg-primary/10 text-primary rtl:border-l-4 rtl:border-r-0"
+                            : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
                         }`}
                 >
                     <User className="h-5 w-5" />
                     Profile
                 </Link>
+
                 <button
                     type="button"
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+                    disabled={logoutMutation.isPending}
+                    className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-60 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
                 >
                     <LogOut className="h-5 w-5" />
-                    Logout
+                    {logoutMutation.isPending ? "Logging out..." : "Logout"}
                 </button>
             </div>
         </aside>

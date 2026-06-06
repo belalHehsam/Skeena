@@ -3,26 +3,29 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { AuthTextField } from "../components/AuthTextField";
-import { loginSchema, type LoginFormValues } from "../schemas/authSchemas";
-import { useAuth } from "../hooks/useAuth";
-import { getApiErrorMessage } from "../utils/getApiErrorMessage";
+import { TextField } from "@/components/common/TextField";
+import { loginSchema, type LoginFormValues } from "@/constants/authSchema";
+import { useLogin } from "@/features/auth/hooks/useLogin";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
-    const { login } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
     const state = location.state as { from?: { pathname?: string } } | null;
     const redirectTo = state?.from?.pathname ?? "/";
 
+    const loginMutation = useLogin({
+        onSuccess: () => {
+            navigate(redirectTo, { replace: true });
+        },
+    });
+
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -32,21 +35,14 @@ export default function LoginPage() {
         },
     });
 
-    async function onSubmit(values: LoginFormValues) {
-        try {
-            await login(
-                {
-                    email: values.email,
-                    password: values.password,
-                },
-                values.rememberMe,
-            );
-
-            toast.success("Welcome back");
-            navigate(redirectTo, { replace: true });
-        } catch (error) {
-            toast.error(getApiErrorMessage(error, "Login failed"));
-        }
+    function onSubmit(values: LoginFormValues) {
+        loginMutation.mutate({
+            payload: {
+                email: values.email,
+                password: values.password,
+            },
+            rememberMe: values.rememberMe,
+        });
     }
 
     return (
@@ -67,7 +63,7 @@ export default function LoginPage() {
 
             <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <AuthTextField
+                    <TextField
                         id="email"
                         label="Email Address"
                         type="email"
@@ -95,9 +91,8 @@ export default function LoginPage() {
                             </Link>
                         </div>
 
-                        <AuthTextField
+                        <TextField
                             id="password"
-                            label=""
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
                             autoComplete="current-password"
@@ -105,7 +100,9 @@ export default function LoginPage() {
                             endIcon={
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword((value) => !value)}
+                                    onClick={() =>
+                                        setShowPassword((value) => !value)
+                                    }
                                     className="rounded-sm text-neutral-500 hover:text-neutral-800"
                                     aria-label={
                                         showPassword
@@ -137,9 +134,9 @@ export default function LoginPage() {
                     <Button
                         type="submit"
                         className="h-10 w-full rounded-md bg-primary text-sm font-semibold text-white hover:bg-primary-600"
-                        disabled={isSubmitting}
+                        disabled={loginMutation.isPending}
                     >
-                        {isSubmitting ? "Logging in..." : "Login"}
+                        {loginMutation.isPending ? "Logging in..." : "Login"}
                     </Button>
                 </form>
             </div>

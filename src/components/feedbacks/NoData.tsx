@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { FiInbox } from "react-icons/fi";
-import { cn } from "@/lib/shadcnUtils";
+import { cn } from "@/lib/utils";
 
 export interface NoDataProps {
   messageKey?: TranslationKey;

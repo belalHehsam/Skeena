@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { POSTS_QUERY_KEYS } from "../constants/posts-query-keys";
 import { getAllPosts } from "../services/getAllPosts";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export function useGetAllPosts() {
 	return useQuery({
-		queryKey: [POSTS_QUERY_KEYS.POSTS],
+		queryKey: QUERY_KEYS.posts.all(),
 		queryFn: getAllPosts,
 	});
 }

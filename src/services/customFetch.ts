@@ -1,54 +1,59 @@
 import { t } from "i18next";
 import { API_BASE_URL } from "@/constants/backendAPIsConfig";
 import { DEFAULT_LOCALE } from "@/constants/i18nConfig";
+import { clearStoredToken, getStoredToken } from "@/features/auth/utils/authStorage";
 
 export async function customFetch<T>(
-  endpoint: string,
-  options: RequestInit & { passcode?: string } = {},
-  isJsonResponse = true,
+    endpoint: string,
+    options: RequestInit = {},
+    isJsonResponse = true,
 ): Promise<T> {
-  const isFormData = options.body instanceof FormData;
+    const isFormData = options.body instanceof FormData;
+    const token = getStoredToken();
 
-  const headers: HeadersInit = {
-    ...(isFormData
-      ? {
-          Accept: "application/json",
-        }
-      : {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        }),
-    "accept-language": localStorage.getItem("i18nextLng") || DEFAULT_LOCALE,
-    ...(options.headers || {}),
-  };
-
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    method: options.method || "GET",
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-    },
-  });
-
-  // Check for any HTTP errors
-  if (!response.ok) {
-    const errorBody = await response.json();
-    const error = {
-      message: errorBody.message || t("an-error-occurred"),
-      errorBody: errorBody.data || null,
-      status: response.status,
+    const headers: HeadersInit = {
+        ...(isFormData
+            ? {
+                Accept: "application/json",
+            }
+            : {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            }),
+        "accept-language": localStorage.getItem("i18nextLng") || DEFAULT_LOCALE,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.headers || {}),
     };
 
-    throw error;
-  }
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        method: options.method || "GET",
+        headers,
+    });
 
-  // If the response is not JSON, return it as is
-  if (!isJsonResponse) {
-    return response as unknown as T;
-  }
+    if (!response.ok) {
+        let errorBody: any = {};
 
-  const data = await response.json();
+        try {
+            errorBody = await response.json();
+        } catch {
+            errorBody = {};
+        }
 
-  return data;
+        if (response.status === 401) {
+            clearStoredToken();
+        }
+
+        throw {
+            message: errorBody.message || t("an-error-occurred"),
+            errorBody: errorBody.data || null,
+            status: response.status,
+        };
+    }
+
+    if (!isJsonResponse) {
+        return response as unknown as T;
+    }
+
+    return response.json();
 }

@@ -1,7 +1,8 @@
 import { type ReactNode } from "react";
+import { Toaster } from "sonner";
 import TanstackQueryProvider from "@/components/providers/TanstackQueryProvider";
 import { DarkModeProvider } from "@/components/context/DarkModeContext";
-import { Toaster } from 'sonner'
+import { AuthProvider } from "@/features/auth/context/AuthContext";
 import SocketProvider from "./SocketProvider";
 
 type ProvidersProps = {
@@ -11,10 +12,10 @@ type ProvidersProps = {
 function Providers({ children }: ProvidersProps) {
     return (
         <DarkModeProvider>
-            <Toaster richColors position="bottom-right" />
             <TanstackQueryProvider>
                 <SocketProvider>
-                    {children}
+                    <AuthProvider>{children}</AuthProvider>
+                    <Toaster richColors position="bottom-right" />
                 </SocketProvider>
             </TanstackQueryProvider>
         </DarkModeProvider>

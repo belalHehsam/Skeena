@@ -1,4 +1,5 @@
-import { BookOpen, Quote } from "lucide-react";
+import { BookOpen, ScrollText } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { Recommendation } from "../types/post";
 
 interface RecommendationCardProps {
@@ -8,35 +9,28 @@ interface RecommendationCardProps {
 
 export function RecommendationCard({ recommendation, variant = "embedded" }: RecommendationCardProps) {
 	const isQuran = recommendation.type === "quran";
+	const { t } = useTranslation("createPost");
 
 	return (
 		<div
-			className={`relative overflow-hidden rounded-xl border ${
+			className={`relative overflow-hidden border-l-4 rounded-r-md transition-all duration-300 ${
 				variant === "preview"
-					? "border-secondary-300 bg-secondary-50/50 dark:border-secondary-700 dark:bg-secondary-950/30"
-					: "border-primary-200/50 bg-primary-50/30 dark:border-primary-800/50 dark:bg-primary-950/20"
+					? "border-secondary-500 bg-secondary-50/50 dark:border-secondary-400 dark:bg-secondary-950/30"
+					: "border-primary-600 bg-primary-50/30 dark:border-primary-500 dark:bg-primary-950/20"
 			}`}
 		>
-			{/* Decorative corner accent */}
-			<div className="absolute -top-6 -right-6 h-20 w-20 rotate-45 bg-secondary-400/10 dark:bg-secondary-500/10" />
-			<div className="absolute -bottom-6 -left-6 h-20 w-20 rotate-45 bg-secondary-400/10 dark:bg-secondary-500/10" />
-
-			<div className="relative p-5">
+			<div className="relative p-6 sm:p-8">
 				{/* Header with type badge */}
 				<div className="mb-4 flex items-center gap-2">
 					<div
-						className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${
+						className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-semibold tracking-widest uppercase ${
 							isQuran
-								? "bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300"
-								: "bg-secondary-100 text-secondary-700 dark:bg-secondary-900/50 dark:text-secondary-300"
+								? "bg-primary-600 text-white dark:bg-primary-500"
+								: "bg-primary-100 text-primary-800 dark:bg-primary-900/50 dark:text-primary-200"
 						}`}
 					>
-						{isQuran ? (
-							<BookOpen className="h-3.5 w-3.5" />
-						) : (
-							<Quote className="h-3.5 w-3.5" />
-						)}
-						{isQuran ? "Quran" : "Hadith"}
+						{isQuran ? <BookOpen className="h-3 w-3" /> : <ScrollText className="h-3 w-3" />}
+						<span>{isQuran ? t('recommendationCard.quran' as any) : t('recommendationCard.hadith' as any)}</span>
 					</div>
 					<span className="text-xs text-neutral-500 dark:text-neutral-400">
 						{recommendation.source}
@@ -46,7 +40,7 @@ export function RecommendationCard({ recommendation, variant = "embedded" }: Rec
 				{/* Arabic text */}
 				{recommendation.arabicText && (
 					<p
-						className="mb-3 text-right font-serif text-xl leading-loose text-neutral-800 dark:text-neutral-100"
+						className="mb-4 text-right font-serif text-2xl leading-relaxed text-neutral-800 drop-shadow-sm dark:text-neutral-100"
 						dir="rtl"
 						lang="ar"
 					>
@@ -55,14 +49,12 @@ export function RecommendationCard({ recommendation, variant = "embedded" }: Rec
 				)}
 
 				{/* Divider */}
-				<div className="my-3 flex items-center gap-3">
-					<div className="h-px flex-1 bg-gradient-to-r from-transparent via-secondary-300/50 to-transparent dark:via-secondary-600/30" />
-					<span className="text-secondary-400 dark:text-secondary-500">✦</span>
-					<div className="h-px flex-1 bg-gradient-to-r from-transparent via-secondary-300/50 to-transparent dark:via-secondary-600/30" />
+				<div className="my-5 flex items-center justify-center">
+					<div className="h-px w-16 bg-neutral-300 dark:bg-neutral-700" />
 				</div>
 
 				{/* Translation */}
-				<p className="mb-3 text-sm leading-relaxed text-neutral-600 italic dark:text-neutral-300">
+				<p className="mb-4 text-base leading-relaxed text-neutral-600 italic dark:text-neutral-400 font-medium font-serif">
 					"{recommendation.translationText}"
 				</p>
 

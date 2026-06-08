@@ -10,4 +10,9 @@ export const queryKeys = {
         all: ["posts"] as const,
         detail: (postId: string) => ["posts", postId] as const,
     },
+    chat: {
+        all: ["chat"] as const,
+        conversations: ["chat", "conversations"] as const,
+        messages: (id: string) => ["chat", "messages", id] as const,
+    },
 };

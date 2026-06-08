@@ -8,6 +8,7 @@ import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
+import { ChatPage } from "@/pages/ChatPage";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: "chat",
+                element: <ChatPage />,
+            },
+            {
+                path: "chat/:conversationId",
+                element: <ChatPage />,
             },
         ],
     },

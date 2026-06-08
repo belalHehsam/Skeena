@@ -2,6 +2,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { LoaderCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { SocketProvider } from "@/features/chat/context/SocketContext";
 
 type ProtectedRouteProps = {
     children?: ReactNode;
@@ -23,5 +24,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    return children ?? <Outlet />;
+    return (
+        <SocketProvider>
+            {children ?? <Outlet />}
+        </SocketProvider>
+    );
 }

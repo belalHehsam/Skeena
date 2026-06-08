@@ -2,24 +2,46 @@ import { forwardRef, useImperativeHandle } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
-import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, List, ListOrdered } from 'lucide-react'
+import TextAlign from '@tiptap/extension-text-align'
+import Link from '@tiptap/extension-link'
+import Placeholder from '@tiptap/extension-placeholder'
+import { 
+  Heading1, Heading2, 
+  Bold, Italic, Underline as UnderlineIcon, Strikethrough, Code,
+  Quote, Minus,
+  AlignLeft, AlignCenter, List, ListOrdered, 
+  Link as LinkIcon, Image as ImageIcon, Smile 
+} from 'lucide-react'
 
 export interface TipTapEditorRef {
   insertEmoji: (emoji: string) => void;
-  toggleQuote: () => void;
 }
 
 interface TipTapEditorProps {
   content: string;
+  placeholder?: string;
   onChange: (content: string, textLength: number) => void;
-  isOverLimit: boolean;
+  onImageClick?: () => void;
+  onEmojiClick?: (e: React.MouseEvent) => void;
 }
 
-export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ content, onChange, isOverLimit }, ref) => {
+export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ content, placeholder, onChange, onImageClick, onEmojiClick }, ref) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'cursor-pointer text-primary-600 underline decoration-primary-300 underline-offset-4 dark:text-primary-400 dark:decoration-primary-700',
+        },
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Placeholder.configure({
+        placeholder: placeholder || 'Type here...',
+      }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -27,7 +49,7 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
     },
     editorProps: {
       attributes: {
-        class: `min-h-[120px] w-full resize-none bg-transparent p-0 text-sm leading-relaxed text-neutral-800 placeholder:text-neutral-400 focus:outline-none dark:text-neutral-100 dark:placeholder:text-neutral-500 prose dark:prose-invert max-w-none`,
+        class: `min-h-[140px] w-full resize-none bg-transparent p-0 text-lg leading-relaxed text-neutral-800 placeholder:text-neutral-400 focus:outline-none dark:text-neutral-100 dark:placeholder:text-neutral-500 prose prose-lg dark:prose-invert max-w-none transition-all duration-300`,
       },
     },
   })
@@ -37,11 +59,6 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
       if (editor) {
         editor.chain().focus().insertContent(emoji).run();
       }
-    },
-    toggleQuote: () => {
-      if (editor) {
-        editor.chain().focus().toggleBlockquote().run();
-      }
     }
   }), [editor]);
 
@@ -50,16 +67,39 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
   }
 
   return (
-    <div className="flex flex-col">
-      <EditorContent editor={editor} className="mb-4" />
+    <div className="flex flex-col group/editor">
+      <EditorContent editor={editor} className="mb-2" />
       
-      {/* Subtle Formatting Toolbar */}
-      <div className="flex flex-wrap items-center gap-1 opacity-60 transition-opacity hover:opacity-100 focus-within:opacity-100">
+      {/* Full Formatting Toolbar */}
+      <div className="flex flex-wrap items-center gap-1 border-b border-neutral-100 pb-2 mb-2 dark:border-neutral-800">
+        {/* Headings */}
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('heading', { level: 1 }) ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <Heading1 className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('heading', { level: 2 }) ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <Heading2 className="h-4 w-4" />
+        </button>
+
+        <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
+
+        {/* Inline styles */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`rounded p-1.5 transition-colors ${
-            editor.isActive('bold') ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300' : 'text-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700'
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('bold') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
           }`}
         >
           <Bold className="h-4 w-4" />
@@ -67,8 +107,8 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`rounded p-1.5 transition-colors ${
-            editor.isActive('italic') ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300' : 'text-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700'
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('italic') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
           }`}
         >
           <Italic className="h-4 w-4" />
@@ -76,8 +116,8 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`rounded p-1.5 transition-colors ${
-            editor.isActive('underline') ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300' : 'text-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700'
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('underline') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
           }`}
         >
           <UnderlineIcon className="h-4 w-4" />
@@ -85,18 +125,68 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`rounded p-1.5 transition-colors ${
-            editor.isActive('strike') ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300' : 'text-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700'
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('strike') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
           }`}
         >
           <Strikethrough className="h-4 w-4" />
         </button>
-        <div className="mx-1 h-4 w-px bg-neutral-300 dark:bg-neutral-600" />
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('code') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <Code className="h-4 w-4" />
+        </button>
+
+        <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
+
+        {/* Block styles */}
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('blockquote') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <Quote className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
+          className="rounded-md p-1.5 text-neutral-400 transition-colors hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50"
+        >
+          <Minus className="h-4 w-4" />
+        </button>
+
+        <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
+
+        {/* Alignment & Lists */}
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive({ textAlign: 'left' }) ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <AlignLeft className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive({ textAlign: 'center' }) ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <AlignCenter className="h-4 w-4" />
+        </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`rounded p-1.5 transition-colors ${
-            editor.isActive('bulletList') ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300' : 'text-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700'
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('bulletList') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
           }`}
         >
           <List className="h-4 w-4" />
@@ -104,13 +194,51 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`rounded p-1.5 transition-colors ${
-            editor.isActive('orderedList') ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300' : 'text-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 dark:hover:bg-neutral-700'
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('orderedList') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
           }`}
         >
           <ListOrdered className="h-4 w-4" />
         </button>
+
+        <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
+
+        {/* Extras: Link, Image, Emoji */}
+        <button
+          type="button"
+          onClick={() => {
+            const url = window.prompt('URL')
+            if (url) {
+              editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+            } else if (url === '') {
+              editor.chain().focus().extendMarkRange('link').unsetLink().run()
+            }
+          }}
+          className={`rounded-md p-1.5 transition-colors ${
+            editor.isActive('link') ? 'text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800' : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:text-neutral-200 dark:hover:bg-neutral-800/50'
+          }`}
+        >
+          <LinkIcon className="h-4 w-4" />
+        </button>
+
+        <button
+          type="button"
+          onClick={onImageClick}
+          className="rounded-md p-1.5 text-neutral-400 transition-colors hover:bg-neutral-50 hover:text-neutral-600 dark:hover:bg-neutral-800/50 dark:hover:text-neutral-200"
+        >
+          <ImageIcon className="h-4 w-4" />
+        </button>
+
+        <button
+          type="button"
+          onClick={onEmojiClick}
+          className="rounded-md p-1.5 text-neutral-400 transition-colors hover:bg-neutral-50 hover:text-neutral-600 dark:hover:bg-neutral-800/50 dark:hover:text-neutral-200"
+        >
+          <Smile className="h-4 w-4" />
+        </button>
       </div>
+
+      <EditorContent editor={editor} className="mt-2" />
     </div>
   )
 })

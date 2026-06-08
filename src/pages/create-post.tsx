@@ -1,5 +1,5 @@
 import { CreatePostForm } from "@/features/posts/components/CreatePostForm";
-import { PenLine } from "lucide-react";
+
 
 export default function CreatePost() {
 	return (

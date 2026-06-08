@@ -227,6 +227,12 @@ body {
   h6 {
     @apply font-heading;
   }
+
+  /* TipTap Placeholder */
+  .tiptap p.is-editor-empty:first-child::before {
+    @apply text-neutral-400 dark:text-neutral-500 float-left h-0 pointer-events-none;
+    content: attr(data-placeholder);
+  }
 }
 
 @layer utilities {

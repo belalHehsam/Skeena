@@ -7,6 +7,7 @@ import {
     User,
     LogOut,
     X,
+    MessageSquare,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useLogout } from "@/features/auth/hooks/useLogout";
@@ -15,6 +16,7 @@ const navLinks = [
     { name: "Home Feed", href: "/", icon: Home },
     { name: "Explore", href: "/explore", icon: Compass },
     { name: "Friends", href: "/friends", icon: Users },
+    { name: "Chat", href: "/chat", icon: MessageSquare },
     { name: "Create Post", href: "/create", icon: PlusSquare },
 ];
 
@@ -64,7 +66,9 @@ export function Sidebar({ onClose }: SidebarProps) {
             {/* Navigation */}
             <nav className="flex flex-1 flex-col gap-2 p-4">
                 {navLinks.map((link) => {
-                    const isActive = location.pathname === link.href;
+                    const isActive = link.href === "/"
+                        ? location.pathname === "/"
+                        : location.pathname.startsWith(link.href);
                     const Icon = link.icon;
 
                     return (

@@ -45,7 +45,7 @@ export async function customFetch<T>(
         }
 
         throw {
-            message: errorBody.message || t("an-error-occurred"),
+            message: errorBody.message || t("an-error-occurred" as any),
             errorBody: errorBody.data || null,
             status: response.status,
         };

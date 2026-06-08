@@ -42,7 +42,7 @@ function ErrorMessage({
           messageClassName,
         )}
       >
-        {t(messageKey)}
+        {t(messageKey as any)}
       </h3>
       <p
         className={cn(
@@ -50,7 +50,7 @@ function ErrorMessage({
           descriptionClassName,
         )}
       >
-        {t(descriptionKey)}
+        {t(descriptionKey as any)}
       </p>
       {onRetry && (
         <button

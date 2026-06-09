@@ -83,6 +83,7 @@ export function ChatWindow({ onBack }: ChatWindowProps) {
       />
       
       <MessageList
+        participant={otherParticipant}
         messages={messages}
         isTyping={isTyping}
         hasNextPage={hasNextPage}

@@ -4,7 +4,7 @@ import { MessageBubble } from "./MessageBubble";
 import { DateDivider } from "./DateDivider";
 import { TypingIndicator } from "./TypingIndicator";
 import { groupMessagesByDate } from "../../utils/groupMessagesByDate";
-import type { ChatMessage } from "../../types/chat";
+import type { ChatMessage, ChatParticipant } from "../../types/chat";
 import { Loader2 } from "lucide-react";
 
 interface MessageListProps {
@@ -13,12 +13,14 @@ interface MessageListProps {
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
+  participant?: ChatParticipant;
 }
 
 export function MessageList({
   messages,
   isTyping,
   hasNextPage,
+  participant,
   isFetchingNextPage,
   fetchNextPage,
 }: MessageListProps) {
@@ -27,7 +29,7 @@ export function MessageList({
   const observerRef = useRef<HTMLDivElement>(null);
 
   const messageGroups = groupMessagesByDate(messages);
-
+  console.log(messages)
   const scrollToBottom = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
@@ -95,7 +97,7 @@ export function MessageList({
         <div key={dateStr} className="space-y-1">
           <DateDivider dateString={dateStr} />
           {groupMessages.map((msg) => (
-            <MessageBubble key={msg._id} message={msg} />
+            <MessageBubble participant={participant} key={msg._id} message={msg} />
           ))}
         </div>
       ))}

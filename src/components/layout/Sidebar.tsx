@@ -8,6 +8,7 @@ import {
     LogOut,
     X,
     MessageSquare,
+    Mic,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useLogout } from "@/features/auth/hooks/useLogout";
@@ -17,6 +18,7 @@ const navLinks = [
     { name: "Explore", href: "/explore", icon: Compass },
     { name: "Friends", href: "/friends", icon: Users },
     { name: "Chat", href: "/chat", icon: MessageSquare },
+    { name: "Voice", href: "/voice", icon: Mic },
     { name: "Create Post", href: "/create", icon: PlusSquare },
 ];
 

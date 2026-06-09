@@ -3,27 +3,26 @@ import { useTranslation } from "react-i18next";
 import { Check, CheckCheck, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import type { ChatMessage } from "../../types/chat";
+import type { ChatMessage, ChatParticipant } from "../../types/chat";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
 interface MessageBubbleProps {
   message: ChatMessage;
+  participant?: ChatParticipant;
 }
 
-export function MessageBubble({ message }: MessageBubbleProps) {
+export function MessageBubble({ message ,participant}: MessageBubbleProps) {
   const { t, i18n } = useTranslation("common");
   const { user: currentUser } = useAuth();
   const locale = i18n.language || "en";
   const [isImageOpen, setIsImageOpen] = useState(false);
-
+  console.log("message.sender",message.sender)
   const senderId = typeof message.sender === "string" ? message.sender : message.sender?._id;
   const isMine = senderId === currentUser?.id;
   const isOptimistic = message._isOptimistic;
 
-  const senderName = typeof message.sender === "string" 
-    ? "" 
-    : message.sender?.displayName || message.sender?.name || message.sender?.username;
-  const senderAvatar = typeof message.sender === "string" ? "" : message.sender?.avatar || message.sender?.profileImage;
+  const senderName = participant?.displayName;
+  const senderAvatar = participant?.avatar;
 
   // Format time (e.g. 10:45 AM)
   const formatTime = (isoString: string) => {

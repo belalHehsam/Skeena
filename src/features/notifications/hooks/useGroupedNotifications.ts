@@ -31,7 +31,9 @@ export const useGroupedNotifications = (
     const lastWeek = new Date(today);
     lastWeek.setDate(lastWeek.getDate() - 7);
 
-    const groups: { label: string; items: typeof notifications }[] = [
+    type GroupLabel = "groups.today" | "groups.yesterday" | "groups.thisWeek" | "groups.older";
+
+    const groups: { label: GroupLabel; items: typeof notifications }[] = [
       { label: "groups.today", items: [] },
       { label: "groups.yesterday", items: [] },
       { label: "groups.thisWeek", items: [] },

@@ -105,7 +105,6 @@ export function CreatePostForm() {
 		formData.append("tags", JSON.stringify(tags));
 
 		if (step === "draft") {
-			// Phase 1: Analyze
 			analyzePost(formData, {
 				onSuccess: (data: AnalyzePostResponse) => {
 					setModeration(data.data.moderation);
@@ -123,7 +122,6 @@ export function CreatePostForm() {
 				},
 			});
 		} else {
-			// Phase 2: Create
 			formData.append("commentsEnabled", String(commentsEnabled));
 			if (imageFile) formData.append("image", imageFile);
 			if (isRecommendationAttached && recommendation) {
@@ -153,7 +151,6 @@ export function CreatePostForm() {
 
 	return (
 		<div className="mx-auto max-w-3xl space-y-4 px-3 sm:px-4 md:px-0">
-			{/* Error State */}
 			{rejectionError && (
 				<div className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-950/30">
 					<X className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
@@ -168,7 +165,6 @@ export function CreatePostForm() {
 				</div>
 			)}
 
-			{/* Success State */}
 			{showSuccess && (
 				<div className="flex items-center justify-between rounded-2xl border border-primary-200 bg-primary-50 p-4 dark:border-primary-800 dark:bg-primary-950/30">
 					<div className="flex items-center gap-3">
@@ -183,14 +179,11 @@ export function CreatePostForm() {
 				</div>
 			)}
 
-			{/* Main Editor Card with subtle noise texture */}
 			<div className="relative z-10 w-full overflow-visible rounded-2xl border border-neutral-200/60 bg-white/90 backdrop-blur-md shadow-sm dark:border-neutral-800/60 dark:bg-neutral-900/90 transition-all duration-300">
-				{/* Noise overlay */}
 				<div className="pointer-events-none absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }} />
 				
 				<form onSubmit={handleAction} className="relative z-10 flex min-h-[300px] flex-col p-4 sm:p-6 md:p-8">
 					
-					{/* Integrated Reflection Prompt */}
 					<div className="mb-6 flex flex-col gap-1 rounded-lg bg-primary-50/50 p-4 border border-primary-100/50 dark:bg-primary-950/20 dark:border-primary-900/30">
 						<h3 className="text-sm font-semibold text-primary-800 dark:text-primary-200 uppercase tracking-widest">
 							{t('reflectionPrompt.title')}
@@ -282,7 +275,6 @@ export function CreatePostForm() {
 					</div>
 
 
-					{/* Custom TipTap Editor */}
 					<div className="relative mb-6">
 						<TipTapEditor
 							ref={editorRef}
@@ -328,7 +320,6 @@ export function CreatePostForm() {
 					)}
 
 
-					{/* Recommendation Prompt - Editorial Style */}
 					{step === "review" && recommendation && !isRecommendationAttached && (
 						<div className="mt-8 border-l-2 border-primary-500 bg-primary-50/30 p-4 sm:p-6 dark:border-primary-500 dark:bg-primary-950/20">
 							<div className="flex flex-col sm:flex-row items-start gap-4">
@@ -361,7 +352,6 @@ export function CreatePostForm() {
 						</div>
 					)}
 
-					{/* Attached Recommendation Card */}
 					{step === "review" && recommendation && isRecommendationAttached && (
 						<div className="mt-6 relative group">
 							<button 
@@ -393,7 +383,6 @@ export function CreatePostForm() {
 							)}
 
 							
-							{/* Sleek inline settings toggle */}
 							<div className="flex items-center gap-2 me-2 w-full sm:w-auto justify-between sm:justify-start">
 								<span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
 									{t('settings.comments')}

@@ -70,9 +70,7 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
     <div className="flex flex-col group/editor">
       <EditorContent editor={editor} className="mb-2" />
       
-      {/* Full Formatting Toolbar */}
       <div className="flex flex-wrap items-center gap-1 border-b border-neutral-100 pb-2 mb-2 dark:border-neutral-800">
-        {/* Headings */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -94,7 +92,6 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
 
         <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
 
-        {/* Inline styles */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -143,7 +140,6 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
 
         <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
 
-        {/* Block styles */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
@@ -163,7 +159,6 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
 
         <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
 
-        {/* Alignment & Lists */}
         <button
           type="button"
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
@@ -203,7 +198,6 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
 
         <div className="mx-1.5 h-4 w-px bg-neutral-200 dark:bg-neutral-700" />
 
-        {/* Extras: Link, Image, Emoji */}
         <button
           type="button"
           onClick={() => {

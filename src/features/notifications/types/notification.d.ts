@@ -4,16 +4,40 @@ export interface INotificationSender {
   avatar?: string;
 }
 
-export interface INotification {
+interface IBaseNotification {
   _id: string;
   recipient: string;
   sender: INotificationSender;
-  type: "like" | "comment" | "friend_request" | "friend_accept";
-  post?: { _id: string };
   isRead: boolean;
   createdAt: string;
-  updatedAt: string;
 }
+
+export interface ILikeNotification extends IBaseNotification {
+  type: "like";
+  post: { _id: string };
+}
+
+export interface ICommentNotification extends IBaseNotification {
+  type: "comment";
+  post: { _id: string };
+  commentText?: string;
+}
+
+export interface IFriendRequestNotification extends IBaseNotification {
+  type: "friend_request";
+  post?: never;
+}
+
+export interface IFriendAcceptNotification extends IBaseNotification {
+  type: "friend_accept";
+  post?: never;
+}
+
+export type INotification =
+  | ILikeNotification
+  | ICommentNotification
+  | IFriendRequestNotification
+  | IFriendAcceptNotification;
 
 export interface NotificationsMeta {
   total: number;

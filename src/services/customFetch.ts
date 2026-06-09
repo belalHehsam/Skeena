@@ -32,7 +32,12 @@ export async function customFetch<T>(
     });
 
     if (!response.ok) {
-        let errorBody: any = {};
+        interface CustomErrorBody {
+            message?: string;
+            data?: unknown;
+        }
+
+        let errorBody: CustomErrorBody;
 
         try {
             errorBody = await response.json();
@@ -45,7 +50,7 @@ export async function customFetch<T>(
         }
 
         throw {
-            message: errorBody.message || t("an-error-occurred"),
+            message: errorBody.message || t("common:error.default"),
             errorBody: errorBody.data || null,
             status: response.status,
         };

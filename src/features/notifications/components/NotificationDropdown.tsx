@@ -1,79 +1,77 @@
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import { useNotificationStore } from "@/store/notificationStore";
 import { Bell, CheckCheckIcon } from "lucide-react";
-import type { FC } from "react";
-import { useNotifications } from "../hooks/useNotifications";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { type FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useMarkAllNotificationsRead } from "../hooks/useMarkAllNotificationsRead";
-
-// interface NotificationDropdownProps {
-
-// }
+import { NotificationList } from "./NotificationList";
+import { useTranslation } from "react-i18next";
 
 const NotificationDropdown: FC = () => {
+  const { t } = useTranslation("notifications");
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { mutateAsync: markAllNotificationsRead } =
-    useMarkAllNotificationsRead();
-  const { data, isLoading, isError } = useNotifications({ limit: 5 });
+  const [open, setOpen] = useState(false);
+
+  const { mutate: markAllNotificationsRead } = useMarkAllNotificationsRead();
+
   const unreadNotifications = useNotificationStore(
     (state) => state.unreadCount,
   );
   const notificationLabel =
     unreadNotifications > 9 ? "9+" : String(unreadNotifications);
 
-  const handleMarkAllAsRead = async () => {
-    markAllNotificationsRead();
-  };
-
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={cn(
           buttonVariants({ variant: "ghost", size: "icon" }),
           "relative overflow-visible text-neutral-600",
         )}
-        aria-label={`Notifications (${unreadNotifications})`}
+        aria-label={`${t("title")} (${unreadNotifications})`}
       >
         <Bell className="size-5" />
         {unreadNotifications > 0 && (
-          <span className="ring-background absolute -top-1.5 -right-2 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-amber-400 px-1 text-xs leading-none text-white ring-2">
+          <span className="ring-background absolute inset-e-0 top-0 flex h-4 min-w-4 translate-x-1 rtl:-translate-x-1 -translate-y-1 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] leading-none font-bold text-white ring-2">
             {notificationLabel}
           </span>
         )}
-        <span className="sr-only">Notifications</span>
+        <span className="sr-only">{t("title")}</span>
       </PopoverTrigger>
       <PopoverContent align={isMobile ? "center" : "end"}>
         <div className="flex items-center justify-between">
-          <PopoverHeader>Notifications</PopoverHeader>
-          <Button variant="link" size="sm" onClick={handleMarkAllAsRead}>
-            <CheckCheckIcon className="size-4" />
-            Mark all as read
-          </Button>
+          <PopoverHeader>{t("title")}</PopoverHeader>
+          {unreadNotifications > 0 && (
+            <Button
+              variant="link"
+              size="sm"
+              onClick={() => markAllNotificationsRead()}
+            >
+              <CheckCheckIcon className="size-4" />
+              {t("markAllRead")}
+            </Button>
+          )}
         </div>
-        {isLoading && <p>Loading notifications...</p>}
-        {isError && <p>Error loading notifications</p>}
-        {data?.data.notifications.length === 0 && <p>No notifications</p>}
-        {data?.data.notifications.map((notification) => (
-          <div key={notification._id}>
-            {!notification.isRead && (
-              <div className="h-2 w-2 rounded-full bg-amber-400"></div>
-            )}
-            <p>{notification.type}</p>
-            <p>{notification.sender?.username}</p>
-            <p>{notification.createdAt}</p>
-          </div>
-        ))}
-        <Button onClick={() => navigate("/notifications")}>
-          View All Notifications
+
+        <NotificationList onItemClick={() => setOpen(false)} />
+
+        <Button
+          variant="outline"
+          className="mt-2 w-full"
+          onClick={() => {
+            setOpen(false);
+            navigate("/notifications");
+          }}
+        >
+          {t("viewAll")}
         </Button>
       </PopoverContent>
     </Popover>

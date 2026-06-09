@@ -1,12 +1,15 @@
 import { type ReactNode, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useUnreadCount } from "@/features/notifications/hooks/useUnreadCount";
 import { useNotificationSocket } from "@/features/notifications/hooks/useNotificationSocket";
 import { useNotificationStore } from "@/store/notificationStore";
 import socket from "@/lib/socket";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 type Props = { children: ReactNode };
 
 function SocketProvider({ children }: Props) {
+  const queryClient = useQueryClient();
   const user = localStorage.getItem("token");
   const [isConnected, setIsConnected] = useState(socket.connected);
 
@@ -27,6 +30,8 @@ function SocketProvider({ children }: Props) {
     const onConnect = () => {
       console.log("Connected to socket server");
       setIsConnected(true);
+      // Ensure we fetch any notifications missed while disconnected
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.notifications.all() });
     };
 
     const onDisconnect = () => setIsConnected(false);
@@ -42,7 +47,7 @@ function SocketProvider({ children }: Props) {
       socket.off("disconnect", onDisconnect);
       socket.disconnect();
     };
-  }, [user]);
+  }, [user, queryClient]);
 
   useNotificationSocket(isConnected);
 

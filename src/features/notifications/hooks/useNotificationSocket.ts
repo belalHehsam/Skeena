@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
 import socket from "@/lib/socket";
 import { QUERY_KEYS } from "@/constants/queryKeys";
@@ -20,16 +20,21 @@ export const useNotificationSocket = (isSocketConnected: boolean) => {
     const handleNewNotification = (payload: INotification) => {
       incrementUnread();
 
-      queryClient.setQueryData(
-        QUERY_KEYS.notifications.list({ limit: 5 }),
-        (old: NotificationsResponse | undefined) => {
-          if (!old) return old;
+      queryClient.setQueriesData(
+        { queryKey: QUERY_KEYS.notifications.list() },
+        (old: InfiniteData<NotificationsResponse> | undefined) => {
+          if (!old || !old.pages || old.pages.length === 0) return old;
+
+          // Create a deep copy of the first page to avoid mutating the cache directly
+          const firstPage = { ...old.pages[0] };
+          firstPage.data = {
+            ...firstPage.data,
+            notifications: [payload, ...firstPage.data.notifications],
+          };
+
           return {
             ...old,
-            data: {
-              ...old.data,
-              notifications: [payload, ...old.data.notifications.slice(0, 4)],
-            },
+            pages: [firstPage, ...old.pages.slice(1)],
           };
         },
       );

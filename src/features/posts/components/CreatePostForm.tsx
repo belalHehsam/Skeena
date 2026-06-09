@@ -17,7 +17,7 @@ import { useCreatePost } from "../hooks/useCreatePost";
 import { useAnalyzePost } from "../hooks/useAnalyzePost";
 import { RecommendationCard } from "./RecommendationCard";
 import { TipTapEditor, type TipTapEditorRef } from "./TipTapEditor";
-import type { AnalyzePostResponse, ModerationInfo, Recommendation } from "../types/post";
+import type { AnalyzePostResponse, Recommendation } from "../types/post";
 
 const CATEGORIES = [
 	{ value: "quran", label: "Quran", icon: BookOpen },
@@ -85,7 +85,6 @@ export function CreatePostForm() {
 		setContentLength(0);
 		setTags([]);
 		removeImage();
-		setModeration(null);
 		setRecommendation(null);
 		setIsRecommendationAttached(false);
 		setRejectionError(null);
@@ -107,7 +106,6 @@ export function CreatePostForm() {
 		if (step === "draft") {
 			analyzePost(formData, {
 				onSuccess: (data: AnalyzePostResponse) => {
-					setModeration(data.data.moderation);
 					setRecommendation(data.data.recommendation);
 					setIsRecommendationAttached(false);
 					setStep("review");
@@ -156,7 +154,7 @@ export function CreatePostForm() {
 					<X className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
 					<div>
 						<h3 className="font-semibold text-red-700 dark:text-red-300">
-							{t('createPost:status.rejected')}
+							{t('status.rejected')}
 						</h3>
 						<p className="mt-1 text-sm text-red-600 dark:text-red-400">
 							{rejectionError.content}
@@ -215,7 +213,7 @@ export function CreatePostForm() {
 									}`}
 								>
 									<Icon className="h-3.5 w-3.5 opacity-80" />
-									{t(`createPost:tags.${cat.value}`)}
+									{t(`tags.${cat.value}`)}
 								</button>
 							);
 						})}
@@ -263,7 +261,7 @@ export function CreatePostForm() {
 														setShowTagDropdown(false);
 													}}
 												>
-													{t(`createPost:tags.${tag.value}`)}
+													{t(`tags.${tag.value}`)}
 													{tags.includes(tag.value as PostTag) && <Check className="h-4 w-4 text-primary-600 dark:text-primary-400" />}
 												</button>
 											))}
@@ -329,7 +327,7 @@ export function CreatePostForm() {
 										{t('recommendation.suggestion')}
 									</h4>
 									<p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-										{t('recommendation.description', { source: t(`createPost:recommendation.${recommendation.type}`) })}
+										{t('recommendation.description', { source: t(`recommendation.${recommendation.type}`) })}
 									</p>
 									<div className="mt-4 rounded-lg border border-neutral-200/50 bg-white/70 p-5 dark:border-neutral-800/50 dark:bg-black/30">
 										<p className="mb-3 text-right font-serif text-xl leading-relaxed text-neutral-800 dark:text-neutral-200" dir="rtl" lang="ar">

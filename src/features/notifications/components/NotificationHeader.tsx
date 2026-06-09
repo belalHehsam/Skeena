@@ -17,9 +17,9 @@ export const NotificationHeader = () => {
   const handleTestTrigger = async () => {
     try {
       setIsTesting(true);
-      await customFetch.post("/notifications/test");
+      await customFetch("/notifications/test", { method: "POST" });
       toast.success("Test notifications triggered successfully!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to trigger test notifications");
     } finally {
       setIsTesting(false);
@@ -43,13 +43,13 @@ export const NotificationHeader = () => {
           </Button>
         )}
       </div>
-      
+
       {unreadCount > 0 && (
         <Button
           variant="ghost"
           onClick={() => markAllRead()}
           disabled={isMarkingRead}
-          className="text-sm font-medium text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 dark:text-emerald-500 dark:hover:bg-emerald-500/10 sm:text-base"
+          className="text-sm font-medium text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 sm:text-base dark:text-emerald-500 dark:hover:bg-emerald-500/10"
         >
           {isMarkingRead ? t("markingRead") : t("markAllRead")}
         </Button>

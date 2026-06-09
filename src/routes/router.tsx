@@ -10,6 +10,7 @@ import RegisterPage from "@/pages/auth/RegisterPage";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
 import { ChatPage } from "@/pages/ChatPage";
+import { VoicePage } from "@/pages/VoicePage";
 
 const router = createBrowserRouter([
     {
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
             {
                 path: "chat/:conversationId",
                 element: <ChatPage />,
+            },
+            {
+                path: "voice",
+                element: <VoicePage />,
+            },
+            {
+                path: "voice/:channelId",
+                element: <VoicePage />,
             },
         ],
     },

@@ -1,7 +1,18 @@
 {
-    "hello": "Hello",
-    "noData": {
-        "default": "No data available",
-        "description": "There is no data to display at the moment"
-    }
+  "hello": "Hello",
+  "noData": {
+    "default": "No data available",
+    "description": "There is no data to display at the moment"
+  },
+  "categories": {
+    "all": "All",
+    "quran": "Quran",
+    "hadith": "Hadith",
+    "fiqh": "Fiqh",
+    "dua": "Dua",
+    "tafsir": "Tafsir",
+    "seerah": "Seerah",
+    "reminder": "Reminder",
+    "categoryHeading": "Posts in {{category}} Category"
+  }
 }

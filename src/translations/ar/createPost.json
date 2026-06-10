@@ -1,0 +1,48 @@
+{
+    "placeholder": "بم تفكر؟ شارك أفكارك، تأملاتك، أو اطرح سؤالاً...",
+    "reflectionPrompt": {
+      "title": "سؤال للتأمل",
+      "question": "ما هي اللحظة الصغيرة من السكينة التي مررت بها اليوم؟"
+    },
+    "tags": {
+      "quran": "قرآن",
+      "hadith": "حديث",
+      "fiqh": "تأملات",
+      "general": "المجتمع",
+      "dua": "دعاء",
+      "tafsir": "تفسير",
+      "seerah": "سيرة",
+      "reminder": "تذكير"
+    },
+    "buttons": {
+      "review": "المتابعة للمراجعة",
+      "publishing": "جاري النشر...",
+      "reviewing": "جاري المراجعة...",
+      "publishNow": "انشر الآن",
+      "editPost": "تعديل المنشور",
+      "createAnother": "إنشاء منشور آخر",
+      "attachReference": "إرفاق المرجع",
+      "dismiss": "تجاهل",
+      "addTag": "إضافة تصنيف"
+    },
+    "titles": {
+      "selectTags": "اختر التصنيفات"
+    },
+    "settings": {
+      "comments": "التعليقات"
+    },
+    "status": {
+      "success": "تم نشر المنشور بنجاح!",
+      "rejected": "لم تتم الموافقة على المنشور"
+    },
+    "recommendation": {
+      "suggestion": "اقتراح تحريري",
+      "description": "فكر في إثراء منشورك بهذا المرجع المناسب من {{source}}.",
+      "quran": "القرآن الكريم",
+      "hadith": "السنة النبوية"
+    },
+    "recommendationCard": {
+      "quran": "قرآن",
+      "hadith": "حديث"
+    }
+  }

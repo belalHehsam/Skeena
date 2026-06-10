@@ -1,0 +1,48 @@
+{
+    "placeholder": "What's on your mind? Share your thoughts, reflections, or ask a question...",
+    "reflectionPrompt": {
+      "title": "Reflection Prompt",
+      "question": "What was one small moment of Sakina you experienced today?"
+    },
+    "tags": {
+      "quran": "Quran",
+      "hadith": "Hadith",
+      "fiqh": "Reflection",
+      "general": "Community",
+      "dua": "Dua",
+      "tafsir": "Tafsir",
+      "seerah": "Seerah",
+      "reminder": "Reminder"
+    },
+    "buttons": {
+      "review": "Continue to Review",
+      "publishing": "Publishing...",
+      "reviewing": "Reviewing...",
+      "publishNow": "Publish Now",
+      "editPost": "Edit Post",
+      "createAnother": "Create Another",
+      "attachReference": "Attach Reference",
+      "dismiss": "Dismiss",
+      "addTag": "Add Tag"
+    },
+    "titles": {
+      "selectTags": "Select Tags"
+    },
+    "settings": {
+      "comments": "Comments"
+    },
+    "status": {
+      "success": "Post published successfully!",
+      "rejected": "Post Not Approved"
+    },
+    "recommendation": {
+      "suggestion": "Editorial Suggestion",
+      "description": "Consider enriching your post with this relevant reference from the {{source}}.",
+      "quran": "Quran",
+      "hadith": "Sunnah"
+    },
+    "recommendationCard": {
+      "quran": "Quran",
+      "hadith": "Hadith"
+    }
+  }

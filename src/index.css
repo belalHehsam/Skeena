@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 @import "@fontsource-variable/roboto";
 @import "@fontsource-variable/montserrat";
 
@@ -225,6 +226,12 @@ body {
   h5,
   h6 {
     @apply font-heading;
+  }
+
+  /* TipTap Placeholder */
+  .tiptap p.is-editor-empty:first-child::before {
+    @apply text-neutral-400 dark:text-neutral-500 float-left h-0 pointer-events-none;
+    content: attr(data-placeholder);
   }
 }
 

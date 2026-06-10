@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import CreatePost from "@/pages/create-post";
 import RootErrorBoundary from "@/components/errors/RootErrorBoundary";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ProtectedRoute } from "@/features/auth/routes/ProtectedRoute";
@@ -8,6 +9,8 @@ import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
+import { ChatPage } from "@/pages/ChatPage";
+import { VoicePage } from "@/pages/VoicePage";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +44,26 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: "create",
+                element: <CreatePost />,
+            },
+            {
+                path: "chat",
+                element: <ChatPage />,
+            },
+            {
+                path: "chat/:conversationId",
+                element: <ChatPage />,
+            },
+            {
+                path: "voice",
+                element: <VoicePage />,
+            },
+            {
+                path: "voice/:channelId",
+                element: <VoicePage />,
             },
         ],
     },

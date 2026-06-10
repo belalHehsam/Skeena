@@ -1,3 +1,4 @@
+import { Heart, MessageCircle, Calendar } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Post } from "../types/post";
 import { togglePostLike } from "../services/togglePostLike";
@@ -6,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getRelativeTime } from "@/utils/formatDate";
 import DOMPurify from "dompurify";
 import { useState } from "react";
+import { RecommendationCard } from "./RecommendationCard";
 
 type PostCardProps = {
   post: Post;

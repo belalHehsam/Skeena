@@ -12,7 +12,9 @@ function Providers({ children }: ProvidersProps) {
     return (
         <DarkModeProvider>
             <TanstackQueryProvider>
-                <AuthProvider>{children}</AuthProvider>
+                <AuthProvider>
+                    {children}
+                </AuthProvider>
                 <Toaster richColors position="bottom-right" />
             </TanstackQueryProvider>
         </DarkModeProvider>

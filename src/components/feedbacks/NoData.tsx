@@ -38,10 +38,10 @@ function NoData({
           messageClassName,
         )}
       >
-        {t(messageKey)}
+        {t(messageKey as any)}
       </h3>
       <p className={cn("max-w-md text-sm text-gray-500", descriptionClassName)}>
-        {t(descriptionKey)}
+        {t(descriptionKey as any)}
       </p>
     </div>
   );

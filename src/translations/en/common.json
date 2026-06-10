@@ -1,8 +1,36 @@
 {
   "hello": "Hello",
+  "an-error-occurred": "An error occurred",
   "noData": {
     "default": "No data available",
     "description": "There is no data to display at the moment"
+  },
+  "error": {
+    "default": "An error occurred",
+    "description": "Something went wrong. Please try again later."
+  },
+  "chat": {
+    "title": "Chats",
+    "emptyTitle": "Your Majlis Chat",
+    "emptySubtitle": "Connect with your friends in real-time. Start a new direct conversation to share messages and media.",
+    "startNewChat": "Start Conversation",
+    "newChat": "New Conversation",
+    "searchPrompt": "Search by name or username to start a direct message thread.",
+    "searchPlaceholder": "Search users...",
+    "noUsersFound": "No users found.",
+    "failedToStart": "Failed to start conversation.",
+    "searchConversations": "Search chats...",
+    "noSearchResults": "No conversations match your search.",
+    "noConversations": "No active chats yet.",
+    "you": "You",
+    "image": "Image",
+    "unknownUser": "User",
+    "noMessages": "No messages yet",
+    "deletedMessage": "This message was deleted",
+    "imageAttachment": "Media attachment",
+    "typeMessage": "Type a message...",
+    "online": "Online",
+    "loadMore": "Loading history..."
   },
   "categories": {
     "all": "All",

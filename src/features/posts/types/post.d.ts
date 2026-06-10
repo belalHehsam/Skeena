@@ -37,6 +37,7 @@ export type Post = {
   commentsCount: number;
   commentsEnabled: boolean;
   isFlagged: boolean;
+  isLiked: boolean;
   moderationStatus: "approved" | "needs_review";
   recommendation?: Recommendation;
   createdAt: string;

@@ -27,14 +27,13 @@ export default function AllPosts() {
   );
 
   useEffect(() => {
-    const hasPostsLoaded = allPosts.length > 0;
     //make sure we have another pages
     //make sure we reached to the last post
     //make sure we don't fetch page now
-    if (inView && hasNextPage && !isFetchingNextPage && hasPostsLoaded) {
+    if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, allPosts.length]);
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isError) {
     return <ErrorMessage onRetry={refetch} />;
@@ -60,22 +59,15 @@ export default function AllPosts() {
         <div className="flex min-h-[50vh] items-center justify-center">
           <Spinner />
         </div>
-      ) : (
-        ""
-      )}
+      ) : null}
 
-      {/* No posts in this category */}
-      {!isLoading && allPosts.length === 0 && !hasNextPage && (
+      {allPosts.length === 0 && !isLoading && !hasNextPage && (
         <p className="py-10 text-center text-gray-500">
-          No Posts in this category
+          {`No Posts in ${activeCategory} category`}
         </p>
       )}
 
       {/* render posts */}
-      {allPosts.length === 0 && (
-        <p className="py-10 text-center text-gray-500">No Posts</p>
-      )}
-
       {allPosts.map((post) => (
         <PostCard
           key={`${post._id}${activeCategory}`}
@@ -84,7 +76,10 @@ export default function AllPosts() {
         />
       ))}
 
-      <div ref={ref} className="mt-4 flex h-12 items-center justify-center">
+      <div
+        ref={!isLoading ? ref : null}
+        className="mt-4 flex h-12 items-center justify-center"
+      >
         {isFetchingNextPage && <Spinner />}
         {!hasNextPage && allPosts.length > 0 && (
           <p className="text-sm font-medium text-gray-400">No More Posts</p>

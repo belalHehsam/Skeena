@@ -29,6 +29,7 @@ export function NewChatButton() {
     queryFn: () => searchUsers(searchQuery),
     staleTime: 5000,
   });
+  console.log('users: ', users)
 
   const handleStartChat = async (userId: string) => {
     setIsStartingChat(true);

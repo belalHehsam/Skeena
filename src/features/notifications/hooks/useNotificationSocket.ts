@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
 import socket from "@/lib/socket";
 import { QUERY_KEYS } from "@/constants/queryKeys";
-import type {
-  INotification,
-  NotificationsResponse,
-} from "../types/notification";
+import type { INotification } from "../types/notification";
 
 export const useNotificationSocket = (isSocketConnected: boolean) => {
   const queryClient = useQueryClient();
@@ -18,26 +15,13 @@ export const useNotificationSocket = (isSocketConnected: boolean) => {
     if (!isSocketConnected) return;
 
     const handleNewNotification = (payload: INotification) => {
-      incrementUnread();
+      if (!payload.isRead) {
+        incrementUnread();
+      }
 
-      queryClient.setQueriesData(
-        { queryKey: QUERY_KEYS.notifications.list() },
-        (old: InfiniteData<NotificationsResponse> | undefined) => {
-          if (!old || !old.pages || old.pages.length === 0) return old;
-
-          // Create a deep copy of the first page to avoid mutating the cache directly
-          const firstPage = { ...old.pages[0] };
-          firstPage.data = {
-            ...firstPage.data,
-            notifications: [payload, ...firstPage.data.notifications],
-          };
-
-          return {
-            ...old,
-            pages: [firstPage, ...old.pages.slice(1)],
-          };
-        },
-      );
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.notifications.list(),
+      });
     };
 
     socket.on("notification:new", handleNewNotification);

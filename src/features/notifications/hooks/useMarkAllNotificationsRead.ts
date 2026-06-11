@@ -17,6 +17,9 @@ export const useMarkAllNotificationsRead = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.notifications.list(),
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.notifications.unreadCount(),
+      });
       resetUnreadCount();
       toast.success("All notifications marked as read");
     },

@@ -9,15 +9,15 @@ import type { INotification } from "../types/notification";
 import { getNotificationPath } from "../utils/getNotificationPath";
 import { getNotificationText } from "../utils/getNotificationText";
 
-interface NotificationItemProps {
+interface NotificationDropdownItemProps {
   notification: INotification;
   onClick?: () => void;
 }
 
-const NotificationItem = ({
+export const NotificationDropdownItem = ({
   notification,
   onClick,
-}: NotificationItemProps) => {
+}: NotificationDropdownItemProps) => {
   const { t } = useTranslation("notifications");
   const { mutate: markAsRead } = useMarkNotificationRead();
 
@@ -45,7 +45,7 @@ const NotificationItem = ({
       to={getNotificationPath(notification)}
       onClick={handleItemClick}
       className={
-        "flex cursor-pointer items-start gap-3 text-start transition-all select-none focus:outline-none w-full rounded-xl border px-4 py-3 border-neutral-100 bg-white hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800/30"
+        "flex cursor-pointer items-start gap-3 text-start transition-all select-none focus:outline-none w-full px-2 py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 rounded-lg"
       }
     >
       {notification.sender ? (
@@ -125,5 +125,3 @@ const NotificationItem = ({
     </Link>
   );
 };
-
-export default NotificationItem;

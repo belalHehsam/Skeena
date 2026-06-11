@@ -4,7 +4,7 @@ import type { JSendSuccess } from "@/features/auth/types/auth";
 
 export async function endVoiceChannel(channelId: string) {
   const res = await customFetch<JSendSuccess<{ data: VoiceChannel }>>(
-    `/api/voice-channels/${channelId}/end`,
+    `/voice-channels/${channelId}/end`,
     {
       method: "PATCH",
     }

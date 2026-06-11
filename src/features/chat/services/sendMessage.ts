@@ -9,7 +9,7 @@ export async function sendMessage(payload: SendMessagePayload) {
   if (payload.media) formData.append("media", payload.media);
 
   const res = await customFetch<JSendSuccess<{ data: ChatMessage }>>(
-    "/api/chats/messages",
+    "/chats/messages",
     {
       method: "POST",
       body: formData,

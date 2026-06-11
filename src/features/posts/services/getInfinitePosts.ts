@@ -10,5 +10,5 @@ export function getInfinitePosts(page: number, category?: string) {
 
   console.log("the query string issssssssssssssss", queryString);
 
-  return customFetch<PostResponse>(`/api/v1/posts/feed?${queryString}`);
+  return customFetch<PostResponse>(`/v1/posts/feed?${queryString}`);
 }

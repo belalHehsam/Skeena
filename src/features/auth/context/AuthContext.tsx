@@ -14,7 +14,8 @@ import {
 } from "../utils/authStorage";
 import { getMeRequest } from "../services/getMeRequest";
 import type { AuthPayload, AuthUser } from "../types/auth";
-import { AUTH_QUERY_KEYS } from "../constants/auth-query-keys";
+
+import { AUTH_QUERY_KEYS } from "@/features/auth/constants/auth-query-keys";
 type AuthContextValue = {
   user: AuthUser | null;
   token: string | null;
@@ -31,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
   const currentUserQuery = useQuery({
-    queryKey: [AUTH_QUERY_KEYS.me],
+    queryKey: AUTH_QUERY_KEYS.me,
     queryFn: getMeRequest,
     enabled: Boolean(token),
     retry: false,
@@ -43,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       saveToken(payload.token, rememberMe);
       setToken(payload.token);
 
-      queryClient.setQueryData([AUTH_QUERY_KEYS.me], {
+      queryClient.setQueryData(AUTH_QUERY_KEYS.me, {
         user: payload.user,
       });
     },
@@ -53,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const clearAuthSession = useCallback(() => {
     clearStoredToken();
     setToken(null);
-    queryClient.removeQueries({ queryKey: [AUTH_QUERY_KEYS.all] });
+    queryClient.removeQueries({ queryKey: AUTH_QUERY_KEYS.all });
   }, [queryClient]);
 
   useEffect(() => {

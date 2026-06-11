@@ -4,7 +4,8 @@ import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 import { registerRequest } from "../services/registerRequest";
 import type { AuthPayload, RegisterRequest } from "../types/auth";
 import { useAuth } from "./useAuth";
-import { AUTH_QUERY_KEYS } from "../constants/auth-query-keys";
+
+import { AUTH_QUERY_KEYS } from "@/features/auth/constants/auth-query-keys";
 
 type UseRegisterOptions = {
   onSuccess?: (payload: AuthPayload) => void;
@@ -19,7 +20,7 @@ export function useRegister(options?: UseRegisterOptions) {
   const { setAuthSession } = useAuth();
 
   return useMutation({
-    mutationKey: [AUTH_QUERY_KEYS.register],
+    mutationKey: AUTH_QUERY_KEYS.register,
     mutationFn: ({ payload }: RegisterVariables) => registerRequest(payload),
     onSuccess: (payload, variables) => {
       setAuthSession(payload, variables.rememberMe ?? true);

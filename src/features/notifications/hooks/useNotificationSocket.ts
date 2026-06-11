@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotificationStore } from "@/store/notificationStore";
 import socket from "@/lib/socket";
-import { QUERY_KEYS } from "@/constants/queryKeys";
+
 import type { INotification } from "../types/notification";
+import { NOTIFICATION_QUERY_KEYS } from "@/features/notifications/constants/notification-query-keys";
 
 export const useNotificationSocket = (isSocketConnected: boolean) => {
   const queryClient = useQueryClient();
@@ -20,7 +21,7 @@ export const useNotificationSocket = (isSocketConnected: boolean) => {
       }
 
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.notifications.list(),
+        queryKey: NOTIFICATION_QUERY_KEYS.list(),
       });
     };
 

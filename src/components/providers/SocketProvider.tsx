@@ -4,7 +4,8 @@ import { useUnreadCount } from "@/features/notifications/hooks/useUnreadCount";
 import { useNotificationSocket } from "@/features/notifications/hooks/useNotificationSocket";
 import { useNotificationStore } from "@/store/notificationStore";
 import socket from "@/lib/socket";
-import { QUERY_KEYS } from "@/constants/queryKeys";
+
+import { NOTIFICATION_QUERY_KEYS } from "@/features/notifications/constants/notification-query-keys";
 
 type Props = { children: ReactNode };
 
@@ -30,7 +31,7 @@ function SocketProvider({ children }: Props) {
     const onConnect = () => {
       setIsConnected(true);
       // Ensure we fetch any notifications missed while disconnected
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.notifications.all() });
+      queryClient.invalidateQueries({ queryKey: NOTIFICATION_QUERY_KEYS.all });
     };
 
     const onDisconnect = () => setIsConnected(false);

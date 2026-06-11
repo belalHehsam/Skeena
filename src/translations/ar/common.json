@@ -1,34 +1,45 @@
 {
-    "hello": "مرحبا",
-    "noData": {
-        "default": "لا توجد بيانات",
-        "description": "لا توجد بيانات لعرضها في الوقت الحالي"
-    },
-    "error": {
-        "default": "حدث خطأ ما",
-        "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً."
-    },
-    "chat": {
-        "title": "المحادثات",
-        "emptyTitle": "محادثات المجلس الخاص بك",
-        "emptySubtitle": "تواصل مع أصدقائك في الوقت الفعلي. ابدأ محادثة مباشرة جديدة لمشاركة الرسائل والوسائط.",
-        "startNewChat": "ابدأ محادثة",
-        "newChat": "محادثة جديدة",
-        "searchPrompt": "ابحث بالاسم أو اسم المستخدم لبدء محادثة مباشرة جديدة.",
-        "searchPlaceholder": "البحث عن المستخدمين...",
-        "noUsersFound": "لم يتم العثور على مستخدمين.",
-        "failedToStart": "فشل بدء المحادثة.",
-        "searchConversations": "البحث عن المحادثات...",
-        "noSearchResults": "لا توجد محادثات تطابق بحثك.",
-        "noConversations": "لا توجد محادثات نشطة بعد.",
-        "you": "أنت",
-        "image": "صورة",
-        "unknownUser": "مستخدم",
-        "noMessages": "لا توجد رسائل بعد",
-        "deletedMessage": "تم حذف هذه الرسالة",
-        "imageAttachment": "مرفق وسائط",
-        "typeMessage": "اكتب رسالة...",
-        "online": "نشط الآن",
-        "loadMore": "جاري تحميل السجل..."
-    }
+  "hello": "مرحبا",
+  "noData": {
+    "default": "لا توجد بيانات",
+    "description": "لا توجد بيانات لعرضها في الوقت الحالي"
+  },
+  "error": {
+    "default": "حدث خطأ ما",
+    "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً."
+  },
+  "chat": {
+    "title": "المحادثات",
+    "emptyTitle": "محادثات المجلس الخاص بك",
+    "emptySubtitle": "تواصل مع أصدقائك في الوقت الفعلي. ابدأ محادثة مباشرة جديدة لمشاركة الرسائل والوسائط.",
+    "startNewChat": "ابدأ محادثة",
+    "newChat": "محادثة جديدة",
+    "searchPrompt": "ابحث بالاسم أو اسم المستخدم لبدء محادثة مباشرة جديدة.",
+    "searchPlaceholder": "البحث عن المستخدمين...",
+    "noUsersFound": "لم يتم العثور على مستخدمين.",
+    "failedToStart": "فشل بدء المحادثة.",
+    "searchConversations": "البحث عن المحادثات...",
+    "noSearchResults": "لا توجد محادثات تطابق بحثك.",
+    "noConversations": "لا توجد محادثات نشطة بعد.",
+    "you": "أنت",
+    "image": "صورة",
+    "unknownUser": "مستخدم",
+    "noMessages": "لا توجد رسائل بعد",
+    "deletedMessage": "تم حذف هذه الرسالة",
+    "imageAttachment": "مرفق وسائط",
+    "typeMessage": "اكتب رسالة...",
+    "online": "نشط الآن",
+    "loadMore": "جاري تحميل السجل..."
+  },
+  "categories": {
+    "all": "الكل",
+    "quran": "القرآن",
+    "hadith": "الحديث",
+    "fiqh": "الفقه",
+    "dua": "الدعاء",
+    "tafsir": "التفسير",
+    "seerah": "السيرة النبوية",
+    "reminder": "الخواطر والنقاشات",
+    "categoryHeading": "منشورات في قسم {{category}}"
+  }
 }

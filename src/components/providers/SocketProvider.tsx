@@ -28,7 +28,6 @@ function SocketProvider({ children }: Props) {
     socket.connect();
 
     const onConnect = () => {
-      console.log("Connected to socket server");
       setIsConnected(true);
       // Ensure we fetch any notifications missed while disconnected
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.notifications.all() });
@@ -36,15 +35,18 @@ function SocketProvider({ children }: Props) {
 
     const onDisconnect = () => setIsConnected(false);
 
+    const onConnectError = (err: Error) => {
+      console.error("Socket connection error:", err.message);
+    };
+
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("connect_error", (err) => {
-      console.log("Connection error occurred: ", err.message);
-    });
+    socket.on("connect_error", onConnectError);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
+      socket.off("connect_error", onConnectError);
       socket.disconnect();
     };
   }, [user, queryClient]);

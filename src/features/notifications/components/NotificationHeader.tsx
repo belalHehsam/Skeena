@@ -6,9 +6,12 @@ import { customFetch } from "@/services/customFetch";
 import { toast } from "sonner";
 import { Bug } from "lucide-react";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const NotificationHeader = () => {
   const { t } = useTranslation("notifications");
+  const queryClient = useQueryClient();
   const unreadCount = useNotificationStore((state) => state.unreadCount);
   const { mutate: markAllRead, isPending: isMarkingRead } =
     useMarkAllNotificationsRead();
@@ -18,6 +21,7 @@ export const NotificationHeader = () => {
     try {
       setIsTesting(true);
       await customFetch("/notifications/test", { method: "POST" });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.notifications.all() });
       toast.success("Test notifications triggered successfully!");
     } catch {
       toast.error("Failed to trigger test notifications");

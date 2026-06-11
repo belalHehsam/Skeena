@@ -12,7 +12,7 @@ export const getNotificationText = (notification: INotification): string => {
     case "friend_request":
       return t("notifications:actionText.friend_request", { username });
     case "friend_accept":
-      return t("notifications:actionText.friend_accept", { username: "Alil" });
+      return t("notifications:actionText.friend_accept", { username });
     default:
       return t("notifications:actionText.default");
   }

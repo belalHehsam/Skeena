@@ -13,10 +13,12 @@ function Providers({ children }: ProvidersProps) {
   return (
     <DarkModeProvider>
       <TanstackQueryProvider>
-        <SocketProvider>
-          <AuthProvider>{children}</AuthProvider>
-          <Toaster richColors position="bottom-right" />
-        </SocketProvider>
+        <AuthProvider>
+          <SocketProvider>
+            {children}
+            <Toaster richColors position="bottom-right" />
+          </SocketProvider>
+        </AuthProvider>
       </TanstackQueryProvider>
     </DarkModeProvider>
   );

@@ -5,17 +5,18 @@ import { useNotificationSocket } from "@/features/notifications/hooks/useNotific
 import { useNotificationStore } from "@/store/notificationStore";
 import socket from "@/lib/socket";
 
+import { useAuthContext } from "@/features/auth/context/AuthContext";
 import { NOTIFICATION_QUERY_KEYS } from "@/features/notifications/constants/notification-query-keys";
 
 type Props = { children: ReactNode };
 
 function SocketProvider({ children }: Props) {
   const queryClient = useQueryClient();
-  const user = localStorage.getItem("token");
+  const { token, isAuthenticated } = useAuthContext();
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   const setUnreadCount = useNotificationStore((state) => state.setUnreadCount);
-  const { data: unreadData } = useUnreadCount(!!user);
+  const { data: unreadData } = useUnreadCount(isAuthenticated);
 
   useEffect(() => {
     if (unreadData?.data.unreadCount !== undefined) {
@@ -24,7 +25,7 @@ function SocketProvider({ children }: Props) {
   }, [unreadData, setUnreadCount]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!isAuthenticated || !token) return;
 
     socket.connect();
 
@@ -50,7 +51,7 @@ function SocketProvider({ children }: Props) {
       socket.off("connect_error", onConnectError);
       socket.disconnect();
     };
-  }, [user, queryClient]);
+  }, [isAuthenticated, token, queryClient]);
 
   useNotificationSocket(isConnected);
 

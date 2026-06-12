@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Post } from "../types/post";
-import { togglePostLike } from "../services/togglePostLike";
-import { POSTS_QUERY_KEYS } from "../constants/posts-query-keys";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getRelativeTime } from "@/utils/formatDate";
 import DOMPurify from "dompurify";
 import { useState } from "react";
+import useToggleLike from "../hooks/useToggleLike";
+import PostAction from "./PostAction";
 
 type PostCardProps = {
   post: Post;
@@ -14,78 +13,20 @@ type PostCardProps = {
 
 export function PostCard({ post, activeCategory }: PostCardProps) {
   const [isCommeting, setIsCommmeting] = useState(false);
-  const queryClient = useQueryClient();
-  const { mutate: handleLike } = useMutation({
-    mutationFn: async () => {
-      await togglePostLike(post._id);
-    },
-    onMutate: async () => {
-      await queryClient.cancelQueries({
-        queryKey: [POSTS_QUERY_KEYS.POSTS, activeCategory],
-      });
-      const prevPosts = queryClient.getQueryData([
-        POSTS_QUERY_KEYS.POSTS,
-        activeCategory,
-      ]);
-      queryClient.setQueryData(
-        [POSTS_QUERY_KEYS.POSTS, activeCategory],
-        (oldData: any) => {
-          if (!oldData) return oldData;
 
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page: any) => {
-              return {
-                ...page,
-                data: {
-                  ...page.data,
-                  posts: page.data.posts.map((p: Post) => {
-                    if (p._id === post._id) {
-                      return {
-                        ...p,
-                        isLiked: !p.isLiked,
-                        likesCount: p.isLiked
-                          ? p.likesCount - 1
-                          : p.likesCount + 1,
-                      };
-                    }
-                    return p;
-                  }),
-                },
-              };
-            }),
-          };
-        },
-      );
-      return { prevPosts };
-    },
-
-    onError: (err, _, context) => {
-      console.log(err, "error");
-      // Rollback to previous data
-      if (context?.prevPosts) {
-        queryClient.setQueryData(
-          [POSTS_QUERY_KEYS.POSTS, activeCategory],
-          context.prevPosts,
-        );
-      }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [POSTS_QUERY_KEYS.POSTS, activeCategory],
-      });
-    },
-  });
+  const { mutate: handleLike } = useToggleLike(post, activeCategory as string);
 
   const onLikeClick = () => {
     handleLike();
   };
+
   const userInitial = post.author.username.slice(0, 2).toLocaleUpperCase();
   const cleanHtml = DOMPurify.sanitize(post.content);
   return (
-    <div className="space-y-4 rounded-xl border border-emerald-100 bg-white p-5 shadow-sm dark:border-emerald-900 dark:bg-[#252728]">
-      <div className="flex items-center justify-between">
+    <div className="bg-card relative space-y-4 rounded-xl border border-emerald-100 p-5 shadow-sm dark:border-emerald-900">
+      <PostAction post={post} activeCategory={activeCategory as string} />
+
+      <div className="mt-2.5 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Avatar className="h-10 w-10 border-2 border-white ring-2 ring-emerald-100">
             <AvatarImage src={post.author.avatar} alt={post.author.username} />
@@ -119,6 +60,7 @@ export function PostCard({ post, activeCategory }: PostCardProps) {
       </div>
 
       <div
+        dir="auto"
         className="text-foreground max-w-none text-sm leading-relaxed"
         dangerouslySetInnerHTML={{ __html: cleanHtml }}
       />

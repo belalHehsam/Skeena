@@ -41,5 +41,14 @@
     "seerah": "السيرة النبوية",
     "reminder": "الخواطر والنقاشات",
     "categoryHeading": "منشورات في قسم {{category}}"
+  },
+  "DialogTrigger": {
+    "title": "لعله خِيرٌ تنشره اليوم يا ."
+  },
+  "actions": {
+    "photo": "صورة",
+    "video": "فيديو",
+    "feeling": "شعور",
+    "post": "نشر"
   }
 }

@@ -7,6 +7,7 @@ export default function CategoryFilters({
   onCategoryChange,
 }: CategoryFiltersProps) {
   const { t } = useTranslation("common");
+
   return (
     <div className="mx-4 flex touch-pan-x snap-x scrollbar-none items-center gap-2 overflow-x-auto py-2">
       {CATEGORIES.map((category) => {

@@ -40,7 +40,7 @@ export function CreatePostForm() {
           <X className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
           <div>
             <h3 className="font-semibold text-red-700 dark:text-red-300">
-              {t('status.rejected')}
+              {t('createPost:status.rejected')}
             </h3>
             <p className="mt-1 text-sm text-red-600 dark:text-red-400">
               {rejectionError.content}
@@ -54,11 +54,11 @@ export function CreatePostForm() {
           <div className="flex items-center gap-3">
             <Check className="h-5 w-5 text-primary-600 dark:text-primary-400" />
             <p className="font-medium text-primary-700 dark:text-primary-300">
-              {t('status.success')}
+              {t('createPost:status.success')}
             </p>
           </div>
           <Button onClick={resetForm} variant="outline" size="sm" className="h-8">
-            {t('buttons.createAnother')}
+            {t('createPost:buttons.createAnother')}
           </Button>
         </div>
       )}
@@ -70,10 +70,10 @@ export function CreatePostForm() {
           
           <div className="mb-6 flex flex-col gap-1 rounded-lg bg-primary-50/50 p-4 border border-primary-100/50 dark:bg-primary-950/20 dark:border-primary-900/30">
             <h3 className="text-sm font-semibold text-primary-800 dark:text-primary-200 uppercase tracking-widest">
-              {t('reflectionPrompt.title')}
+              {t('createPost:reflectionPrompt.title')}
             </h3>
             <p className="font-serif text-lg text-primary-900 dark:text-primary-100 italic">
-              "{t('reflectionPrompt.question')}"
+              "{t('createPost:reflectionPrompt.question')}"
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export function CreatePostForm() {
             <TipTapEditor
               ref={editorRef}
               content={content}
-              placeholder={t('placeholder')}
+              placeholder={t('createPost:placeholder')}
               onChange={(html, length) => {
                 setContent(html);
                 setContentLength(length);
@@ -119,10 +119,10 @@ export function CreatePostForm() {
                 <Asterisk className="mt-1 h-5 w-5 shrink-0 text-primary-600 dark:text-primary-400" />
                 <div className="flex-1 space-y-3">
                   <h4 className="font-serif text-lg font-medium text-primary-900 dark:text-primary-100">
-                    {t('recommendation.suggestion')}
+                    {t('createPost:recommendation.suggestion')}
                   </h4>
                   <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                    {t('recommendation.description', { source: t(`recommendation.${recommendation.type}`) })}
+                    {t('createPost:recommendation.description', { source: t(`createPost:recommendation.${recommendation.type}`) })}
                   </p>
                   <div className="mt-4 rounded-lg border border-neutral-200/50 bg-white/70 p-5 dark:border-neutral-800/50 dark:bg-black/30">
                     <p className="mb-3 text-right font-serif text-xl leading-relaxed text-neutral-800 dark:text-neutral-200" dir="rtl" lang="ar">
@@ -134,10 +134,10 @@ export function CreatePostForm() {
                   </div>
                   <div className="flex items-center gap-4 pt-4">
                     <button type="button" onClick={() => setIsRecommendationAttached(true)} className="text-sm font-medium text-primary-700 underline decoration-primary-300 underline-offset-4 transition-colors hover:decoration-primary-700 dark:text-primary-400 dark:decoration-primary-700 dark:hover:decoration-primary-400">
-                      {t('buttons.attachReference')}
+                      {t('createPost:buttons.attachReference')}
                     </button>
                     <button type="button" onClick={() => setRecommendation(null)} className="text-sm font-medium text-neutral-500 transition-colors hover:text-neutral-800 dark:text-neutral-500 dark:hover:text-neutral-300">
-                      {t('buttons.dismiss')}
+                      {t('createPost:buttons.dismiss')}
                     </button>
                   </div>
                 </div>
@@ -170,13 +170,13 @@ export function CreatePostForm() {
                   onClick={() => setStep("draft")}
                   className="rounded-full px-6 shadow-sm w-full sm:w-auto"
                 >
-                  {t('buttons.editPost')}
+                  {t('createPost:buttons.editPost')}
                 </Button>
               )}
 
               <div className="flex items-center gap-2 me-2 w-full sm:w-auto justify-between sm:justify-start">
                 <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                  {t('settings.comments')}
+                  {t('createPost:settings.comments')}
                 </span>
                 <button 
                   type="button" 
@@ -195,16 +195,16 @@ export function CreatePostForm() {
                 {isAnalyzing ? (
                   <>
                     <Asterisk className="mr-2 h-4 w-4 animate-spin" />
-                    {t('buttons.reviewing')}
+                    {t('createPost:buttons.reviewing')}
                   </>
                 ) : isCreating ? (
-                  t('buttons.publishing')
+                  t('createPost:buttons.publishing')
                 ) : step === "draft" ? (
-                  t('buttons.review')
+                  t('createPost:buttons.review')
                 ) : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
-                    {t('buttons.publishNow')}
+                    {t('createPost:buttons.publishNow')}
                   </>
                 )}
               </Button>

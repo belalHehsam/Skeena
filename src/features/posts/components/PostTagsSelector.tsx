@@ -47,7 +47,7 @@ export function PostTagsSelector({ tags, setTags, showTagDropdown, setShowTagDro
             }`}
           >
             <Icon className="h-3.5 w-3.5 opacity-80" />
-            {t(`tags.${cat.value}`)}
+            {t(`createPost:tags.${cat.value}`)}
           </button>
         );
       })}
@@ -62,7 +62,7 @@ export function PostTagsSelector({ tags, setTags, showTagDropdown, setShowTagDro
             onClick={() => setTags(prev => prev.filter(t => t !== tag))}
             className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 sm:px-4 text-xs sm:text-sm font-medium transition-colors bg-primary-600 text-white shadow-sm dark:bg-primary-500 shrink-0 whitespace-nowrap"
           >
-            {t(`tags.${tag}`)}
+            {t(`createPost:tags.${tag}`)}
           </button>
         )
       })}
@@ -74,7 +74,7 @@ export function PostTagsSelector({ tags, setTags, showTagDropdown, setShowTagDro
           className="flex items-center gap-1.5 rounded-lg bg-transparent border border-dashed border-neutral-300 px-3 py-1.5 sm:px-4 text-xs sm:text-sm font-medium text-primary-600 transition-colors hover:bg-primary-50 dark:border-neutral-700 dark:text-primary-400 dark:hover:bg-primary-950/30 shrink-0 whitespace-nowrap"
         >
           <Plus className="h-3.5 w-3.5" />
-          {t('buttons.addTag' as any)}
+          {t('createPost:buttons.addTag')}
         </button>
 
         {showTagDropdown && (
@@ -83,7 +83,7 @@ export function PostTagsSelector({ tags, setTags, showTagDropdown, setShowTagDro
             <div className="fixed left-1/2 top-1/2 z-[70] w-64 -translate-x-1/2 -translate-y-1/2 sm:absolute sm:left-auto sm:right-0 sm:top-full sm:z-50 sm:mt-2 sm:w-48 sm:translate-x-0 sm:translate-y-0 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-2xl dark:border-neutral-800 dark:bg-neutral-900">
               <div className="p-2 sm:p-0">
                 <h3 className="mb-2 px-3 pt-2 text-xs font-semibold uppercase text-neutral-500 sm:hidden dark:text-neutral-400">
-                  {t('titles.selectTags' as any)}
+                  {t('createPost:titles.selectTags')}
                 </h3>
                 {EXTRA_TAGS.map(tag => (
                   <button
@@ -95,7 +95,7 @@ export function PostTagsSelector({ tags, setTags, showTagDropdown, setShowTagDro
                       setShowTagDropdown(false);
                     }}
                   >
-                    {t(`tags.${tag.value}`)}
+                    {t(`createPost:tags.${tag.value}`)}
                     {tags.includes(tag.value as PostTag) && <Check className="h-4 w-4 text-primary-600 dark:text-primary-400" />}
                   </button>
                 ))}

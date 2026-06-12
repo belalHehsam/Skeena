@@ -32,6 +32,17 @@ export function useCreatePostForm() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 10 * 1024 * 1024) {
+      setRejectionError({
+        content: "The selected image is too large. Maximum allowed size is 10MB.",
+        violations: ["file_too_large"]
+      });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+
+    setRejectionError(null);
+
     setImageFile(file);
     const reader = new FileReader();
     reader.onload = () => setImagePreview(reader.result as string);
@@ -56,6 +67,48 @@ export function useCreatePostForm() {
     setStep("draft");
   }
 
+  function submitForAnalysis(formData: FormData) {
+    if (imageFile) formData.append("image", imageFile);
+    analyzePost(formData, {
+      onSuccess: (data: AnalyzePostResponse) => {
+        setRecommendation(data.data.recommendation);
+        setIsRecommendationAttached(false);
+        setStep("review");
+      },
+      onError: (error: any) => {
+        if (error.status === 422 && error.errorBody) {
+          setRejectionError({
+            content: error.errorBody.content || "Content does not meet guidelines",
+            violations: error.errorBody.violations || [],
+          });
+        }
+      },
+    });
+  }
+
+  function submitFinalPost(formData: FormData) {
+    formData.append("commentsEnabled", String(commentsEnabled));
+    if (imageFile) formData.append("image", imageFile);
+    if (isRecommendationAttached && recommendation) {
+      formData.append("recommendation", JSON.stringify(recommendation));
+    }
+
+    createPost(formData, {
+      onSuccess: () => {
+        setShowSuccess(true);
+      },
+      onError: (error: any) => {
+        if (error.status === 422 && error.errorBody) {
+          setRejectionError({
+            content: error.errorBody.content || "Content does not meet guidelines",
+            violations: error.errorBody.violations || [],
+          });
+          setStep("draft");
+        }
+      },
+    });
+  }
+
   function handleAction(e?: FormEvent) {
     if (e) e.preventDefault();
     if (!content.trim() || isPending || tags.length === 0) return;
@@ -68,42 +121,9 @@ export function useCreatePostForm() {
     formData.append("tags", JSON.stringify(tags));
 
     if (step === "draft") {
-      analyzePost(formData, {
-        onSuccess: (data: AnalyzePostResponse) => {
-          setRecommendation(data.data.recommendation);
-          setIsRecommendationAttached(false);
-          setStep("review");
-        },
-        onError: (error: any) => {
-          if (error.status === 422 && error.errorBody) {
-            setRejectionError({
-              content: error.errorBody.content || "Content does not meet guidelines",
-              violations: error.errorBody.violations || [],
-            });
-          }
-        },
-      });
+      submitForAnalysis(formData);
     } else {
-      formData.append("commentsEnabled", String(commentsEnabled));
-      if (imageFile) formData.append("image", imageFile);
-      if (isRecommendationAttached && recommendation) {
-        formData.append("recommendation", JSON.stringify(recommendation));
-      }
-
-      createPost(formData, {
-        onSuccess: () => {
-          setShowSuccess(true);
-        },
-        onError: (error: any) => {
-          if (error.status === 422 && error.errorBody) {
-            setRejectionError({
-              content: error.errorBody.content || "Content does not meet guidelines",
-              violations: error.errorBody.violations || [],
-            });
-            setStep("draft");
-          }
-        },
-      });
+      submitFinalPost(formData);
     }
   }
 

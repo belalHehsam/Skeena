@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import type { VoiceCategory } from "../../types/voice";
+import type { Category } from "@/types/category";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -24,7 +24,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface CreateChannelFormProps {
-  categories: VoiceCategory[];
+  categories: Category[];
   onSubmit: (values: FormValues) => void;
   isPending: boolean;
 }

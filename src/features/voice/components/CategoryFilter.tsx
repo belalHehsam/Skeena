@@ -1,7 +1,7 @@
-import type { VoiceCategory } from "../types/voice";
+import type { Category } from "@/types/category";
 
 interface CategoryFilterProps {
-  categories: VoiceCategory[];
+  categories: Category[];
   selectedCategoryId: string;
   onSelectCategory: (id: string) => void;
 }

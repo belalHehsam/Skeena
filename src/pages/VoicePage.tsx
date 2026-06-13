@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetVoiceChannels } from "@/features/voice/hooks/useGetVoiceChannels";
-import { useGetVoiceCategories } from "@/features/voice/hooks/useGetVoiceCategories";
 import { useCreateVoiceChannel } from "@/features/voice/hooks/useCreateVoiceChannel";
 import { CategoryFilter } from "@/features/voice/components/CategoryFilter";
 import { ChannelList } from "@/features/voice/components/ChannelList/ChannelList";
@@ -9,6 +8,7 @@ import { ChannelRoom } from "@/features/voice/components/ChannelRoom/ChannelRoom
 import { CreateChannelDialog } from "@/features/voice/components/CreateChannelDialog/CreateChannelDialog";
 import { Button } from "@/components/ui/button";
 import { Plus, Headphones } from "lucide-react";
+import { useGetCategories } from "@/hooks/useGetCategories";
 
 export function VoicePage() {
   const { channelId } = useParams<{ channelId?: string }>();
@@ -19,7 +19,7 @@ export function VoicePage() {
 
   // Queries
   const { data: channels, isLoading: isChannelsLoading } = useGetVoiceChannels();
-  const { data: categories = [] } = useGetVoiceCategories();
+  const { data: categories = [] } = useGetCategories();
   const createMutation = useCreateVoiceChannel();
 
   const handleCreateChannelSubmit = (values: { title: string; categoryId: string }) => {

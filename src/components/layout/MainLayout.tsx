@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
+import { CreatePostModal } from "@/features/posts/components/CreatePostModal";
 
 export function MainLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
     return (
         <div className="flex h-screen w-full overflow-hidden bg-neutral-50 dark:bg-neutral-950">
@@ -24,7 +26,10 @@ export function MainLayout() {
                         : "-translate-x-full rtl:translate-x-full opacity-0 "
                 }`}
             >
-                <Sidebar onClose={() => setIsSidebarOpen(false)} />
+                <Sidebar 
+                    onClose={() => setIsSidebarOpen(false)} 
+                    onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
+                />
             </div>
             
             {/* Main content wrapper */}
@@ -35,6 +40,12 @@ export function MainLayout() {
                     <Outlet />
                 </main>
             </div>
+
+            {/* Global Modals */}
+            <CreatePostModal 
+                isOpen={isCreatePostModalOpen} 
+                onClose={() => setIsCreatePostModalOpen(false)} 
+            />
         </div>
     );
 }

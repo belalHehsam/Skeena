@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import CreatePost from "@/pages/create-post";
 import RootErrorBoundary from "@/components/errors/RootErrorBoundary";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ProtectedRoute } from "@/features/auth/routes/ProtectedRoute";
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
-            },
-            {
-                path: "create",
-                element: <CreatePost />,
             },
             {
                 path: "chat",

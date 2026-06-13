@@ -19,14 +19,14 @@ const navLinks = [
     { name: "Friends", href: "/friends", icon: Users },
     { name: "Chat", href: "/chat", icon: MessageSquare },
     { name: "Voice", href: "/voice", icon: Mic },
-    { name: "Create Post", href: "/create", icon: PlusSquare },
 ];
 
 interface SidebarProps {
     onClose?: () => void;
+    onOpenCreatePost?: () => void;
 }
 
-export function Sidebar({ onClose }: SidebarProps) {
+export function Sidebar({ onClose, onOpenCreatePost }: SidebarProps) {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -88,6 +88,17 @@ export function Sidebar({ onClose }: SidebarProps) {
                         </Link>
                     );
                 })}
+
+                <button
+                    onClick={() => {
+                        onOpenCreatePost?.();
+                        onClose?.();
+                    }}
+                    className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+                >
+                    <PlusSquare className="h-5 w-5" />
+                    Create Post
+                </button>
             </nav>
 
             {/* User Profile & Logout */}

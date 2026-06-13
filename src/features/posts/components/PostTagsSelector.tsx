@@ -25,7 +25,7 @@ interface PostTagsSelectorProps {
 
 export function PostTagsSelector({ tags, setTags, showTagDropdown, setShowTagDropdown, t }: PostTagsSelectorProps) {
   return (
-    <div className="mb-6 flex flex-nowrap sm:flex-wrap items-center gap-2 relative overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+    <div className="flex flex-nowrap sm:flex-wrap items-center gap-2 relative overflow-x-auto pb-1 sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {CATEGORIES.map((cat) => {
         const isSelected = tags.includes(cat.value as PostTag);
         const Icon = cat.icon;

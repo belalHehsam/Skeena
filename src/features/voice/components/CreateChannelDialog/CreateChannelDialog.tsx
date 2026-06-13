@@ -4,13 +4,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { VoiceCategory } from "../../types/voice";
+import type { Category } from "@/types/category";
 import { CreateChannelForm } from "./CreateChannelForm";
 
 interface CreateChannelDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  categories: VoiceCategory[];
+  categories: Category[];
   onSubmit: (values: { title: string; categoryId: string }) => void;
   isPending: boolean;
 }

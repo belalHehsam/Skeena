@@ -91,7 +91,7 @@ export function ConversationItem({ conversation, isActive }: ConversationItemPro
           </p>
           {hasUnread && (
             <Badge className="h-4.5 min-w-4.5 flex items-center justify-center rounded-full bg-primary text-white text-[10px] px-1 border-none shrink-0 animate-bounce">
-              1
+              
             </Badge>
           )}
         </div>

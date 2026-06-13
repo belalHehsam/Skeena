@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
-import { Paperclip, Send, Loader2 } from "lucide-react";
+import { Paperclip, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MediaPreview } from "./MediaPreview";
 import { useSendMessage } from "../../hooks/useSendMessage";
@@ -42,20 +42,12 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
   const selectedMedia = watch("media");
 
   const onSubmit = (data: FormValues) => {
-    if (sendMutation.isPending) return;
-    
-    sendMutation.mutate(
-      {
-        recipientId,
-        content: data.content,
-        media: data.media,
-      },
-      {
-        onSuccess: () => {
-          reset();
-        },
-      }
-    );
+    sendMutation.mutate({
+      recipientId,
+      content: data.content,
+      media: data.media,
+    });
+    reset();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -98,7 +90,6 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
           type="button"
           variant="ghost"
           size="icon"
-          disabled={sendMutation.isPending}
           onClick={() => fileInputRef.current?.click()}
           className="h-10 w-10 shrink-0 text-neutral-500 hover:text-primary hover:bg-primary/10 rounded-full cursor-pointer flex items-center justify-center"
         >
@@ -110,7 +101,6 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
           <textarea
             {...register("content")}
             rows={1}
-            disabled={sendMutation.isPending}
             onKeyDown={handleKeyDown}
             onChange={(e) => {
               register("content").onChange(e);
@@ -124,14 +114,9 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
         {/* Send button */}
         <Button
           type="submit"
-          disabled={sendMutation.isPending}
           className="h-10 w-10 shrink-0 rounded-full bg-primary hover:bg-primary/95 text-white flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
         >
-          {sendMutation.isPending ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <Send className="h-5 w-5" />
-          )}
+          <Send className="h-5 w-5" />
         </Button>
       </form>
     </div>

@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 import type { Category } from "@/types/category";
 import { CreateChannelForm } from "./CreateChannelForm";
 
@@ -22,12 +23,14 @@ export function CreateChannelDialog({
   onSubmit,
   isPending,
 }: CreateChannelDialogProps) {
+  const { t } = useTranslation("common");
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="font-heading text-xl font-bold text-neutral-900 dark:text-neutral-100">
-            Start a Voice Room
+            {t("voice.startRoomTitle")}
           </DialogTitle>
         </DialogHeader>
         <CreateChannelForm

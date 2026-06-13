@@ -19,7 +19,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                 {label && (
                     <label
                         htmlFor={id}
-                        className="text-xs font-semibold text-neutral-800"
+                        className="text-xs font-semibold text-neutral-800 dark:text-neutral-200"
                     >
                         {label}
                     </label>
@@ -36,8 +36,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                         id={id}
                         ref={ref}
                         className={cn(
-                            "h-10 w-full rounded-md border border-neutral-200 bg-neutral-50 text-sm text-neutral-900 outline-none transition",
-                            "placeholder:text-neutral-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/15",
+                            "h-10 w-full rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 outline-none transition",
+                            "placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:border-primary focus:bg-white dark:focus:bg-neutral-950 focus:ring-2 focus:ring-primary/15",
                             startIcon ? "pl-9" : "pl-3",
                             endIcon ? "pr-10" : "pr-3",
                             error &&

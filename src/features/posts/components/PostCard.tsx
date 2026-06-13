@@ -184,7 +184,7 @@ export function PostCard({ post, activeCategory }: PostCardProps) {
           </Avatar>
           <input
             type="text"
-            className="text-foreground flex-1 rounded-lg border border-neutral-300 px-4 py-3 text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+            className="text-foreground flex-1 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-4 py-3 text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
             placeholder="Write a comment..."
           />
           <button className="bg-primary text-primary-foreground ml-1 cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold">

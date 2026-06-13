@@ -29,7 +29,8 @@
     "imageAttachment": "مرفق وسائط",
     "typeMessage": "اكتب رسالة...",
     "online": "نشط الآن",
-    "loadMore": "جاري تحميل السجل..."
+    "loadMore": "جاري تحميل السجل...",
+    "loadingUser": "جاري التحميل..."
   },
   "categories": {
     "all": "الكل",
@@ -41,5 +42,27 @@
     "seerah": "السيرة النبوية",
     "reminder": "الخواطر والنقاشات",
     "categoryHeading": "منشورات في قسم {{category}}"
+  },
+  "voice": {
+    "title": "غرف الصوت",
+    "newRoom": "غرفة جديدة",
+    "noRoomSelected": "لم يتم اختيار غرفة صوتية",
+    "noRoomSelectedDesc": "اختر غرفة نقاش نشطة من القائمة على اليسار، أو أنشئ غرفة جديدة تماماً لبدء التحدث مع الأصدقاء!",
+    "startNewRoom": "ابدأ غرفة جديدة",
+    "startRoomTitle": "بدء غرفة صوتية",
+    "roomTitle": "عنوان الغرفة",
+    "roomTitlePlaceholder": "مثال: مناقشة ميزات React 19",
+    "category": "القسم",
+    "selectCategory": "اختر قسماً للغرفة",
+    "creatingRoom": "جاري إنشاء الغرفة...",
+    "createRoom": "إنشاء غرفة",
+    "live": "{{count}} نشط",
+    "createdBy": "بواسطة",
+    "emptyChannel": "قناة فارغة",
+    "join": "انضمام",
+    "noActiveRooms": "لا توجد غرف صوتية نشطة",
+    "noActiveRoomsDesc": "لا توجد حالياً أي غرف نقاش نشطة. ابدأ قناة صوتية جديدة ودع الآخرين للانضمام والنقاش.",
+    "createVoiceRoomBtn": "إنشاء غرفة صوتية",
+    "allRooms": "كل الغرف"
   }
 }

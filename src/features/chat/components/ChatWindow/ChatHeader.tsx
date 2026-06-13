@@ -39,10 +39,10 @@ export function ChatHeader({ participant, onBackClick }: ChatHeaderProps) {
         <h3 className="text-sm font-bold text-neutral-850 dark:text-neutral-100 truncate">
           {name}
         </h3>
-        <p className="text-[10px] text-emerald-500 font-medium flex items-center gap-1">
+        {/* <p className="text-[10px] text-emerald-500 font-medium flex items-center gap-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
           {t("chat.online", "Online")}
-        </p>
+        </p> */}
       </div>
     </div>
   );

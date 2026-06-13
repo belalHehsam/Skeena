@@ -41,7 +41,7 @@ export function ParticipantGrid({
   isDeafened,
 }: ParticipantGridProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 p-6 overflow-y-auto max-h-[calc(100vh-250px)] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 scrollbar-none">
+    <div className="grid grid-cols-2 gap-4 p-6 overflow-y-auto max-h-[calc(100vh-250px)] md:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 scrollbar-none">
       {participants.map((participant) => {
         const isSelf = participant.user?._id === currentUserId;
         const stream = isSelf ? localStream : remoteStreams.get(participant.user?._id) || null;

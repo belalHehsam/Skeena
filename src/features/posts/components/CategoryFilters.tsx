@@ -16,10 +16,10 @@ export default function CategoryFilters({
           <button
             key={category}
             onClick={() => onCategoryChange(category)}
-            className={`cursor-pointer rounded-lg px-4 py-2 font-medium transition-colors ${
+            className={`flex-shrink-0 cursor-pointer rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200 ${
               isActive
-                ? "bg-primary text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                ? "border-emerald-600 bg-emerald-600 text-white"
+                : "bg-background text-muted-foreground hover:bg-primary border hover:text-white dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400"
             }`}
           >
             {t(`categories.${category}`, {

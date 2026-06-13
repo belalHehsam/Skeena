@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import type { VoiceChannel } from "../../types/voice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +13,7 @@ interface ChannelCardProps {
 
 export function ChannelCard({ channel, isActive }: ChannelCardProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation("common");
   const isEnded = channel.status === "ended";
 
   const displayedParticipants = channel.participants || [];
@@ -43,18 +45,21 @@ export function ChannelCard({ channel, isActive }: ChannelCardProps) {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
-              {participantCount} live
+              {t("voice.live", { count: participantCount })}
             </span>
           </div>
         )}
       </div>
 
-      <h4 className="font-heading text-sm font-bold text-neutral-800 dark:text-neutral-100 group-hover:text-primary transition-colors line-clamp-1 mb-1">
+      <h4 className="font-heading text-sm font-bold text-neutral-800 dark:text-neutral-100 group-hover:text-primary transition-colors line-clamp-1 mb-1 text-left">
         {channel.title}
       </h4>
 
-      <p className="text-[11px] text-neutral-400 dark:text-neutral-500 mb-4">
-        Created by <span className="font-medium text-neutral-600 dark:text-neutral-400">@{channel.createdBy?.username || "user"}</span>
+      <p className="text-[11px] text-neutral-400 dark:text-neutral-500 mb-4 text-left">
+        {t("voice.createdBy")}{" "}
+        <span className="font-medium text-neutral-600 dark:text-neutral-400">
+          @{channel.createdBy?.username || "user"}
+        </span>
       </p>
 
       <div className="flex items-center justify-between mt-auto">
@@ -77,7 +82,7 @@ export function ChannelCard({ channel, isActive }: ChannelCardProps) {
             </div>
           ) : (
             <span className="text-[10px] text-neutral-400 dark:text-neutral-500 italic">
-              Empty channel
+              {t("voice.emptyChannel")}
             </span>
           )}
         </div>
@@ -86,10 +91,10 @@ export function ChannelCard({ channel, isActive }: ChannelCardProps) {
           <Button
             size="sm"
             variant="ghost"
-            className="h-8 px-3 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-primary hover:text-white font-heading font-semibold rounded-lg flex items-center gap-1 cursor-pointer"
+            className="h-8 px-3 text-xs lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200 text-primary bg-primary/10 lg:text-neutral-500 lg:bg-transparent hover:bg-primary hover:text-white dark:hover:bg-primary font-heading font-semibold rounded-lg flex items-center gap-1 cursor-pointer"
           >
             <LogIn className="h-3 w-3" />
-            Join
+            {t("voice.join")}
           </Button>
         )}
       </div>

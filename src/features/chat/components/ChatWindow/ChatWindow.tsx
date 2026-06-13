@@ -83,6 +83,7 @@ export function ChatWindow({ onBack }: ChatWindowProps) {
       />
       
       <MessageList
+        conversationId={conversationId}
         participant={otherParticipant}
         messages={messages}
         isTyping={isTyping}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessageSquarePlus, Search, UserPlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,11 +15,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { searchUsers } from "../services/searchUsers";
 import { getOrCreateConversation } from "../services/getOrCreateConversation";
+import { CHAT_QUERY_KEYS } from "../constants/chat-query-keys";
 import { toast } from "sonner";
 
 export function NewChatButton() {
   const { t } = useTranslation("common");
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isStartingChat, setIsStartingChat] = useState(false);
@@ -35,6 +37,17 @@ export function NewChatButton() {
     setIsStartingChat(true);
     try {
       const conv = await getOrCreateConversation(userId);
+
+      // Instantly cache the new conversation to avoid "Loading User" headers in ChatWindow
+      queryClient.setQueryData(
+        CHAT_QUERY_KEYS.conversations(),
+        (old: any) => {
+          if (!old) return [conv];
+          if (old.some((c: any) => c._id === conv._id)) return old;
+          return [conv, ...old];
+        }
+      );
+
       setOpen(false);
       navigate(`/chat/${conv._id}`);
     } catch (error) {

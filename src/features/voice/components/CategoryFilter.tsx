@@ -1,7 +1,8 @@
-import type { VoiceCategory } from "../types/voice";
+import type { Category } from "@/types/category";
+import { useTranslation } from "react-i18next";
 
 interface CategoryFilterProps {
-  categories: VoiceCategory[];
+  categories: Category[];
   selectedCategoryId: string;
   onSelectCategory: (id: string) => void;
 }
@@ -11,6 +12,8 @@ export function CategoryFilter({
   selectedCategoryId,
   onSelectCategory,
 }: CategoryFilterProps) {
+  const { t } = useTranslation("common");
+
   return (
     <div className="flex w-full items-center gap-2 overflow-x-auto pb-3 pt-1 scrollbar-none">
       <button
@@ -21,7 +24,7 @@ export function CategoryFilter({
             : "bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-300"
         }`}
       >
-        All Rooms
+        {t("voice.allRooms")}
       </button>
 
       {categories.map((category) => (

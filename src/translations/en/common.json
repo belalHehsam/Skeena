@@ -42,5 +42,14 @@
     "seerah": "Seerah",
     "reminder": "Reminder",
     "categoryHeading": "Posts in {{category}} Category"
+  },
+  "DialogTrigger": {
+    "title": " Spread goodness today.. "
+  },
+  "actions": {
+    "photo": "Photo",
+    "video": "Video",
+    "feeling": "Feeling",
+    "post": "Post"
   }
 }

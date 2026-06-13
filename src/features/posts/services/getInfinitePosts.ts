@@ -7,8 +7,5 @@ export function getInfinitePosts(page: number, category?: string) {
     query.tag = category.toLowerCase();
   }
   const queryString = createQueryString(query);
-
-  console.log("the query string issssssssssssssss", queryString);
-
   return customFetch<PostResponse>(`/v1/posts/feed?${queryString}`);
 }

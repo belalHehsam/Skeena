@@ -1,8 +1,9 @@
 import NotificationPopover from "@/features/notifications/components/NotificationDropdown";
-import { Menu, Search, Settings } from "lucide-react";
+import { Menu, Settings } from "lucide-react";
 import { Button } from "../ui/button";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { UserAvatar } from "../shared/UserAvatar";
+import { GlobalSearch } from "@/features/explore/components/GlobalSearch";
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -24,14 +25,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
           <Menu className="size-5" />
           <span className="sr-only">Toggle menu</span>
         </Button>
-        <div className="relative hidden w-full max-w-md sm:block">
-          <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-neutral-500" />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border-input dark:border-neutral-800 focus-visible:ring-ring h-9 w-full rounded-full border bg-neutral-50 dark:bg-neutral-900 px-9 py-1 text-sm text-neutral-900 dark:text-neutral-100 transition-colors placeholder:text-neutral-500 dark:placeholder:text-neutral-400 focus-visible:ring-1 focus-visible:outline-none focus:bg-white dark:focus:bg-neutral-950"
-          />
-        </div>
+        <GlobalSearch />
       </div>
 
       {/* Actions & Profile */}

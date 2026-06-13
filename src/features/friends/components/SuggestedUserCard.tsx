@@ -17,7 +17,11 @@ export const SuggestedUserCard = ({ user }: Props) => {
       }}
       subtitle={`Joined ${formatDistanceToNow(user.createdAt)}`}
     >
-      <FriendshipActions userId={user._id} />
+      <FriendshipActions
+        userId={user._id}
+        initialStatus={user.friendshipStatus}
+        initialRequestId={user.friendshipRequestId}
+      />
     </BaseUserCard>
   );
 };

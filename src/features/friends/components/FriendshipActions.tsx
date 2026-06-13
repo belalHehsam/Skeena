@@ -11,14 +11,26 @@ interface FriendshipActionsProps {
   userId: string;
   showRemove?: boolean;
   className?: string;
+  initialStatus?: "none" | "pending_sent" | "pending_received" | "accepted";
+  initialRequestId?: string | null;
 }
 
 export const FriendshipActions = ({
   userId,
   showRemove,
   className,
+  initialStatus,
+  initialRequestId,
 }: FriendshipActionsProps) => {
-  const { data, isLoading } = useFriendshipStatus(userId);
+  const { data, isLoading } = useFriendshipStatus(
+    userId,
+    initialStatus
+      ? {
+          status: initialStatus,
+          requestId: initialRequestId || null,
+        }
+      : undefined
+  );
   const sendRequestMutation = useSendFriendRequest();
   const cancelRequestMutation = useCancelFriendRequest();
   const acceptRequestMutation = useAcceptRequest();

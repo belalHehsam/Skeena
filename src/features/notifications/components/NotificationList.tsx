@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { BellOff, RefreshCw } from "lucide-react";
 import { useNotifications } from "../hooks/useNotifications";
-import { NotificationDropdownItem } from "./NotificationDropdownItem";
+import NotificationItem from "./NotificationItem";
 import { NotificationSkeleton } from "./NotificationSkeleton";
 import { useTranslation } from "react-i18next";
 
@@ -43,9 +43,10 @@ export const NotificationList = ({ onItemClick }: { onItemClick?: () => void }) 
   return (
     <div className="flex flex-col gap-1">
       {data.data.notifications.map((notification) => (
-        <NotificationDropdownItem
+        <NotificationItem
           key={notification._id}
           notification={notification}
+          variant="dropdown"
           onClick={onItemClick}
         />
       ))}

@@ -1,11 +1,6 @@
-export type VoiceChannelStatus = 'active' | 'ended';
+import type { Category } from "@/types/category";
 
-export type VoiceCategory = {
-  _id: string;
-  name: string;
-  slug: string;
-  description?: string;
-};
+export type VoiceChannelStatus = 'active' | 'ended';
 
 export type VoiceChannelCreator = {
   _id: string;
@@ -28,7 +23,7 @@ export type VoiceParticipant = {
 export type VoiceChannel = {
   _id: string;
   title: string;
-  category: VoiceCategory;
+  category: Category;
   createdBy: VoiceChannelCreator;
   participants: VoiceParticipant[];
   status: VoiceChannelStatus;

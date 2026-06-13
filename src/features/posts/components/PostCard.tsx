@@ -1,114 +1,139 @@
-import { Heart, MessageCircle, Calendar } from "lucide-react";
 import type { Post } from "../types/post";
-import { RecommendationCard } from "./RecommendationCard";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getRelativeTime } from "@/utils/formatDate";
+import DOMPurify from "dompurify";
+import { useState } from "react";
+import useToggleLike from "../hooks/useToggleLike";
+import PostAction from "./PostAction";
 
 type PostCardProps = {
-	post: Post;
+  post: Post;
+  activeCategory?: string;
 };
 
-export function PostCard({ post }: PostCardProps) {
-	const categoryStyles: Record<string, string> = {
-		quran: "bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300",
-		hadith: "bg-secondary-100 text-secondary-700 dark:bg-secondary-900/40 dark:text-secondary-300",
-		fiqh: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-		general: "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400",
-	};
+export function PostCard({ post, activeCategory }: PostCardProps) {
+  const [isCommeting, setIsCommmeting] = useState(false);
 
-	const categoryEmojis: Record<string, string> = {
-		quran: "📖",
-		hadith: "📜",
-		fiqh: "⚖️",
-		general: "🕌",
-	};
+  const { mutate: handleLike } = useToggleLike(post, activeCategory as string);
 
-	return (
-		<article className="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900">
-			{/* Header — Author + Category */}
-			<div className="flex items-center justify-between p-4 pb-0">
-				<div className="flex items-center gap-3">
-					{post.author?.avatar ? (
-						<img
-							src={post.author.avatar}
-							alt={post.author.username}
-							className="h-10 w-10 rounded-full object-cover ring-2 ring-primary-100 dark:ring-primary-900"
-						/>
-					) : (
-						<div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 font-heading text-sm font-bold text-primary-700 dark:bg-primary-900 dark:text-primary-300">
-							{post.author?.username?.charAt(0).toUpperCase() ?? "?"}
-						</div>
-					)}
-					<div>
-						<p className="font-heading text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-							{post.author?.username ?? "Unknown"}
-						</p>
-						{post.createdAt && (
-							<p className="flex items-center gap-1 text-xs text-neutral-400">
-								<Calendar className="h-3 w-3" />
-								{new Date(post.createdAt).toLocaleDateString("en-US", {
-									month: "short",
-									day: "numeric",
-									year: "numeric",
-								})}
-							</p>
-						)}
-					</div>
-				</div>
+  const onLikeClick = () => {
+    handleLike();
+  };
 
-				<div className="flex flex-wrap items-center gap-2">
-					{post.tags?.map((tag) => (
-						<span
-							key={tag}
-							className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
-								categoryStyles[tag] ?? categoryStyles.general
-							}`}
-						>
-							<span>{categoryEmojis[tag] ?? "🕌"}</span>
-							{tag.charAt(0).toUpperCase() + tag.slice(1)}
-						</span>
-					))}
-				</div>
-			</div>
+  const userInitial = post.author.username.slice(0, 2).toLocaleUpperCase();
+  const cleanHtml = DOMPurify.sanitize(post.content);
+  return (
+    <div className="bg-card relative space-y-4 rounded-xl border border-emerald-100 p-5 shadow-sm dark:border-emerald-900">
+      <PostAction post={post} activeCategory={activeCategory as string} />
 
-			{/* Content */}
-			<div className="p-4">
-				<div 
-					className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300 prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1"
-					dangerouslySetInnerHTML={{ __html: post.content }}
-				/>
-			</div>
+      <div className="mt-2.5 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Avatar className="h-10 w-10 border-2 border-white ring-2 ring-emerald-100">
+            <AvatarImage src={post.author.avatar} alt={post.author.username} />
+            <AvatarFallback className="bg-emerald-600 text-sm font-bold text-white">
+              {userInitial}
+            </AvatarFallback>
+          </Avatar>
 
-			{/* Image (if any) */}
-			{post.image && (
-				<div className="px-4 pb-3">
-					<img
-						src={post.image}
-						alt="Post image"
-						className="w-full rounded-lg object-cover"
-						loading="lazy"
-					/>
-				</div>
-			)}
+          <div>
+            <h3 className="text-foreground text-lg font-semibold">
+              {post.author.username}
+            </h3>
+            <p className="text-xs text-gray-400">
+              {getRelativeTime(post.createdAt)}
+            </p>
+          </div>
+        </div>
 
-			{/* Recommendation (if any) */}
-			{post.recommendation && (
-				<div className="px-4 pb-3">
-					<RecommendationCard recommendation={post.recommendation} variant="embedded" />
-				</div>
-			)}
+        {post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-2">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="bg-primary/10 text-primary rounded-full px-2.5 py-1 text-xs font-semibold"
+              >
+                #{tag.toUpperCase()}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
 
-			{/* Footer — Interactions */}
-			<div className="flex items-center gap-6 border-t border-neutral-100 px-4 py-3 dark:border-neutral-800">
-				<button className="flex items-center gap-1.5 text-xs text-neutral-500 transition-colors hover:text-red-500 dark:text-neutral-400 dark:hover:text-red-400">
-					<Heart className="h-4 w-4" />
-					{post.likesCount ?? 0}
-				</button>
-				{post.commentsEnabled !== false && (
-					<button className="flex items-center gap-1.5 text-xs text-neutral-500 transition-colors hover:text-primary-500 dark:text-neutral-400 dark:hover:text-primary-400">
-						<MessageCircle className="h-4 w-4" />
-						{post.commentsCount ?? 0}
-					</button>
-				)}
-			</div>
-		</article>
-	);
+      <div
+        dir="auto"
+        className="text-foreground max-w-none text-sm leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: cleanHtml }}
+      />
+
+      <hr className="border-gray-100" />
+
+      <div className="flex items-center text-sm text-gray-500 rtl:gap-4">
+        <button
+          onClick={onLikeClick}
+          className={`mr-5 flex cursor-pointer items-center transition-colors rtl:flex-row-reverse ${
+            post.isLiked
+              ? "font-semibold text-red-500"
+              : "text-gray-500 hover:text-red-500"
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill={post.isLiked ? "currentColor" : "none"}
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-5 w-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+            />
+          </svg>
+          <span className="text-gray-500">{post.likesCount} Like</span>
+        </button>
+
+        <div
+          className="flex cursor-pointer items-center space-x-2 space-x-reverse rtl:flex-row-reverse"
+          onClick={() => setIsCommmeting((prev) => !prev)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-5 w-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-1.923 2.413a4.474 4.474 0 0 0 3.103-.12c.614-.246 1.2-.428 1.664-.135A9.757 9.757 0 0 0 12 20.25Z"
+            />
+          </svg>
+          <span className="ArabicDigits">{post.commentsCount} comment</span>
+        </div>
+      </div>
+
+      {/* comment box */}
+      {isCommeting && (
+        <div className="flex cursor-pointer items-center space-x-2 space-x-reverse">
+          <Avatar className="mr-1 h-10 w-10 border-2 border-white ring-2 ring-emerald-100">
+            <AvatarImage src={post.author.avatar} alt={post.author.username} />
+            <AvatarFallback className="bg-emerald-600 text-sm font-bold text-white">
+              {userInitial}
+            </AvatarFallback>
+          </Avatar>
+          <input
+            type="text"
+            className="text-foreground flex-1 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-4 py-3 text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
+            placeholder="Write a comment..."
+          />
+          <button className="bg-primary text-primary-foreground ml-1 cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold">
+            Post
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }

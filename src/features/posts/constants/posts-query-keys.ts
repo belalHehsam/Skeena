@@ -1,4 +1,4 @@
 export const POSTS_QUERY_KEYS = {
-      POSTS: "posts",
-      POST: "post",
+  POSTS: "posts",
+  POST: "post",
 };

@@ -4,7 +4,8 @@ import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 import { loginRequest } from "../services/loginRequest";
 import type { AuthPayload, LoginRequest } from "../types/auth";
 import { useAuth } from "./useAuth";
-import { AUTH_QUERY_KEYS } from "../constants/auth-query-keys";
+
+import { AUTH_QUERY_KEYS } from "@/features/auth/constants/auth-query-keys";
 type UseLoginOptions = {
   onSuccess?: (payload: AuthPayload) => void;
 };
@@ -18,7 +19,7 @@ export function useLogin(options?: UseLoginOptions) {
   const { setAuthSession } = useAuth();
 
   return useMutation({
-    mutationKey: [AUTH_QUERY_KEYS.login],
+    mutationKey: AUTH_QUERY_KEYS.login,
     mutationFn: ({ payload }: LoginVariables) => loginRequest(payload),
     onSuccess: (payload, variables) => {
       setAuthSession(payload, variables.rememberMe ?? true);

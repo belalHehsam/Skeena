@@ -4,7 +4,7 @@ import type { JSendSuccess } from "@/features/auth/types/auth";
 
 export async function getConversations() {
   const res = await customFetch<JSendSuccess<{ data: Conversation[] }>>(
-    "/api/chats/conversations"
+    "/chats/conversations"
   );
   return res.data.data;
 }

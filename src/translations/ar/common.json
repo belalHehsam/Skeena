@@ -1,34 +1,77 @@
 {
-    "hello": "مرحبا",
-    "noData": {
-        "default": "لا توجد بيانات",
-        "description": "لا توجد بيانات لعرضها في الوقت الحالي"
-    },
-    "error": {
-        "default": "حدث خطأ ما",
-        "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً."
-    },
-    "chat": {
-        "title": "المحادثات",
-        "emptyTitle": "محادثات المجلس الخاص بك",
-        "emptySubtitle": "تواصل مع أصدقائك في الوقت الفعلي. ابدأ محادثة مباشرة جديدة لمشاركة الرسائل والوسائط.",
-        "startNewChat": "ابدأ محادثة",
-        "newChat": "محادثة جديدة",
-        "searchPrompt": "ابحث بالاسم أو اسم المستخدم لبدء محادثة مباشرة جديدة.",
-        "searchPlaceholder": "البحث عن المستخدمين...",
-        "noUsersFound": "لم يتم العثور على مستخدمين.",
-        "failedToStart": "فشل بدء المحادثة.",
-        "searchConversations": "البحث عن المحادثات...",
-        "noSearchResults": "لا توجد محادثات تطابق بحثك.",
-        "noConversations": "لا توجد محادثات نشطة بعد.",
-        "you": "أنت",
-        "image": "صورة",
-        "unknownUser": "مستخدم",
-        "noMessages": "لا توجد رسائل بعد",
-        "deletedMessage": "تم حذف هذه الرسالة",
-        "imageAttachment": "مرفق وسائط",
-        "typeMessage": "اكتب رسالة...",
-        "online": "نشط الآن",
-        "loadMore": "جاري تحميل السجل..."
-    }
+  "hello": "مرحبا",
+  "noData": {
+    "default": "لا توجد بيانات",
+    "description": "لا توجد بيانات لعرضها في الوقت الحالي"
+  },
+  "error": {
+    "default": "حدث خطأ ما",
+    "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً."
+  },
+  "chat": {
+    "title": "المحادثات",
+    "emptyTitle": "محادثات المجلس الخاص بك",
+    "emptySubtitle": "تواصل مع أصدقائك في الوقت الفعلي. ابدأ محادثة مباشرة جديدة لمشاركة الرسائل والوسائط.",
+    "startNewChat": "ابدأ محادثة",
+    "newChat": "محادثة جديدة",
+    "searchPrompt": "ابحث بالاسم أو اسم المستخدم لبدء محادثة مباشرة جديدة.",
+    "searchPlaceholder": "البحث عن المستخدمين...",
+    "noUsersFound": "لم يتم العثور على مستخدمين.",
+    "failedToStart": "فشل بدء المحادثة.",
+    "searchConversations": "البحث عن المحادثات...",
+    "noSearchResults": "لا توجد محادثات تطابق بحثك.",
+    "noConversations": "لا توجد محادثات نشطة بعد.",
+    "you": "أنت",
+    "image": "صورة",
+    "unknownUser": "مستخدم",
+    "noMessages": "لا توجد رسائل بعد",
+    "deletedMessage": "تم حذف هذه الرسالة",
+    "imageAttachment": "مرفق وسائط",
+    "typeMessage": "اكتب رسالة...",
+    "online": "نشط الآن",
+    "loadMore": "جاري تحميل السجل...",
+    "loadingUser": "جاري التحميل..."
+  },
+  "categories": {
+    "all": "الكل",
+    "quran": "القرآن",
+    "hadith": "الحديث",
+    "fiqh": "الفقه",
+    "dua": "الدعاء",
+    "tafsir": "التفسير",
+    "seerah": "السيرة النبوية",
+    "reminder": "الخواطر والنقاشات",
+    "categoryHeading": "منشورات في قسم {{category}}"
+  },
+  "voice": {
+    "title": "غرف الصوت",
+    "newRoom": "غرفة جديدة",
+    "noRoomSelected": "لم يتم اختيار غرفة صوتية",
+    "noRoomSelectedDesc": "اختر غرفة نقاش نشطة من القائمة على اليسار، أو أنشئ غرفة جديدة تماماً لبدء التحدث مع الأصدقاء!",
+    "startNewRoom": "ابدأ غرفة جديدة",
+    "startRoomTitle": "بدء غرفة صوتية",
+    "roomTitle": "عنوان الغرفة",
+    "roomTitlePlaceholder": "مثال: مناقشة ميزات React 19",
+    "category": "القسم",
+    "selectCategory": "اختر قسماً للغرفة",
+    "creatingRoom": "جاري إنشاء الغرفة...",
+    "createRoom": "إنشاء غرفة",
+    "live": "{{count}} نشط",
+    "createdBy": "بواسطة",
+    "emptyChannel": "قناة فارغة",
+    "join": "انضمام",
+    "noActiveRooms": "لا توجد غرف صوتية نشطة",
+    "noActiveRoomsDesc": "لا توجد حالياً أي غرف نقاش نشطة. ابدأ قناة صوتية جديدة ودع الآخرين للانضمام والنقاش.",
+    "createVoiceRoomBtn": "إنشاء غرفة صوتية",
+    "allRooms": "كل الغرف",
+  "DialogTrigger": {
+    "title": "لعله خِيرٌ تنشره اليوم يا ."
+  },
+  "actions": {
+    "photo": "صورة",
+    "video": "فيديو",
+    "feeling": "شعور",
+    "post": "نشر"
+  }
+}
 }

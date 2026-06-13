@@ -1,0 +1,1 @@
+export const CATEGORIES = ["all", "quran", "hadith", "fiqh", "dua", "tafsir", "seerah", "reminder"];

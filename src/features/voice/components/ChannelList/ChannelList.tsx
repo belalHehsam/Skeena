@@ -36,7 +36,7 @@ export function ChannelList({
 
   return (
     <ScrollArea className="h-[calc(100vh-180px)] pr-3">
-      <div className="flex flex-col gap-3 pb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 pb-4">
         {filteredChannels.map((channel) => (
           <ChannelCard
             key={channel._id}

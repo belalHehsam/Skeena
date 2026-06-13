@@ -68,7 +68,7 @@ export function ConversationItem({ conversation, isActive }: ConversationItemPro
             {name.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white dark:border-neutral-900 bg-emerald-500" />
+        {/* <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white dark:border-neutral-900 bg-emerald-500" /> */}
       </div>
 
       <div className="flex-1 min-w-0 text-left">
@@ -91,7 +91,7 @@ export function ConversationItem({ conversation, isActive }: ConversationItemPro
           </p>
           {hasUnread && (
             <Badge className="h-4.5 min-w-4.5 flex items-center justify-center rounded-full bg-primary text-white text-[10px] px-1 border-none shrink-0 animate-bounce">
-              1
+              
             </Badge>
           )}
         </div>

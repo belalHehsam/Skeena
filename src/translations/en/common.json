@@ -1,35 +1,78 @@
 {
-    "hello": "Hello",
-    "an-error-occurred": "An error occurred",
-    "noData": {
-        "default": "No data available",
-        "description": "There is no data to display at the moment"
+  "hello": "Hello",
+  "an-error-occurred": "An error occurred",
+  "noData": {
+    "default": "No data available",
+    "description": "There is no data to display at the moment"
+  },
+  "error": {
+    "default": "An error occurred",
+    "description": "Something went wrong. Please try again later."
+  },
+  "chat": {
+    "title": "Chats",
+    "emptyTitle": "Your Majlis Chat",
+    "emptySubtitle": "Connect with your friends in real-time. Start a new direct conversation to share messages and media.",
+    "startNewChat": "Start Conversation",
+    "newChat": "New Conversation",
+    "searchPrompt": "Search by name or username to start a direct message thread.",
+    "searchPlaceholder": "Search users...",
+    "noUsersFound": "No users found.",
+    "failedToStart": "Failed to start conversation.",
+    "searchConversations": "Search chats...",
+    "noSearchResults": "No conversations match your search.",
+    "noConversations": "No active chats yet.",
+    "you": "You",
+    "image": "Image",
+    "unknownUser": "User",
+    "noMessages": "No messages yet",
+    "deletedMessage": "This message was deleted",
+    "imageAttachment": "Media attachment",
+    "typeMessage": "Type a message...",
+    "online": "Online",
+    "loadMore": "Loading history...",
+    "loadingUser": "Loading User"
+  },
+  "categories": {
+    "all": "All",
+    "quran": "Quran",
+    "hadith": "Hadith",
+    "fiqh": "Fiqh",
+    "dua": "Dua",
+    "tafsir": "Tafsir",
+    "seerah": "Seerah",
+    "reminder": "Reminder",
+    "categoryHeading": "Posts in {{category}} Category"
+  },
+  "voice": {
+    "title": "Voice Rooms",
+    "newRoom": "New Room",
+    "noRoomSelected": "No voice room selected",
+    "noRoomSelectedDesc": "Select an active discussion room from the list on the left, or create a brand new room to start talking with friends!",
+    "startNewRoom": "Start a New Room",
+    "startRoomTitle": "Start a Voice Room",
+    "roomTitle": "Room Title",
+    "roomTitlePlaceholder": "e.g. Discussing React 19 features",
+    "category": "Category",
+    "selectCategory": "Select a room category",
+    "creatingRoom": "Creating Room...",
+    "createRoom": "Create Room",
+    "live": "{{count}} live",
+    "createdBy": "Created by",
+    "emptyChannel": "Empty channel",
+    "join": "Join",
+    "noActiveRooms": "No active voice rooms",
+    "noActiveRoomsDesc": "There are currently no active discussion rooms. Start a new voice channel and invite others to discuss.",
+    "createVoiceRoomBtn": "Create Voice Room",
+    "allRooms": "All Rooms",
+    "DialogTrigger": {
+      "title": " Spread goodness today.. "
     },
-    "error": {
-        "default": "An error occurred",
-        "description": "Something went wrong. Please try again later."
-    },
-    "chat": {
-        "title": "Chats",
-        "emptyTitle": "Your Majlis Chat",
-        "emptySubtitle": "Connect with your friends in real-time. Start a new direct conversation to share messages and media.",
-        "startNewChat": "Start Conversation",
-        "newChat": "New Conversation",
-        "searchPrompt": "Search by name or username to start a direct message thread.",
-        "searchPlaceholder": "Search users...",
-        "noUsersFound": "No users found.",
-        "failedToStart": "Failed to start conversation.",
-        "searchConversations": "Search chats...",
-        "noSearchResults": "No conversations match your search.",
-        "noConversations": "No active chats yet.",
-        "you": "You",
-        "image": "Image",
-        "unknownUser": "User",
-        "noMessages": "No messages yet",
-        "deletedMessage": "This message was deleted",
-        "imageAttachment": "Media attachment",
-        "typeMessage": "Type a message...",
-        "online": "Online",
-        "loadMore": "Loading history..."
+    "actions": {
+      "photo": "Photo",
+      "video": "Video",
+      "feeling": "Feeling",
+      "post": "Post"
     }
+  }
 }

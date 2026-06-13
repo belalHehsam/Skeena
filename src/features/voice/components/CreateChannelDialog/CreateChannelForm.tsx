@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import type { VoiceCategory } from "../../types/voice";
+import { useTranslation } from "react-i18next";
+import type { Category } from "@/types/category";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -24,7 +25,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface CreateChannelFormProps {
-  categories: VoiceCategory[];
+  categories: Category[];
   onSubmit: (values: FormValues) => void;
   isPending: boolean;
 }
@@ -34,6 +35,7 @@ export function CreateChannelForm({
   onSubmit,
   isPending,
 }: CreateChannelFormProps) {
+  const { t } = useTranslation("common");
   const {
     register,
     handleSubmit,
@@ -61,8 +63,8 @@ export function CreateChannelForm({
         </div>
         <TextField
           id="title"
-          label="Room Title"
-          placeholder="e.g. Discussing React 19 features"
+          label={t("voice.roomTitle")}
+          placeholder={t("voice.roomTitlePlaceholder")}
           error={errors.title?.message}
           disabled={isPending}
           maxLength={80}
@@ -70,17 +72,19 @@ export function CreateChannelForm({
         />
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-xs font-semibold text-neutral-800 font-heading">
-          Category
+      <div className="space-y-1.5 text-left">
+        <label className="text-xs font-semibold text-neutral-800 dark:text-neutral-200 font-heading">
+          {t("voice.category")}
         </label>
         <Select
           onValueChange={(val) => setValue("categoryId", val || "", { shouldValidate: true })}
-          value={selectedCategoryId}
+          value={selectedCategoryId || undefined}
           disabled={isPending}
         >
-          <SelectTrigger className="w-full focus:ring-primary border-neutral-200 dark:border-neutral-800 bg-neutral-50 h-10">
-            <SelectValue placeholder="Select a room category" />
+          <SelectTrigger className="w-full focus:ring-primary border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 h-10">
+            <SelectValue placeholder={t("voice.selectCategory")}>
+              {(value) => categories.find((c) => c._id === value)?.name || value}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {categories.map((category) => (
@@ -102,7 +106,7 @@ export function CreateChannelForm({
         className="w-full mt-6 cursor-pointer font-heading font-semibold bg-primary text-white hover:bg-primary-600 h-10"
         disabled={isPending}
       >
-        {isPending ? "Creating Room..." : "Create Room"}
+        {isPending ? t("voice.creatingRoom") : t("voice.createRoom")}
       </Button>
     </form>
   );

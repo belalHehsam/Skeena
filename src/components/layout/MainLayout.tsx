@@ -3,10 +3,14 @@ import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
 import { CreatePostModal } from "@/features/posts/components/CreatePostModal";
+import { useGlobalChatSocket } from "@/features/chat/hooks/useGlobalChatSocket";
 
 export function MainLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+
+    // Register global socket listener for chat message notifications
+    useGlobalChatSocket();
 
     return (
         <div className="flex h-screen w-full overflow-hidden bg-neutral-50 dark:bg-neutral-950">
@@ -36,7 +40,7 @@ export function MainLayout() {
             <div className="flex flex-1 flex-col min-w-0 overflow-hidden">
                 <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
                 
-                <main className="flex-1 overflow-y-auto p-6">
+                <main id="main-scroll-container" className="flex-1 overflow-y-auto p-6">
                     <Outlet />
                 </main>
             </div>

@@ -1,15 +1,11 @@
-import ChangeLanguage from "@/components/common/ChangeLanguage";
-import ToggleDarkMode from "@/components/common/ToggleDarkMode";
-import { useTranslation } from "react-i18next";
+import AllPosts from "@/features/posts/components/AllPosts";
 
 const Home = () => {
-  const { t } = useTranslation("common");
-
   return (
     <div>
-      {t("hello")}
-      <ToggleDarkMode />
-      <ChangeLanguage />
+      <section>
+        <AllPosts />
+      </section>
     </div>
   );
 };

@@ -1,0 +1,20 @@
+{
+  "post": {
+    "actions": {
+      "edit": "Edit Post",
+      "delete": "Delete",
+      "copyUrl": "Copy URL",
+      "copied": "Copied!"
+    },
+    "deleteModal": {
+      "title": "Are you absolutely sure?",
+      "description": "This action cannot be undone. This will permanently delete your post from our servers.",
+      "cancel": "Cancel",
+      "confirm": "Confirm Delete"
+    }
+  },
+  "toast": {
+    "copySuccess": "Link copied to clipboard! 📋",
+    "copyError": "Failed to copy link. Please try again."
+  }
+}

@@ -63,6 +63,14 @@
     "noActiveRooms": "لا توجد غرف صوتية نشطة",
     "noActiveRoomsDesc": "لا توجد حالياً أي غرف نقاش نشطة. ابدأ قناة صوتية جديدة ودع الآخرين للانضمام والنقاش.",
     "createVoiceRoomBtn": "إنشاء غرفة صوتية",
-    "allRooms": "كل الغرف"
+    "allRooms": "كل الغرف",
+  "DialogTrigger": {
+    "title": "لعله خِيرٌ تنشره اليوم يا ."
+  },
+  "actions": {
+    "photo": "صورة",
+    "video": "فيديو",
+    "feeling": "شعور",
+    "post": "نشر"
   }
 }

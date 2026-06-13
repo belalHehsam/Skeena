@@ -29,7 +29,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
           <input
             type="text"
             placeholder="Search..."
-            className="border-input focus-visible:ring-ring h-9 w-full rounded-full border bg-neutral-50 px-9 py-1 text-sm transition-colors placeholder:text-neutral-500 focus-visible:ring-1 focus-visible:outline-none"
+            className="border-input dark:border-neutral-800 focus-visible:ring-ring h-9 w-full rounded-full border bg-neutral-50 dark:bg-neutral-900 px-9 py-1 text-sm text-neutral-900 dark:text-neutral-100 transition-colors placeholder:text-neutral-500 dark:placeholder:text-neutral-400 focus-visible:ring-1 focus-visible:outline-none focus:bg-white dark:focus:bg-neutral-950"
           />
         </div>
       </div>

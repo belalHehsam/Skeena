@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useGetVoiceChannels } from "@/features/voice/hooks/useGetVoiceChannels";
 import { useCreateVoiceChannel } from "@/features/voice/hooks/useCreateVoiceChannel";
 import { CategoryFilter } from "@/features/voice/components/CategoryFilter";
@@ -13,6 +14,7 @@ import { useGetCategories } from "@/hooks/useGetCategories";
 export function VoicePage() {
   const { channelId } = useParams<{ channelId?: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation("common");
 
   const [selectedCategoryId, setSelectedCategoryId] = useState("all");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -41,7 +43,7 @@ export function VoicePage() {
       >
         <div className="flex items-center justify-between mb-4">
           <h1 className="font-heading text-xl font-bold text-neutral-900 dark:text-neutral-100">
-            Voice Rooms
+            {t("voice.title")}
           </h1>
           <Button
             size="sm"
@@ -49,7 +51,7 @@ export function VoicePage() {
             className="flex items-center gap-1.5 cursor-pointer font-heading font-semibold"
           >
             <Plus className="h-4 w-4" />
-            New Room
+            {t("voice.newRoom")}
           </Button>
         </div>
 
@@ -86,16 +88,16 @@ export function VoicePage() {
               <Headphones className="h-7 w-7" />
             </div>
             <h3 className="font-heading text-lg font-bold text-neutral-800 dark:text-neutral-200">
-              No voice room selected
+              {t("voice.noRoomSelected")}
             </h3>
             <p className="text-sm text-neutral-500 mt-2 dark:text-neutral-400">
-              Select an active discussion room from the list on the left, or create a brand new room to start talking with friends!
+              {t("voice.noRoomSelectedDesc")}
             </p>
             <Button
               onClick={() => setIsCreateDialogOpen(true)}
               className="mt-6 font-heading font-semibold cursor-pointer"
             >
-              Start a New Room
+              {t("voice.startNewRoom")}
             </Button>
           </div>
         )}

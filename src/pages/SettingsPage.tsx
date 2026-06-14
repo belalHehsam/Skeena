@@ -100,7 +100,7 @@ export default function SettingsPage() {
         updateSettingsMutation.isPending;
 
     return (
-        <div className="mx-auto w-full max-w-4xl space-y-6 pb-8 rtl:[&_[data-slot=switch-thumb][data-checked]]:-translate-x-[calc(100%-2px)]">
+        <div className="mx-auto animate-fade-in w-full max-w-4xl space-y-6 pb-8 rtl:[&_[data-slot=switch-thumb][data-checked]]:-translate-x-[calc(100%-2px)]">
             <header>
                 <h1 className="font-heading text-2xl font-bold sm:text-3xl">
                     {t("title")}

@@ -91,3 +91,40 @@ export type AnalyzePostResponse = {
     recommendation: Recommendation | null;
   };
 };
+
+
+export type Comment = {
+  _id: string;
+  post: string; 
+  author: {
+    _id: string;
+    username: string;
+    avatar?: string;
+  };
+  content: string;
+  likesCount: number;
+  isLiked?: boolean;
+  parentId?: string | null; 
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetCommentsResponse = {
+  status: "success";
+  data: {
+    comments: Comment[];
+    pagination: {
+      currentPage: number;
+      perPage: number;
+      total: number;
+      totalPages: number;
+      hasNextPage: boolean;
+    };
+  };
+};
+
+export type CreateCommentPayload = {
+  postId: string;
+  content: string;
+  parentId?: string;
+};

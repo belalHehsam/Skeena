@@ -94,7 +94,7 @@ export default function useToggleLike(
 
   const targetQueryKey =
     customQueryKey ??
-    [POSTS_QUERY_KEYS.POSTS, activeCategory];
+    [POSTS_QUERY_KEYS.POSTS, activeCategory, undefined];
 
   return useMutation({
     mutationFn: async () => {

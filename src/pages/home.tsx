@@ -2,7 +2,7 @@ import AllPosts from "@/features/posts/components/AllPosts";
 
 const Home = () => {
   return (
-    <div>
+    <div className="animate-fade-up">
       <section>
         <AllPosts />
       </section>

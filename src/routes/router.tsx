@@ -11,11 +11,11 @@ import NotFound from "@/pages/not-found";
 import { ChatPage } from "@/pages/ChatPage";
 import { VoicePage } from "@/pages/VoicePage";
 import Notifications from "@/pages/notifications";
+import { PostDetailsView } from "@/pages/PostDetailsView"; 
 import Friends from "@/pages/friends";
 import ProfilePage from "@/pages/ProfilePage";
 import SettingsPage from "@/pages/SettingsPage";
 import Explore from "@/pages/explore";
-import SinglePost from "@/pages/SinglePost";
 
 const router = createBrowserRouter([
   {
@@ -92,7 +92,7 @@ const router = createBrowserRouter([
       },
       {
         path: "posts/:postId",
-        element: <SinglePost />,
+        element: <PostDetailsView />,
       },
     ],
   },

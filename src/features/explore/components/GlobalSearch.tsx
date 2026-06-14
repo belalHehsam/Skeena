@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Search, X, FileText, ArrowRight, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "../hooks/useDebounce";
-import { useSearchPosts } from "../hooks/useSearchPosts";
+import { useGetInfinitePosts } from "@/features/posts/hooks/useGetInfinitePosts";
 import DOMPurify from "dompurify";
 
 const FETCH_MIN_LENGTH = 2;   
@@ -22,7 +22,7 @@ export function GlobalSearch() {
   const isFetchEnabled = debouncedQuery.trim().length >= FETCH_MIN_LENGTH;
   const showDropdown = isOpen && inputValue.trim().length >= OVERLAY_MIN_LENGTH;
 
-  const { data, isFetching } = useSearchPosts(debouncedQuery);
+  const { data, isFetching } = useGetInfinitePosts(undefined, debouncedQuery, isFetchEnabled);
 
   const posts =
     data?.pages

@@ -3,7 +3,8 @@ import { useInView } from "react-intersection-observer";
 import { PostCard } from "@/features/posts/components/PostCard";
 import Spinner from "@/components/feedbacks/Spinner";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
-import { useSearchPosts } from "../hooks/useSearchPosts";
+import { useGetInfinitePosts } from "@/features/posts/hooks/useGetInfinitePosts";
+import { POSTS_QUERY_KEYS } from "@/features/posts/constants/posts-query-keys";
 import { FileSearch } from "lucide-react";
 
 interface ExplorePostsListProps {
@@ -62,7 +63,7 @@ export function ExplorePostsList({ query }: ExplorePostsListProps) {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useSearchPosts(query);
+  } = useGetInfinitePosts(undefined, query, query.trim().length >= 2);
 
   const { ref, inView } = useInView({ threshold: 0.1 });
 
@@ -92,7 +93,11 @@ export function ExplorePostsList({ query }: ExplorePostsListProps) {
   return (
     <div className="space-y-4">
       {posts.map((post) => (
-        <PostCard key={post._id} post={post} activeCategory={query} />
+        <PostCard
+          key={post._id}
+          post={post}
+          cacheQueryKey={[POSTS_QUERY_KEYS.POSTS, undefined, query]}
+        />
       ))}
 
       {/* Infinite scroll sentinel */}

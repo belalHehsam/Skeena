@@ -1,5 +1,6 @@
 import { BaseUserCard } from "@/components/shared/BaseUserCard";
 import { useFriendsList } from "../hooks/useFriendsList";
+import { FriendshipActions } from "./FriendshipActions";
 
 const FriendsList = () => {
   const { data, isPending, error } = useFriendsList();
@@ -22,7 +23,14 @@ const FriendsList = () => {
             key={friend._id}
             user={friend}
             subtitle="Friend"
-          />
+          >
+            <FriendshipActions
+              userId={friend._id}
+              initialStatus={friend.friendshipStatus}
+              initialRequestId={friend.friendshipRequestId}
+              showRemove
+            />
+          </BaseUserCard>
         ))}
       </div>
     </div>

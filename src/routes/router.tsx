@@ -15,6 +15,8 @@ import Notifications from "@/pages/notifications";
 import Friends from "@/pages/friends";
 import ProfilePage from "@/pages/ProfilePage";
 import SettingsPage from "@/pages/SettingsPage";
+import Explore from "@/pages/explore";
+import SinglePost from "@/pages/SinglePost";
 
 const router = createBrowserRouter([
   {
@@ -88,6 +90,14 @@ const router = createBrowserRouter([
       {
         path: "friends",
         element: <Friends />,
+      },
+      {
+        path: "explore",
+        element: <Explore />,
+      },
+      {
+        path: "posts/:postId",
+        element: <SinglePost />,
       },
     ],
   },

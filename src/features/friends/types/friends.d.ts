@@ -5,12 +5,16 @@ export type FriendsFilterOption = {
   label: string;
 };
 
+export type FriendshipStatus = "none" | "pending_sent" | "pending_received" | "accepted";
+
 export interface RequestUser {
   _id: string;
   username: string;
   displayName?: string;
   avatar?: string;
   createdAt: string;
+  friendshipStatus: FriendshipStatus;
+  friendshipRequestId: string | null;
 }
 
 export interface UserSuggestionsResponse {
@@ -28,6 +32,8 @@ export interface FriendRequest {
     username: string;
     displayName?: string;
     avatar?: string;
+    friendshipStatus: FriendshipStatus;
+    friendshipRequestId: string | null;
   };
   recipient: string;
   status: "pending" | "accepted" | "rejected";
@@ -56,7 +62,7 @@ export interface FriendsListResponse {
   };
 }
 
-type FriendshipStatus = "none" | "pending_sent" | "pending_received" | "accepted";
+
 
 export interface FriendStatusResponse {
   status: string;

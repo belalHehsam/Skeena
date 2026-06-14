@@ -26,7 +26,11 @@ const FriendRequests = () => {
             user={request.requester}
             subtitle={`Requested ${formatDistanceToNow(request.createdAt)}`}
           >
-            <FriendshipActions userId={request.requester._id} />
+            <FriendshipActions
+              userId={request.requester._id}
+              initialStatus={request.requester.friendshipStatus}
+              initialRequestId={request.requester.friendshipRequestId}
+            />
           </BaseUserCard>
         ))}
       </div>

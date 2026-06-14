@@ -8,6 +8,9 @@ export type UserSettings = {
     isPrivateProfile: boolean;
     allowFriendRequests: boolean;
     showEmail: boolean;
+    notificationsEnabled: boolean;
+    showOnlineStatus: boolean;
+    allowTagging: boolean;
 };
 
 export type AuthUser = {
@@ -16,6 +19,7 @@ export type AuthUser = {
     displayName?: string;
     email: string;
     avatar?: string;
+    coverPhoto?: string;
     bio?: string;
     role: UserRole;
     accountStatus: AccountStatus;

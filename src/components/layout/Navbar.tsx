@@ -3,6 +3,10 @@ import { Menu, Search, Settings } from "lucide-react";
 import { Button } from "../ui/button";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { UserAvatar } from "../shared/UserAvatar";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -10,6 +14,7 @@ interface NavbarProps {
 
 export function Navbar({ onMenuClick }: NavbarProps) {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="bg-background sticky top-0 z-40 flex h-16 w-full shrink-0 items-center justify-between border-b px-4 lg:px-6">
@@ -38,20 +43,41 @@ export function Navbar({ onMenuClick }: NavbarProps) {
       <div className="flex items-center gap-4">
         <NotificationPopover />
 
-        <Button variant="ghost" size="icon" className="text-neutral-600">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-neutral-600 dark:text-neutral-300"
+          onClick={() => {
+            navigate("/settings");
+          }}
+        >
           <Settings className="size-5" />
-          <span className="sr-only">Settings</span>
+          <span className="sr-only">
+            Settings
+          </span>
         </Button>
 
         {user ? (
-          <UserAvatar
-            src={user.avatar}
-            username={user.username}
-            size={36}
-            className="cursor-pointer"
-          />
+          <Link
+            to="/profile"
+            aria-label="Open profile"
+          >
+            <UserAvatar
+              key={
+                user.avatar ??
+                user.username
+              }
+              src={user.avatar}
+              username={
+                user.displayName ??
+                user.username
+              }
+              size={36}
+              className="cursor-pointer ring-2 ring-transparent transition hover:ring-primary/30"
+            />
+          </Link>
         ) : (
-          <div className="bg-primary/20 text-primary hover:bg-primary/30 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-sm font-bold transition-colors">
+          <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-primary/20 text-sm font-bold text-primary transition-colors hover:bg-primary/30">
             ?
           </div>
         )}

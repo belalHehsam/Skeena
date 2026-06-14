@@ -13,6 +13,8 @@ import { ChatPage } from "@/pages/ChatPage";
 import { VoicePage } from "@/pages/VoicePage";
 import Notifications from "@/pages/notifications";
 import Friends from "@/pages/friends";
+import ProfilePage from "@/pages/ProfilePage";
+import SettingsPage from "@/pages/SettingsPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,18 @@ const router = createBrowserRouter([
     ),
     errorElement: <RootErrorBoundary />,
     children: [
+      {
+        path: "profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "profile/:id",
+        element: <ProfilePage />,
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
+      },
       {
         index: true,
         element: <Home />,

@@ -13,6 +13,10 @@ import { ChatPage } from "@/pages/ChatPage";
 import { VoicePage } from "@/pages/VoicePage";
 import Notifications from "@/pages/notifications";
 import { PostDetailsView } from "@/pages/PostDetailsView"; 
+import Friends from "@/pages/friends";
+import ProfilePage from "@/pages/ProfilePage";
+import SettingsPage from "@/pages/SettingsPage";
+import Explore from "@/pages/explore";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +48,18 @@ const router = createBrowserRouter([
     errorElement: <RootErrorBoundary />,
     children: [
       {
+        path: "profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "profile/:id",
+        element: <ProfilePage />,
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
+      },
+      {
         index: true,
         element: <Home />,
       },
@@ -70,6 +86,14 @@ const router = createBrowserRouter([
       {
         path: "notifications",
         element: <Notifications />,
+      },
+      {
+        path: "friends",
+        element: <Friends />,
+      },
+      {
+        path: "explore",
+        element: <Explore />,
       },
       {
         path: "posts/:postId",

@@ -5,10 +5,9 @@ import Spinner from "@/components/feedbacks/Spinner";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
 import { PostCard } from "./PostCard";
 import CategoryFilters from "./CategoryFilters";
-import { useTranslation } from "react-i18next";
+import CreatePostTrigger from "./CreatePostTrigger";
 export default function AllPosts() {
   const [activeCategory, setActiveCategory] = useState("all");
-  const { t } = useTranslation("common");
   const {
     data,
     isLoading,
@@ -46,15 +45,7 @@ export default function AllPosts() {
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
-
-      <h1 className="text-foreground text-xl font-bold">
-        {activeCategory === "all"
-          ? t("categories.all")
-          : t("categories.categoryHeading", {
-              category: t(`categories.${activeCategory}`, { defaultValue: "" }),
-            })}
-      </h1>
-
+      <CreatePostTrigger />
       {isLoading ? (
         <div className="flex min-h-[50vh] items-center justify-center">
           <Spinner />

@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
+import { useGlobalChatSocket } from "@/features/chat/hooks/useGlobalChatSocket";
 
 export function MainLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
+    // Register global socket listener for chat message notifications
+    useGlobalChatSocket();
 
     return (
         <div className="flex h-screen w-full overflow-hidden bg-neutral-50 dark:bg-neutral-950">

@@ -34,7 +34,7 @@ export function VoicePage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)] w-full overflow-hidden bg-background">
+    <div className="flex animate-fade-in h-[calc(100vh-64px)] w-full overflow-hidden bg-background">
       {/* Left panel: Channels List */}
       <div
         className={`w-full lg:w-80 flex-col border-r bg-background shrink-0 px-4 py-4 ${

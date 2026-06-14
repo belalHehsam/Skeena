@@ -9,7 +9,7 @@ const Friends = () => {
   const [activeTab, setActiveTab] = useState<FriendsTabs>("list");
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex animate-fade-right flex-col gap-8">
       <h1 className="m-4 text-3xl font-bold">Friends</h1>
       <FilterTabs activeValue={activeTab} setActiveValue={setActiveTab} />
       <div>

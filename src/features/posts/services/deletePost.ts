@@ -3,7 +3,7 @@ import type { Post } from "../types/post";
 
 export default function deletePost(postId: string) {
   console.log("from services", postId);
-  console.log(customFetch<Post>(`/v1/posts/${postId}`));
+  console.log(customFetch<Post>(`/posts/${postId}`));
 
-  return customFetch<Post>(`/v1/posts/${postId}`, { method: "delete" });
+  return customFetch<Post>(`/posts/${postId}`, { method: "delete" });
 }

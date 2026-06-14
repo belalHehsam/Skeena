@@ -1,0 +1,45 @@
+{
+    "coverAlt": "{{username}}'s cover photo",
+    "joined": "Joined {{date}}",
+    "edit": {
+        "button": "Edit Profile",
+        "title": "Edit profile",
+        "description": "Update the information shown on your Majlis profile.",
+        "displayName": "Display name",
+        "username": "Username",
+        "bio": "Bio",
+        "bioPlaceholder": "Share a little about yourself...",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "saving": "Saving...",
+        "success": "Profile updated successfully",
+        "error": "Failed to update profile"
+    },
+    "validation": {
+        "displayNameMin": "Display name must be at least 3 characters",
+        "displayNameMax": "Display name must be at most 40 characters",
+        "usernameMin": "Username must be at least 3 characters",
+        "usernameMax": "Username must be at most 30 characters",
+        "usernamePattern": "Username can only contain letters, numbers, and underscores",
+        "bioMax": "Bio must be at most 200 characters"
+    },
+    "uploads": {
+        "changeAvatar": "Change profile photo",
+        "changeCover": "Change cover photo",
+        "invalidImage": "Please choose a valid image file.",
+        "avatarError": "Failed to upload profile photo",
+        "coverError": "Failed to upload cover photo"
+    },
+    "private": {
+        "title": "This profile is private",
+        "description": "Become friends with this user to see their posts and full profile details."
+    },
+    "posts": {
+        "title": "Recent Contributions",
+        "count_one": "{{count}} post",
+        "count_other": "{{count}} posts",
+        "emptyTitle": "No contributions yet",
+        "emptyDescription": "Posts shared by this user will appear here.",
+        "loadMore": "Load more"
+    }
+}

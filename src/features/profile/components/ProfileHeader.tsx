@@ -227,7 +227,15 @@ export function ProfileHeader({
                                 </Button>
                             ) : (
                                 <div className="flex min-w-32 gap-2 sm:min-w-40">
-                                    <FriendshipActions userId={user.id} />
+                                    <FriendshipActions
+                                        userId={user.id}
+                                        initialStatus={user.friendshipStatus ?? "none"}
+                                        allowFriendRequests={
+                                            user.allowFriendRequests ??
+                                            user.settings?.allowFriendRequests ??
+                                            true
+                                        }
+                                    />
                                 </div>
                             )}
                         </div>

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { acceptFriendRequest } from "../services/AcceptFriendRequest";
+import { acceptFriendRequest } from "../services/acceptFriendRequest";
 import { FRIENDS_QUERY_KEYS } from "../constants/friends-query-keys";
 import { toast } from "sonner";
 

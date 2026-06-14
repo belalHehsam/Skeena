@@ -5,7 +5,8 @@ export type FriendshipStatus =
     | "none"
     | "pending_sent"
     | "pending_received"
-    | "friends";
+    | "friends"
+    | "accepted";
 
 export type ProfileUser = {
     id: string;
@@ -16,6 +17,7 @@ export type ProfileUser = {
     coverPhoto?: string;
     bio?: string;
     settings?: UserSettings;
+    allowFriendRequests?: boolean;
     friendshipStatus?: FriendshipStatus;
     isPrivate?: boolean;
     createdAt?: string;

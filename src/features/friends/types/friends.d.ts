@@ -5,7 +5,12 @@ export type FriendsFilterOption = {
   label: string;
 };
 
-export type FriendshipStatus = "none" | "pending_sent" | "pending_received" | "accepted";
+export type FriendshipStatus =
+  | "none"
+  | "pending_sent"
+  | "pending_received"
+  | "accepted"
+  | "friends";
 
 export interface RequestUser {
   _id: string;
@@ -61,8 +66,6 @@ export interface FriendsListResponse {
     };
   };
 }
-
-
 
 export interface FriendStatusResponse {
   status: string;

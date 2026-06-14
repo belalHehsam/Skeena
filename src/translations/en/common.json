@@ -64,15 +64,15 @@
     "noActiveRooms": "No active voice rooms",
     "noActiveRoomsDesc": "There are currently no active discussion rooms. Start a new voice channel and invite others to discuss.",
     "createVoiceRoomBtn": "Create Voice Room",
-    "allRooms": "All Rooms",
-    "DialogTrigger": {
-      "title": " Spread goodness today.. "
-    },
-    "actions": {
-      "photo": "Photo",
-      "video": "Video",
-      "feeling": "Feeling",
-      "post": "Post"
-    }
+    "allRooms": "All Rooms"
+  },
+  "DialogTrigger": {
+    "title": " Spread goodness today.. "
+  },
+  "actions": {
+    "photo": "Photo",
+    "video": "Video",
+    "feeling": "Feeling",
+    "post": "Post"
   }
 }

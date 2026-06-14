@@ -12,6 +12,7 @@ import NotFound from "@/pages/not-found";
 import { ChatPage } from "@/pages/ChatPage";
 import { VoicePage } from "@/pages/VoicePage";
 import Notifications from "@/pages/notifications";
+import { PostDetailsView } from "@/pages/PostDetailsView"; 
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "notifications",
         element: <Notifications />,
+      },
+      {
+        path: "posts/:postId",
+        element: <PostDetailsView />,
       },
     ],
   },

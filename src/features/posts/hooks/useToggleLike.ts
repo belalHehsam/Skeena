@@ -1,70 +1,145 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { togglePostLike } from "../services/togglePostLike";
+import {
+  useMutation,
+  useQueryClient,
+  type QueryKey,
+} from "@tanstack/react-query";
 import { POSTS_QUERY_KEYS } from "../constants/posts-query-keys";
+import { togglePostLike } from "../services/togglePostLike";
 import type { Post } from "../types/post";
 
-export default function useToggleLike(post: Post, activeCategory: string) {
+type PageWithPosts = {
+  posts?: Post[];
+
+  data?: {
+    posts?: Post[];
+    [key: string]: unknown;
+  };
+
+  [key: string]: unknown;
+};
+
+type InfinitePostsData = {
+  pages: PageWithPosts[];
+  [key: string]: unknown;
+};
+
+function togglePostInList(
+  posts: Post[] | undefined,
+  postId: string,
+) {
+  return posts?.map((post) => {
+    if (post._id !== postId) {
+      return post;
+    }
+
+    const wasLiked = Boolean(post.isLiked);
+
+    return {
+      ...post,
+      isLiked: !wasLiked,
+      likesCount: Math.max(
+        0,
+        post.likesCount + (wasLiked ? -1 : 1),
+      ),
+    };
+  });
+}
+
+function updateInfinitePosts(
+  current: InfinitePostsData | undefined,
+  postId: string,
+) {
+  if (!current) {
+    return current;
+  }
+
+  return {
+    ...current,
+
+    pages: current.pages.map((page) => {
+      if (page.data?.posts) {
+        return {
+          ...page,
+          data: {
+            ...page.data,
+            posts: togglePostInList(
+              page.data.posts,
+              postId,
+            ),
+          },
+        };
+      }
+
+      if (page.posts) {
+        return {
+          ...page,
+          posts: togglePostInList(
+            page.posts,
+            postId,
+          ),
+        };
+      }
+
+      return page;
+    }),
+  };
+}
+
+export default function useToggleLike(
+  post: Post,
+  activeCategory?: string,
+  customQueryKey?: QueryKey,
+) {
   const queryClient = useQueryClient();
+
+  const targetQueryKey =
+    customQueryKey ??
+    [POSTS_QUERY_KEYS.POSTS, activeCategory];
+
   return useMutation({
     mutationFn: async () => {
       await togglePostLike(post._id);
     },
+
     onMutate: async () => {
       await queryClient.cancelQueries({
-        queryKey: [POSTS_QUERY_KEYS.POSTS, activeCategory],
+        queryKey: targetQueryKey,
       });
-      const prevPosts = queryClient.getQueryData([
-        POSTS_QUERY_KEYS.POSTS,
-        activeCategory,
-      ]);
-      queryClient.setQueryData(
-        [POSTS_QUERY_KEYS.POSTS, activeCategory],
-        (oldData: any) => {
-          if (!oldData) return oldData;
 
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page: any) => {
-              return {
-                ...page,
-                data: {
-                  ...page.data,
-                  posts: page.data.posts.map((p: Post) => {
-                    if (p._id === post._id) {
-                      return {
-                        ...p,
-                        isLiked: !p.isLiked,
-                        likesCount: p.isLiked
-                          ? p.likesCount - 1
-                          : p.likesCount + 1,
-                      };
-                    }
-                    return p;
-                  }),
-                },
-              };
-            }),
-          };
-        },
+      const previousPosts =
+        queryClient.getQueryData<InfinitePostsData>(
+          targetQueryKey,
+        );
+
+      queryClient.setQueryData<InfinitePostsData>(
+        targetQueryKey,
+        (current) =>
+          updateInfinitePosts(
+            current,
+            post._id,
+          ),
       );
-      return { prevPosts };
+
+      return {
+        previousPosts,
+      };
     },
 
-    onError: (err, _, context) => {
-      console.log(err, "error");
-      // Rollback to previous data
-      if (context?.prevPosts) {
+    onError: (_error, _variables, context) => {
+      if (context?.previousPosts) {
         queryClient.setQueryData(
-          [POSTS_QUERY_KEYS.POSTS, activeCategory],
-          context.prevPosts,
+          targetQueryKey,
+          context.previousPosts,
         );
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [POSTS_QUERY_KEYS.POSTS, activeCategory],
-      });
+      if (!customQueryKey) {
+        queryClient.invalidateQueries({
+          queryKey: targetQueryKey,
+        });
+      }
     },
   });
 }

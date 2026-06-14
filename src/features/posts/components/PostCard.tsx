@@ -5,16 +5,26 @@ import DOMPurify from "dompurify";
 import { useState } from "react";
 import useToggleLike from "../hooks/useToggleLike";
 import PostAction from "./PostAction";
+import type { QueryKey } from "@tanstack/react-query";
 
 type PostCardProps = {
   post: Post;
   activeCategory?: string;
+  cacheQueryKey?: QueryKey;
 };
 
-export function PostCard({ post, activeCategory }: PostCardProps) {
+export function PostCard({
+  post,
+  activeCategory,
+  cacheQueryKey,
+}: PostCardProps) {
   const [isCommeting, setIsCommmeting] = useState(false);
 
-  const { mutate: handleLike } = useToggleLike(post, activeCategory as string);
+  const { mutate: handleLike } = useToggleLike(
+    post,
+    activeCategory,
+    cacheQueryKey,
+  );
 
   const onLikeClick = () => {
     handleLike();
@@ -70,11 +80,10 @@ export function PostCard({ post, activeCategory }: PostCardProps) {
       <div className="flex items-center text-sm text-gray-500 rtl:gap-4">
         <button
           onClick={onLikeClick}
-          className={`mr-5 flex cursor-pointer items-center transition-colors rtl:flex-row-reverse ${
-            post.isLiked
-              ? "font-semibold text-red-500"
-              : "text-gray-500 hover:text-red-500"
-          }`}
+          className={`mr-5 flex cursor-pointer items-center transition-colors rtl:flex-row-reverse ${post.isLiked
+            ? "font-semibold text-red-500"
+            : "text-gray-500 hover:text-red-500"
+            }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

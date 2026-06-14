@@ -11,7 +11,13 @@ interface FriendshipActionsProps {
   userId: string;
   showRemove?: boolean;
   className?: string;
-  initialStatus?: "none" | "pending_sent" | "pending_received" | "accepted";
+  allowFriendRequests?: boolean;
+  initialStatus?:
+    | "none"
+    | "pending_sent"
+    | "pending_received"
+    | "accepted"
+    | "friends";
   initialRequestId?: string | null;
 }
 
@@ -19,24 +25,32 @@ export const FriendshipActions = ({
   userId,
   showRemove,
   className,
-  initialStatus,
   initialRequestId,
+  allowFriendRequests,
+
+  initialStatus,
 }: FriendshipActionsProps) => {
-  const { data, isLoading } = useFriendshipStatus(
+  const { data, isLoading, isError } = useFriendshipStatus(
     userId,
     initialStatus
       ? {
           status: initialStatus,
           requestId: initialRequestId || null,
         }
-      : undefined
+      : undefined,
   );
   const sendRequestMutation = useSendFriendRequest();
   const cancelRequestMutation = useCancelFriendRequest();
   const acceptRequestMutation = useAcceptRequest();
   const rejectRequestMutation = useRejectRequest();
 
-  if (isLoading) {
+  const queryStatus = data?.data?.status;
+  const queryRequestId = data?.data?.requestId;
+  const status = queryStatus ?? initialStatus;
+  const requestId = queryRequestId ?? null;
+  const allowRequests = allowFriendRequests !== false;
+
+  if (isLoading && status === undefined) {
     return (
       <Button className={cn("w-full", className)} disabled>
         loading...
@@ -44,10 +58,23 @@ export const FriendshipActions = ({
     );
   }
 
-  const status = data?.data?.status;
-  const requestId = data?.data?.requestId;
+  if (isError && status === undefined) {
+    return (
+      <Button className={cn("w-full", className)} variant="outline" disabled>
+        Friend actions unavailable
+      </Button>
+    );
+  }
 
-  if (status === "none") {
+  if (status === "none" || (status === undefined && allowRequests)) {
+    if (allowFriendRequests === false) {
+      return (
+        <Button className={cn("w-full", className)} variant="outline" disabled>
+          Friend requests disabled
+        </Button>
+      );
+    }
+
     return (
       <Button
         className={cn("w-full", className)}
@@ -116,7 +143,7 @@ export const FriendshipActions = ({
     );
   }
 
-  if (status === "accepted") {
+  if (status === "accepted" || status === "friends") {
     if (showRemove) {
       return (
         <Button
@@ -140,5 +167,9 @@ export const FriendshipActions = ({
     );
   }
 
-  return null;
+  return (
+    <Button className={cn("w-full", className)} variant="outline" disabled>
+      Friend actions unavailable
+    </Button>
+  );
 };

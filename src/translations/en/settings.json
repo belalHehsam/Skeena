@@ -1,0 +1,66 @@
+{
+    "title": "Settings",
+    "description": "Manage your Majlis experience, privacy, and communication preferences.",
+    "saveError": "Failed to save your setting. Your previous choice was restored.",
+    "appearance": {
+        "title": "Appearance",
+        "description": "Choose how Majlis looks and which language it uses.",
+        "theme": {
+            "label": "Theme",
+            "description": "Use a light theme, dark theme, or follow your device setting.",
+            "options": {
+                "light": "Light",
+                "dark": "Dark",
+                "system": "System"
+            }
+        },
+        "language": {
+            "label": "Language",
+            "description": "Select the language used throughout the application.",
+            "options": {
+                "en": "English",
+                "ar": "Arabic"
+            }
+        }
+    },
+    "privacy": {
+        "title": "Privacy",
+        "description": "Control what other members can see about you.",
+        "privateProfile": {
+            "label": "Private profile",
+            "description": "Only friends can see your posts and complete profile information."
+        },
+        "showEmail": {
+            "label": "Show email address",
+            "description": "Allow your email address to appear where the backend permits it."
+        },
+        "showOnlineStatus": {
+            "label": "Show online status",
+            "description": "Let other members see when you are online or were last active."
+        }
+    },
+    "friendRequests": {
+        "title": "Friend Requests",
+        "description": "Decide whether other members can connect with you.",
+        "allow": {
+            "label": "Allow friend requests",
+            "description": "When disabled, new friend requests to your account are rejected."
+        }
+    },
+    "notifications": {
+        "title": "Notifications",
+        "description": "Control whether Majlis creates and sends notifications for your account.",
+        "enabled": {
+            "label": "Enable notifications",
+            "description": "Receive notifications for supported activity involving your account."
+        }
+    },
+    "mentions": {
+        "title": "Mentions",
+        "description": "Manage whether other members can tag you in supported content.",
+        "allowTagging": {
+            "label": "Allow tagging",
+            "description": "Permit other members to tag or mention your account."
+        }
+    }
+}

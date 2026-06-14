@@ -31,7 +31,7 @@ export function ProfileHeader({
     isOwnProfile,
 }: ProfileHeaderProps) {
     const { t } = useTranslation("profile");
-
+    const profileName = user.displayName?.trim() || user.username;
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [avatarClientError, setAvatarClientError] = useState("");
     const [coverClientError, setCoverClientError] = useState("");
@@ -170,9 +170,8 @@ export function ProfileHeader({
                     <div className="flex items-end justify-between gap-4">
                         <div className="group/avatar relative -mt-12 rounded-full sm:-mt-14">
                             <UserAvatar
-                                key={user.avatar ?? user.username}
                                 src={user.avatar}
-                                username={user.displayName ?? user.username}
+                                username={profileName}
                                 size={112}
                                 className="border-4 border-card shadow-md"
                             />
@@ -236,7 +235,7 @@ export function ProfileHeader({
 
                     <div className="mt-3 max-w-2xl">
                         <h1 className="font-heading text-2xl font-bold text-neutral-950 dark:text-neutral-50 sm:text-3xl">
-                            {user.displayName ?? user.username}
+                            {profileName}
                         </h1>
 
                         <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400">

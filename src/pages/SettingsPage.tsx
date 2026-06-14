@@ -100,7 +100,7 @@ export default function SettingsPage() {
         updateSettingsMutation.isPending;
 
     return (
-        <div className="mx-auto w-full max-w-4xl space-y-6 pb-8">
+        <div className="mx-auto w-full max-w-4xl space-y-6 pb-8 rtl:[&_[data-slot=switch-thumb][data-checked]]:-translate-x-[calc(100%-2px)]">
             <header>
                 <h1 className="font-heading text-2xl font-bold sm:text-3xl">
                     {t("title")}
@@ -133,8 +133,10 @@ export default function SettingsPage() {
                             }}
                             disabled={disabled}
                         >
-                            <SelectTrigger className="h-9 min-w-32 bg-neutral-50 dark:bg-neutral-900">
-                                <SelectValue />
+                            <SelectTrigger className="relative h-9 min-w-32 bg-neutral-50 pe-7 [&>svg]:absolute [&>svg]:end-2 rtl:[&_[data-slot=select-value]]:text-right dark:bg-neutral-900">
+                                <SelectValue>
+                                    {themeLabels[settings.theme]}
+                                </SelectValue>
                             </SelectTrigger>
 
                             <SelectContent>
@@ -172,8 +174,10 @@ export default function SettingsPage() {
                             }}
                             disabled={disabled}
                         >
-                            <SelectTrigger className="h-9 min-w-32 bg-neutral-50 dark:bg-neutral-900">
-                                <SelectValue />
+                            <SelectTrigger className="relative h-9 min-w-32 bg-neutral-50 pe-7 [&>svg]:absolute [&>svg]:end-2 rtl:[&_[data-slot=select-value]]:text-right dark:bg-neutral-900">
+                                <SelectValue>
+                                    {languageLabels[settings.language]}
+                                </SelectValue>
                             </SelectTrigger>
 
                             <SelectContent>

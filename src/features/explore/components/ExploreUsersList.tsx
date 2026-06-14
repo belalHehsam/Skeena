@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, UsersIcon } from "lucide-react";
 import { useSearchUsers } from "../hooks/useSearchUsers";
-import { ExploreUserCard } from "./ExploreUserCard";
 import Spinner from "@/components/feedbacks/Spinner";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
+import { BaseUserCard } from "@/components/shared/BaseUserCard";
+import { FriendshipActions } from "@/features/friends/components/FriendshipActions";
 
 interface ExploreUsersListProps {
   query: string;
@@ -111,7 +112,9 @@ export function ExploreUsersList({ query }: ExploreUsersListProps) {
       {/* Grid */}
       <div className={`grid grid-cols-2 gap-4 sm:grid-cols-3 transition-opacity duration-150 ${isFetching ? "opacity-60" : "opacity-100"}`}>
         {users.map((user) => (
-          <ExploreUserCard key={user._id} user={user} />
+          <BaseUserCard key={user._id} user={user} subtitle={`@${user.username}`}>
+            <FriendshipActions userId={user._id} />
+          </BaseUserCard>
         ))}
       </div>
 

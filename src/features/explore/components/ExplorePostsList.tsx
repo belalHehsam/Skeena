@@ -1,55 +1,31 @@
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { Sparkles } from "lucide-react";
 import { PostCard } from "@/features/posts/components/PostCard";
+import { POSTS_QUERY_KEYS } from "@/features/posts/constants/posts-query-keys";
+import { useGetInfinitePosts } from "@/features/posts/hooks/useGetInfinitePosts";
 import Spinner from "@/components/feedbacks/Spinner";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
-import { useGetInfinitePosts } from "@/features/posts/hooks/useGetInfinitePosts";
-import { POSTS_QUERY_KEYS } from "@/features/posts/constants/posts-query-keys";
-import { FileSearch } from "lucide-react";
+import { PostSkeletonList } from "./PostSkeleton";
+import { PostsEmptyPrompt } from "./PostsEmptyPrompt";
 
 interface ExplorePostsListProps {
   query: string;
 }
 
-
-function PostSkeleton() {
+/** Shows a summary line when an active search query returned results. */
+function ResultsHeader({ query, count }: { query: string; count: number }) {
+  if (!query || query.trim().length < 2) return null;
   return (
-    <div className="animate-pulse rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-neutral-200 dark:bg-neutral-800" />
-        <div className="flex-1 space-y-2">
-          <div className="h-3.5 w-32 rounded-full bg-neutral-200 dark:bg-neutral-800" />
-          <div className="h-3 w-20 rounded-full bg-neutral-100 dark:bg-neutral-900" />
-        </div>
-      </div>
-      <div className="mt-5 space-y-2.5">
-        <div className="h-3 w-full rounded-full bg-neutral-100 dark:bg-neutral-900" />
-        <div className="h-3 w-5/6 rounded-full bg-neutral-100 dark:bg-neutral-900" />
-        <div className="h-3 w-3/4 rounded-full bg-neutral-100 dark:bg-neutral-900" />
-      </div>
-    </div>
-  );
-}
-
-
-function EmptyPrompt({ query }: { query: string }) {
-  const isShort = !query || query.trim().length < 2;
-
-  return (
-    <div className="flex flex-col items-center gap-4 py-24 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-neutral-100 dark:bg-neutral-900">
-        <FileSearch className="h-7 w-7 text-neutral-400" />
-      </div>
-      <div>
-        <p className="font-semibold text-neutral-700 dark:text-neutral-300">
-          {isShort ? "Search for posts" : `No results for "${query}"`}
-        </p>
-        <p className="mt-1 text-sm text-neutral-400">
-          {isShort
-            ? "Type at least 2 characters to find posts"
-            : "Try different keywords or check spelling"}
-        </p>
-      </div>
+    <div className="mb-4 flex items-center gap-2">
+      <Sparkles className="h-4 w-4 text-primary" />
+      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+        Showing results for{" "}
+        <span className="font-semibold text-neutral-800 dark:text-neutral-200">
+          &ldquo;{query}&rdquo;
+        </span>
+        {count > 0 && <span className="ml-1 text-neutral-400">· {count} found</span>}
+      </p>
     </div>
   );
 }
@@ -77,21 +53,13 @@ export function ExplorePostsList({ query }: ExplorePostsListProps) {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isError) return <ErrorMessage onRetry={refetch} />;
-
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <PostSkeleton key={i} />
-        ))}
-      </div>
-    );
-  }
-
-  if (posts.length === 0) return <EmptyPrompt query={query} />;
+  if (isLoading) return <PostSkeletonList />;
+  if (posts.length === 0) return <PostsEmptyPrompt query={query} />;
 
   return (
     <div className="space-y-4">
+      <ResultsHeader query={query} count={posts.length} />
+
       {posts.map((post) => (
         <PostCard
           key={post._id}
@@ -101,13 +69,14 @@ export function ExplorePostsList({ query }: ExplorePostsListProps) {
       ))}
 
       {/* Infinite scroll sentinel */}
-      <div
-        ref={!isLoading ? ref : null}
-        className="flex h-10 items-center justify-center"
-      >
+      <div ref={!isLoading ? ref : null} className="flex h-12 items-center justify-center">
         {isFetchingNextPage && <Spinner />}
         {!hasNextPage && posts.length > 0 && (
-          <p className="text-xs text-neutral-400">You&apos;ve seen all results</p>
+          <div className="flex items-center gap-2 text-xs text-neutral-400">
+            <span className="inline-block h-px w-12 bg-neutral-200 dark:bg-neutral-800" />
+            You&apos;ve seen all results
+            <span className="inline-block h-px w-12 bg-neutral-200 dark:bg-neutral-800" />
+          </div>
         )}
       </div>
     </div>

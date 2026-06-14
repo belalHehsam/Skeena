@@ -55,7 +55,7 @@ const Notifications: FC = () => {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-6 lg:px-8">
+    <div className="mx-auto animate-fade-left max-w-5xl px-4 py-6 lg:px-8">
       <NotificationHeader />
 
       <NotificationFilterTabs

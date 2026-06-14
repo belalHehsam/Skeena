@@ -15,7 +15,7 @@ export function ChatPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-7.5rem)] w-full overflow-hidden bg-background border border-border rounded-xl shadow-sm">
+    <div className="flex animate-fade-down h-[calc(100vh-7.5rem)] w-full overflow-hidden bg-background border border-border rounded-xl shadow-sm">
       {/* List panel */}
       <div className={`w-full lg:w-80 flex-shrink-0 h-full ${
         conversationId ? "hidden lg:block" : "block"

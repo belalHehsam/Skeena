@@ -60,7 +60,7 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="mx-auto w-full max-w-5xl space-y-6 pb-8">
+        <div className="mx-auto animate-fade-in w-full max-w-5xl space-y-6 pb-8">
             <ProfileHeader
                 user={profileUser}
                 isOwnProfile={isOwnProfile}

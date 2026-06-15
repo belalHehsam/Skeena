@@ -34,7 +34,7 @@ const NotificationDropdown: FC = () => {
       <PopoverTrigger
         className={cn(
           buttonVariants({ variant: "ghost", size: "icon" }),
-          "relative overflow-visible text-neutral-600",
+          "relative overflow-visible text-neutral-600 dark:text-neutral-300",
         )}
         aria-label={`${t("title")} (${unreadNotifications})`}
       >

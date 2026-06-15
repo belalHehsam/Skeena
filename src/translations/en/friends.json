@@ -1,0 +1,21 @@
+{
+  "title": "Friends",
+  "tabs": {
+    "list": "All Friends",
+    "requests": "Friend Requests",
+    "suggestions": "Joined Recently"
+  },
+  "error": {
+    "title": "Failed to load",
+    "retry": "Retry"
+  },
+  "empty": {
+    "list": "No friends yet",
+    "requests": "No friend requests",
+    "suggestions": "No suggestions available"
+  },
+  "subtitles": {
+    "friend": "Friend",
+    "requested": "Requested"
+  }
+}

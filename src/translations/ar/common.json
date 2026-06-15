@@ -73,5 +73,26 @@
     "video": "فيديو",
     "feeling": "شعور",
     "post": "نشر"
+  },
+  "layout": {
+    "appName": "مجلس",
+    "sidebar": {
+      "home": "الرئيسية",
+      "explore": "استكشف",
+      "notifications": "الإشعارات",
+      "friends": "الأصدقاء",
+      "chat": "المحادثات",
+      "voice": "غرف الصوت",
+      "createPost": "أنشئ منشوراً",
+      "profile": "الملف الشخصي",
+      "logout": "تسجيل الخروج",
+      "loggingOut": "جاري تسجيل الخروج...",
+      "close": "إغلاق القائمة الجانبية"
+    },
+    "navbar": {
+      "toggleMenu": "تبديل القائمة",
+      "settings": "الإعدادات",
+      "openProfile": "فتح الملف الشخصي"
+    }
   }
 }

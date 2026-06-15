@@ -74,5 +74,27 @@
     "video": "Video",
     "feeling": "Feeling",
     "post": "Post"
+  },
+  "layout": {
+    "appName": "Majlis",
+    "sidebar": {
+      "home": "Home Feed",
+      "explore": "Explore",
+      "notifications": "Notifications",
+      "friends": "Friends",
+      "chat": "Chat",
+      "voice": "Voice",
+      "createPost": "Create Post",
+      "profile": "Profile",
+      "logout": "Logout",
+      "loggingOut": "Logging out...",
+      "close": "Close sidebar"
+    },
+    "navbar": {
+      "toggleMenu": "Toggle menu",
+      "settings": "Settings",
+      "openProfile": "Open profile"
+    }
   }
 }
+

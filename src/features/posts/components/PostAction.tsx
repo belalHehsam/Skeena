@@ -1,4 +1,3 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +16,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
-import { CreatePostForm } from "./CreatePostForm";
+import { usePostModal } from "../context/PostModalContext";
 import useDeletePost from "../hooks/useDeletePost";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import type { Post } from "../types/post";
@@ -35,13 +34,13 @@ export default function PostAction({
   const { mutate: handleDelete } = useDeletePost(post, activeCategory);
   const { data } = useGetCurrentUser();
   const { t } = useTranslation("postAction");
+  const { openEdit } = usePostModal();
 
   function deleteFun() {
     handleDelete();
-    toast.success("Post Delted Succssfully");
+    toast.success("Post Deleted Successfully");
   }
   return (
-    <Dialog>
       <AlertDialog>
         <div className="absolute end-4 top-1 z-20">
           <DropdownMenu>
@@ -55,21 +54,17 @@ export default function PostAction({
             >
               {data?.data.user.id === post.author._id ? (
                 <>
-                  <DialogTrigger className="block w-full text-start outline-none">
-                    <DropdownMenuItem className="focus:text-foreground flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm text-gray-600">
-                      <Edit2 className="h-4 w-4" />
-                      <span>{t("post.actions.edit")}</span>
-                    </DropdownMenuItem>
-                  </DialogTrigger>
+                  <DropdownMenuItem onClick={() => openEdit(post)} className="focus:text-foreground flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm text-gray-600">
+                    <Edit2 className="h-4 w-4" />
+                    <span>{t("post.actions.edit")}</span>
+                  </DropdownMenuItem>
                   <AlertDialogTrigger className="block w-full text-start outline-none">
                     <DropdownMenuItem className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700">
                       <Trash2 className="h-4 w-4" />
                       <span>{t("post.actions.delete")}</span>
                     </DropdownMenuItem>
                   </AlertDialogTrigger>
-                  <DropdownMenuItem className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-sm text-gray-600">
-                    <span>{t("post.actions.copyUrl")}</span>
-                  </DropdownMenuItem>
+                  <CopyUrlButton post={post} />
                 </>
               ) : (
                 <CopyUrlButton post={post} />
@@ -100,10 +95,5 @@ export default function PostAction({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
-      <DialogContent className="overflow-hidden rounded-2xl border-none bg-white p-0 shadow-xl sm:max-w-[550px]">
-        <CreatePostForm post={""} />
-      </DialogContent>
-    </Dialog>
   );
 }

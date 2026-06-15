@@ -4,11 +4,14 @@ import createPost from "./createPost.json";
 import postAction from "./postAction.json";
 import profile from "./profile.json";
 import settings from "./settings.json";
+import friends from "./friends.json";
+
 export const en = {
   common,
   notifications,
   createPost,
   postAction,
   profile,
-  settings
+  settings,
+  friends
 } as const;

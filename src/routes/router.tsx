@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import CreatePost from "@/pages/create-post";
 import RootErrorBoundary from "@/components/errors/RootErrorBoundary";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ProtectedRoute } from "@/features/auth/routes/ProtectedRoute";
@@ -12,11 +11,12 @@ import NotFound from "@/pages/not-found";
 import { ChatPage } from "@/pages/ChatPage";
 import { VoicePage } from "@/pages/VoicePage";
 import Notifications from "@/pages/notifications";
+// import { PostDetailsView } from "@/pages/PostDetailsView"; 
 import Friends from "@/pages/friends";
 import ProfilePage from "@/pages/ProfilePage";
 import SettingsPage from "@/pages/SettingsPage";
 import Explore from "@/pages/explore";
-import SinglePost from "@/pages/SinglePost";
+import PostPage from "@/pages/PostPage";
 
 const router = createBrowserRouter([
   {
@@ -64,10 +64,6 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "create",
-        element: <CreatePost />,
-      },
-      {
         path: "chat",
         element: <ChatPage />,
       },
@@ -96,8 +92,8 @@ const router = createBrowserRouter([
         element: <Explore />,
       },
       {
-        path: "posts/:postId",
-        element: <SinglePost />,
+        path: "posts/:id",
+        element: <PostPage />,
       },
     ],
   },

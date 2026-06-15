@@ -4,13 +4,15 @@ import FriendsList from "@/features/friends/components/FriendsList";
 import UserSuggestions from "@/features/friends/components/UserSuggestions";
 import type { FriendsTabs } from "@/features/friends/types/friends";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Friends = () => {
+  const { t } = useTranslation("friends");
   const [activeTab, setActiveTab] = useState<FriendsTabs>("list");
 
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="m-4 text-3xl font-bold">Friends</h1>
+    <div className="flex animate-fade-right flex-col gap-8">
+      <h1 className="m-4 text-3xl font-bold">{t("title")}</h1>
       <FilterTabs activeValue={activeTab} setActiveValue={setActiveTab} />
       <div>
         {activeTab === "list" && <FriendsList />}

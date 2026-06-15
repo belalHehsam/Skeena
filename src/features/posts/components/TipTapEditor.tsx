@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useImperativeHandle, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -10,7 +10,7 @@ import {
   Bold, Italic, Underline as UnderlineIcon, Strikethrough, Code,
   Quote, Minus,
   AlignLeft, AlignCenter, List, ListOrdered, 
-  Link as LinkIcon, Image as ImageIcon, Smile 
+  Link as LinkIcon 
 } from 'lucide-react'
 
 export interface TipTapEditorRef {
@@ -21,12 +21,12 @@ interface TipTapEditorProps {
   content: string;
   placeholder?: string;
   onChange: (content: string, textLength: number) => void;
-  onImageClick?: () => void;
-  onEmojiClick?: (e: React.MouseEvent) => void;
+  readonly?: boolean;
 }
 
-export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ content, placeholder, onChange, onImageClick, onEmojiClick }, ref) => {
+export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ content, placeholder, onChange, readonly }, ref) => {
   const editor = useEditor({
+    editable: !readonly,
     extensions: [
       StarterKit,
       Underline,
@@ -62,16 +62,22 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
     }
   }), [editor]);
 
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(!readonly);
+    }
+  }, [editor, readonly]);
+
   if (!editor) {
     return null
   }
 
   return (
     <div className="flex flex-col group/editor">
-      <EditorContent editor={editor} className="mb-2" />
       
-      <div className="flex flex-wrap items-center gap-1 border-b border-neutral-100 pb-2 mb-2 dark:border-neutral-800">
-        <button
+      {!readonly && (
+        <div className="flex flex-nowrap items-center gap-1 border-b border-neutral-100 pb-2 mb-2 dark:border-neutral-800 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={`rounded-md p-1.5 transition-colors ${
@@ -214,23 +220,8 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
         >
           <LinkIcon className="h-4 w-4" />
         </button>
-
-        <button
-          type="button"
-          onClick={onImageClick}
-          className="rounded-md p-1.5 text-neutral-400 transition-colors hover:bg-neutral-50 hover:text-neutral-600 dark:hover:bg-neutral-800/50 dark:hover:text-neutral-200"
-        >
-          <ImageIcon className="h-4 w-4" />
-        </button>
-
-        <button
-          type="button"
-          onClick={onEmojiClick}
-          className="rounded-md p-1.5 text-neutral-400 transition-colors hover:bg-neutral-50 hover:text-neutral-600 dark:hover:bg-neutral-800/50 dark:hover:text-neutral-200"
-        >
-          <Smile className="h-4 w-4" />
-        </button>
       </div>
+      )}
 
       <EditorContent editor={editor} className="mt-2" />
     </div>

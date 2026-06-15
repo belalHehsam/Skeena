@@ -1,0 +1,178 @@
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-left {
+  0% {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-right {
+  0% {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float-y {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in {
+  animation: fade-in 600ms ease both;
+}
+
+@utility animate-fade-left {
+  animation: fade-left 600ms ease both;
+}
+
+@utility animate-fade-right {
+  animation: fade-right 600ms ease both;
+}
+
+@utility animate-fade-up {
+  animation: fade-up 600ms ease both;
+}
+
+@utility animate-fade-down {
+  animation: fade-down 600ms ease both;
+}
+
+@utility animate-scale-in {
+  animation: scale-in 450ms ease-out both;
+}
+
+@utility animate-float-y {
+  animation: float-y 2200ms ease infinite;
+}
+
+@utility animate-delay-75 {
+  animation-delay: 75ms;
+}
+
+@utility animate-delay-150 {
+  animation-delay: 150ms;
+}
+
+@utility animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+@utility animate-delay-500 {
+  animation-delay: 500ms;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 182, 6, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(255, 182, 6, 0.25);
+  }
+}
+
+@keyframes float-gentle {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@utility animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+
+@utility animate-pulse-glow {
+  animation: pulse-glow 3000ms ease-in-out infinite;
+}
+
+@utility animate-float-gentle {
+  animation: float-gentle 6000ms ease-in-out infinite;
+}
+
+@utility animate-shimmer {
+  animation: shimmer 3000ms linear infinite;
+}
+

@@ -256,8 +256,7 @@ export function ProfileHeader({
 
                         {(isOwnProfile || !user.isPrivate) && user.bio && (
                             <p
-                                dir="auto"
-                                className="mt-3 max-w-2xl text-sm leading-6 whitespace-pre-wrap text-neutral-700 sm:col-span-2 sm:row-start-4 dark:text-neutral-300"
+                                className="mt-3 max-w-2xl text-start text-sm leading-6 whitespace-pre-wrap text-neutral-700 sm:col-span-2 sm:row-start-4 dark:text-neutral-300"
                             >
                                 {user.bio}
                             </p>

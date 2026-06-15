@@ -1,134 +1,188 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-    Home,
-    Compass,
-    Users,
-    PlusSquare,
-    User,
-    LogOut,
-    X,
-    MessageSquare,
-    Mic,
-    Bell,
+  Home,
+  Compass,
+  Users,
+  PlusSquare,
+  User,
+  LogOut,
+  X,
+  MessageSquare,
+  Mic,
+  // Bell,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import { usePostModal } from "@/features/posts/context/PostModalContext";
+import { useTranslation } from "react-i18next";
 
 const navLinks = [
-    { name: "Home Feed", href: "/", icon: Home },
-    { name: "Explore", href: "/explore", icon: Compass },
-    { name: "Notifications", href: "/notifications", icon: Bell },
-    { name: "Friends", href: "/friends", icon: Users },
-    { name: "Chat", href: "/chat", icon: MessageSquare },
-    { name: "Voice", href: "/voice", icon: Mic },
+  {
+    name: "Home Feed",
+    translationKey: "layout.sidebar.home",
+    href: "/",
+    icon: Home,
+  },
+  {
+    name: "Explore",
+    translationKey: "layout.sidebar.explore",
+    href: "/explore",
+    icon: Compass,
+  },
+  // { name: "Notifications", translationKey: "layout.sidebar.notifications", href: "/notifications", icon: Bell },
+  {
+    name: "Friends",
+    translationKey: "layout.sidebar.friends",
+    href: "/friends",
+    icon: Users,
+  },
+  {
+    name: "Chat",
+    translationKey: "layout.sidebar.chat",
+    href: "/chat",
+    icon: MessageSquare,
+  },
+  {
+    name: "Voice",
+    translationKey: "layout.sidebar.voice",
+    href: "/voice",
+    icon: Mic,
+  },
+  {
+    name: "Create Post",
+    translationKey: "layout.sidebar.createPost",
+    href: "/create",
+    icon: PlusSquare,
+  },
 ];
 
 interface SidebarProps {
-    onClose?: () => void;
+  onClose?: () => void;
 }
 
 export function Sidebar({ onClose }: SidebarProps) {
-    const { openCreate } = usePostModal();
-    const location = useLocation();
-    const navigate = useNavigate();
+  const { openCreate } = usePostModal();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { t } = useTranslation("common");
 
-    const logoutMutation = useLogout({
-        onSettled: () => {
-            navigate("/login", { replace: true });
-        },
-    });
+  const logoutMutation = useLogout({
+    onSettled: () => {
+      navigate("/login", { replace: true });
+    },
+  });
 
-    function handleLogout() {
-        logoutMutation.mutate();
-    }
+  function handleLogout() {
+    logoutMutation.mutate();
+  }
 
-    return (
-        <aside className="flex h-full w-64 flex-col border-r bg-background rtl:border-l rtl:border-r-0">
-            {/* Logo */}
-            <div className="flex items-center justify-between px-6 pt-3">
-                <Link
-                    to="/"
-                    className="flex items-center gap-2 font-heading text-2xl font-bold text-primary"
-                    onClick={onClose}
-                >
-                    <img src="/logo-icon.png" alt="" className="w-13" />
-                    Majlis
-                </Link>
+  return (
+    <aside className="bg-background flex h-full w-64 flex-col border-r rtl:border-r-0 rtl:border-l">
+      {/* Logo */}
+      <div className="flex items-center justify-between px-6 pt-3">
+        <Link
+          to="/"
+          className="font-heading text-primary flex items-center gap-2 text-2xl font-bold"
+          onClick={onClose}
+        >
+          <img src="/logo-icon.png" alt="" className="w-13" />
+          {t("layout.appName", "Majlis")}
+        </Link>
 
-                {onClose && (
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="lg:hidden"
-                        onClick={onClose}
-                    >
-                        <X className="h-5 w-5" />
-                    </Button>
-                )}
-            </div>
+        {onClose && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={onClose}
+          >
+            <X className="h-5 w-5" />
+            <span className="sr-only">
+              {t("layout.sidebar.close", "Close sidebar")}
+            </span>
+          </Button>
+        )}
+      </div>
 
-            {/* Navigation */}
-            <nav className="flex flex-1 flex-col gap-2 p-4">
-                {navLinks.map((link) => {
-                    const isActive = link.href === "/"
-                        ? location.pathname === "/"
-                        : location.pathname.startsWith(link.href);
-                    const Icon = link.icon;
-
-                    return (
-                        <Link
-                            key={link.name}
-                            to={link.href}
-                            onClick={onClose}
-                            className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${isActive
-                                    ? "bg-primary/10 text-primary"
-                                    : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
-                                }`}
-                        >
-                            <Icon className="h-5 w-5" />
-                            {link.name}
-                        </Link>
-                    );
-                })}
-
+      {/* Navigation */}
+      <nav className="flex flex-1 flex-col gap-2 p-4">
+        {navLinks.map((link) => {
+            if (link.name === "Create Post") {
+              const Icon = link.icon;
+              return (
                 <Button
-                    className="w-full justify-start gap-3 bg-emerald-600 px-4 hover:bg-emerald-700 dark:bg-emerald-600 dark:text-white dark:hover:bg-emerald-700"
-                    size="lg"
-                    onClick={() => {
-                        openCreate();
-                        onClose?.();
-                    }}
+                  key={link.name}
+                  className="w-full min-h-11 justify-start gap-3 bg-emerald-600 px-4 hover:bg-emerald-700 dark:bg-emerald-600 dark:text-white dark:hover:bg-emerald-700"
+                  size="lg"
+                  onClick={() => {
+                    openCreate();
+                    onClose?.();
+                  }}
                 >
-                    <PlusSquare className="h-5 w-5" />
-                    Create Post
+                  <Icon className="h-5 w-5" />
+                  {t(link.translationKey, link.name)}
                 </Button>
-            </nav>
+              );
+            }
 
-            {/* User Profile & Logout */}
-            <div className="mt-auto flex flex-col gap-2 p-4">
-                <Link
-                    to="/profile"
-                    onClick={onClose}
-                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${location.pathname === "/profile"
-                            ? "border-r-4 border-primary bg-primary/10 text-primary rtl:border-l-4 rtl:border-r-0"
-                            : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
-                        }`}
-                >
-                    <User className="h-5 w-5" />
-                    Profile
-                </Link>
+          const isActive =
+            link.href === "/"
+              ? location.pathname === "/"
+              : location.pathname.startsWith(link.href);
+          const Icon = link.icon;
 
-                <button
-                    type="button"
-                    onClick={handleLogout}
-                    disabled={logoutMutation.isPending}
-                    className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-60 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
-                >
-                    <LogOut className="h-5 w-5" />
-                    {logoutMutation.isPending ? "Logging out..." : "Logout"}
-                </button>
-            </div>
-        </aside>
-    );
+          return (
+            <Link
+              key={link.name}
+              to={link.href}
+              onClick={
+                link.name === "Create Post"
+                  ? () => {
+                      openCreate();
+                      onClose?.();
+                    }
+                  : onClose
+              }
+              className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                isActive
+                  ? "bg-primary/10 text-primary"
+                  : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+              }`}
+            >
+              <Icon className="h-5 w-5" />
+              {t(link.translationKey, link.name)}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* User Profile & Logout */}
+      <div className="mt-auto flex flex-col gap-2 p-4">
+        <Link
+          to="/profile"
+          onClick={onClose}
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+            location.pathname === "/profile"
+              ? "border-primary bg-primary/10 text-primary border-r-4 rtl:border-r-0 rtl:border-l-4"
+              : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+          }`}
+        >
+          <User className="h-5 w-5" />
+          {t("layout.sidebar.profile", "Profile")}
+        </Link>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          disabled={logoutMutation.isPending}
+          className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-60 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+        >
+          <LogOut className="h-5 w-5" />
+          {logoutMutation.isPending
+            ? t("layout.sidebar.loggingOut", "Logging out...")
+            : t("layout.sidebar.logout", "Logout")}
+        </button>
+      </div>
+    </aside>
+  );
 }

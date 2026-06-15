@@ -8,6 +8,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { GlobalSearch } from "@/features/explore/components/GlobalSearch";
+import { useTranslation } from "react-i18next";
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -16,6 +17,7 @@ interface NavbarProps {
 export function Navbar({ onMenuClick }: NavbarProps) {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation("common");
 
   return (
     <header className="bg-background sticky top-0 z-40 flex h-16 w-full shrink-0 items-center justify-between border-b px-4 lg:px-6">
@@ -28,7 +30,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
           onClick={onMenuClick}
         >
           <Menu className="size-5" />
-          <span className="sr-only">Toggle menu</span>
+          <span className="sr-only">{t("layout.navbar.toggleMenu", "Toggle menu")}</span>
         </Button>
         <GlobalSearch />
       </div>
@@ -47,14 +49,14 @@ export function Navbar({ onMenuClick }: NavbarProps) {
         >
           <Settings className="size-5" />
           <span className="sr-only">
-            Settings
+            {t("layout.navbar.settings", "Settings")}
           </span>
         </Button>
 
         {user ? (
           <Link
             to="/profile"
-            aria-label="Open profile"
+            aria-label={t("layout.navbar.openProfile", "Open profile")}
           >
             <UserAvatar
               key={

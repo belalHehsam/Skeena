@@ -1,6 +1,7 @@
 import type { Dispatch, FC, SetStateAction } from "react";
 import { FRIENDS_PAGE_FILTERS } from "../constants/friendsFilters";
 import type { FriendsTabs } from "../types/friends";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   activeValue: FriendsTabs;
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export const FilterTabs: FC<Props> = ({ activeValue, setActiveValue }) => {
+  const { t } = useTranslation("friends");
+
   return (
     <div className="flex gap-2">
       {FRIENDS_PAGE_FILTERS.map((tab) => (
@@ -21,8 +24,7 @@ export const FilterTabs: FC<Props> = ({ activeValue, setActiveValue }) => {
               : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
           }`}
         >
-          {/* {t(`filters.${tab}`)} */}
-          {tab.label}
+          {t(`tabs.${tab.id}`)}
         </button>
       ))}
     </div>

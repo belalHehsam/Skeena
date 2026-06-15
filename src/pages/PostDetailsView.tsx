@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { PostDetails } from '../features/posts/components/PostDetails';
+import { PostCard } from '../features/posts/components/PostCard';
 import { CommentsSection } from '../features/posts/components/comments/CommentsSection';
 // import type { Post, Comment } from '../features/posts/types/post.d';
 import { useGetPostDetails } from '@/features/posts/hooks/useGetPostDetails';
@@ -12,7 +12,7 @@ export function PostDetailsView() {
   const navigate = useNavigate();
 
   const { 
-    data: post, 
+    data: postResponse, 
     isLoading: isPostLoading, 
     isError: isPostError 
   } = useGetPostDetails(postId || '');
@@ -32,6 +32,8 @@ export function PostDetailsView() {
       </div>
     );
   }
+
+  const post = postResponse?.data?.post;
 
   if (isPostError || !post) {
     return (
@@ -62,10 +64,9 @@ const totalComments = commentsData?.pages[0]?.data.pagination.total || post.comm
 
       <div className="flex flex-col gap-6">
 
-        <PostDetails post={post} />
+        <PostCard post={post} />
         
         <CommentsSection 
-        postId={post._id}
           comments={comments} 
           totalComments={totalComments}
           onLoadMore={fetchNextPage}

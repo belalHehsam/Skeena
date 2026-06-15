@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { POSTS_QUERY_KEYS } from "../constants/posts-query-keys";
 import { togglePostLike } from "../services/togglePostLike";
-import type { Post } from "../types/post";
+import type { Post, GetPostByIdResponse } from "../types/post";
 
 type PageWithPosts = {
   posts?: Post[];
@@ -120,8 +120,26 @@ export default function useToggleLike(
           ),
       );
 
+      const singlePostQueryKey = [POSTS_QUERY_KEYS.POSTS, post._id];
+      const previousSinglePostData = queryClient.getQueryData<GetPostByIdResponse>(singlePostQueryKey);
+      if (previousSinglePostData?.data?.post) {
+        const singlePost = previousSinglePostData.data.post;
+        queryClient.setQueryData<GetPostByIdResponse>(singlePostQueryKey, {
+          ...previousSinglePostData,
+          data: {
+            ...previousSinglePostData.data,
+            post: {
+              ...singlePost,
+              isLiked: !singlePost.isLiked,
+              likesCount: Math.max(0, singlePost.likesCount + (singlePost.isLiked ? -1 : 1)),
+            }
+          }
+        });
+      }
+
       return {
         previousPosts,
+        previousSinglePostData,
       };
     },
 
@@ -132,6 +150,12 @@ export default function useToggleLike(
           context.previousPosts,
         );
       }
+      if (context?.previousSinglePostData) {
+        queryClient.setQueryData(
+          [POSTS_QUERY_KEYS.POSTS, post._id],
+          context.previousSinglePostData,
+        );
+      }
     },
 
     onSettled: () => {
@@ -140,6 +164,9 @@ export default function useToggleLike(
           queryKey: targetQueryKey,
         });
       }
+      queryClient.invalidateQueries({
+        queryKey: [POSTS_QUERY_KEYS.POSTS, post._id],
+      });
     },
   });
 }

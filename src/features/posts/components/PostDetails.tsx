@@ -1,6 +1,7 @@
 import type { Post } from '../types/post'; 
-import { FaRegComment ,FaHeart,FaRegHeart,FaRegBookmark   } from "react-icons/fa";
+import { FaRegComment, FaRegBookmark } from "react-icons/fa";
 import { IoShareSocialOutline } from "react-icons/io5";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTogglePostLike } from '../hooks/useTogglePostLike';
 
 interface PostDetailsProps {
@@ -20,11 +21,12 @@ export function PostDetails({ post }: PostDetailsProps) {
       
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <img 
-            src={post.author.avatar || '/images/default-avatar.png'} 
-            alt={post.author.username} 
-            className="w-12 h-12 rounded-full object-cover" 
-          />
+          <Avatar className="w-12 h-12">
+            <AvatarImage src={post.author.avatar} alt={post.author.username} />
+            <AvatarFallback className="bg-emerald-600 text-sm font-bold text-white">
+              {post.author.username.slice(0, 2).toLocaleUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <div>
             <h3 className="font-bold text-gray-900">{post.author.username}</h3>
             <span className="text-sm text-gray-500">{formattedDate}</span>
@@ -69,12 +71,24 @@ export function PostDetails({ post }: PostDetailsProps) {
       <div className="flex items-center justify-between border-t border-gray-100 pt-4 mt-2">
         <div className="flex gap-6">
           <button 
-          onClick={() => toggleLike(post._id)}
-          className={`flex items-center gap-2 transition-colors ${post.isLiked ? 'text-green-700' : 'text-gray-500 hover:text-green-700'}`}>
-            {post.isLiked ? <FaHeart size={22} /> : <FaRegHeart size={22}/> }
- 
-              
-            <span className="font-medium">{post.likesCount}</span>
+            onClick={() => toggleLike(post._id)}
+            className={`flex items-center gap-2 transition-colors ${post.isLiked ? 'font-semibold text-red-500' : 'text-gray-500 hover:text-red-500'}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill={post.isLiked ? "currentColor" : "none"}
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              />
+            </svg>
+            <span className="font-medium">{Math.max(0, post.likesCount)} Like</span>
           </button>
           
           <button className="flex items-center gap-2 text-gray-500 hover:text-green-700 transition-colors">

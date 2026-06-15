@@ -123,7 +123,7 @@ export function PostCard({
           <Dialog>
             <DialogTrigger
               render={
-                <button type="button" className="block w-full overflow-hidden rounded-xl border border-neutral-100 dark:border-neutral-800 cursor-pointer text-left" />
+                <button type="button" title="View image" aria-label="View image" className="block w-full overflow-hidden rounded-xl border border-neutral-100 dark:border-neutral-800 cursor-pointer text-left" />
               }
             >
               <img
@@ -161,6 +161,8 @@ export function PostCard({
       <div className="flex items-center text-sm text-gray-500 rtl:gap-4">
         <button
           onClick={onLikeClick}
+          title={post.isLiked ? "Unlike" : "Like"}
+          aria-label={post.isLiked ? "Unlike" : "Like"}
           className={`mr-5 flex cursor-pointer items-center transition-colors rtl:flex-row-reverse ${post.isLiked
             ? "font-semibold text-red-500"
             : "text-gray-500 hover:text-red-500"

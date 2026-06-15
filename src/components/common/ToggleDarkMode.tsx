@@ -2,9 +2,13 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
+import { useIsMutating } from "@tanstack/react-query";
 import { useDarkMode } from "@/components/context/DarkModeContext";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useUpdateSettings } from "@/features/profile/hooks/useUpdateSettings";
+import {
+  SETTINGS_MUTATION_KEY,
+  useUpdateSettings,
+} from "@/features/profile/hooks/useUpdateSettings";
 import { cn } from "@/lib/utils";
 
 function ToggleDarkMode() {
@@ -18,8 +22,14 @@ function ToggleDarkMode() {
 
   const updateSettingsMutation =
     useUpdateSettings();
+  const isAnySettingPending =
+    useIsMutating({ mutationKey: SETTINGS_MUTATION_KEY }) > 0;
 
   function handleToggle() {
+    if (isAnySettingPending) {
+      return;
+    }
+
     const previousMode = mode;
 
     const nextMode =
@@ -50,7 +60,7 @@ function ToggleDarkMode() {
       }
       aria-label="Toggle dark mode"
       disabled={
-        updateSettingsMutation.isPending
+        isAnySettingPending
       }
       className={cn(
         "group relative inline-flex h-8 w-14 cursor-pointer items-center rounded-full border p-0.5 shadow-inner transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-60",

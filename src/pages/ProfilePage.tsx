@@ -1,43 +1,30 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import ErrorMessage from "@/components/feedbacks/ErrorMessage";
-import Spinner from "@/components/feedbacks/Spinner";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PrivateProfileState } from "@/features/profile/components/PrivateProfileState";
 import { ProfileHeader } from "@/features/profile/components/ProfileHeader";
 import { ProfilePosts } from "@/features/profile/components/ProfilePosts";
 import { PROFILE_QUERY_KEYS } from "@/features/profile/constants/profile-query-keys";
 import { useProfilePosts } from "@/features/profile/hooks/useProfilePosts";
+import ErrorMessage from "@/components/feedbacks/ErrorMessage";
+import Spinner from "@/components/feedbacks/Spinner";
 
 export default function ProfilePage() {
     const { id } = useParams<{ id?: string }>();
     const { user: currentUser } = useAuth();
 
-    const isOwnProfile =
-        !id || id === currentUser?.id;
-
-    const requestedUserId =
-        isOwnProfile ? undefined : id;
-
-    const profileKey =
-        requestedUserId ?? "me";
-
-    const profileQuery =
-        useProfilePosts(requestedUserId);
-
-    const profileUser =
-        profileQuery.data?.pages[0]?.user;
+    const isOwnProfile = !id || id === currentUser?.id;
+    const requestedUserId = isOwnProfile ? undefined : id;
+    const profileKey = requestedUserId ?? "me";
+    const profileQuery = useProfilePosts(requestedUserId);
+    const profileUser = profileQuery.data?.pages[0]?.user;
 
     const posts = useMemo(() => {
         const allPosts =
-            profileQuery.data?.pages.flatMap(
-                (page) => page.posts,
-            ) ?? [];
+            profileQuery.data?.pages.flatMap((page) => page.posts) ?? [];
 
         return Array.from(
-            new Map(
-                allPosts.map((post) => [post._id, post]),
-            ).values(),
+            new Map(allPosts.map((post) => [post._id, post])).values(),
         );
     }, [profileQuery.data]);
 
@@ -59,30 +46,26 @@ export default function ProfilePage() {
         );
     }
 
+    const totalPosts = profileQuery.data.pages[0].pagination.total;
+    const isPrivateProfile = !isOwnProfile && profileUser.isPrivate;
+
     return (
         <div className="mx-auto animate-fade-in w-full max-w-5xl space-y-6 pb-8">
             <ProfileHeader
                 user={profileUser}
                 isOwnProfile={isOwnProfile}
+                postsCount={totalPosts}
             />
 
-            {!isOwnProfile && profileUser.isPrivate ? (
+            {isPrivateProfile ? (
                 <PrivateProfileState />
             ) : (
                 <ProfilePosts
                     posts={posts}
-                    total={
-                        profileQuery.data.pages[0].pagination.total
-                    }
-                    cacheQueryKey={
-                        PROFILE_QUERY_KEYS.detail(profileKey)
-                    }
-                    hasNextPage={Boolean(
-                        profileQuery.hasNextPage,
-                    )}
-                    isFetchingNextPage={
-                        profileQuery.isFetchingNextPage
-                    }
+                    total={totalPosts}
+                    cacheQueryKey={PROFILE_QUERY_KEYS.detail(profileKey)}
+                    hasNextPage={Boolean(profileQuery.hasNextPage)}
+                    isFetchingNextPage={profileQuery.isFetchingNextPage}
                     onLoadMore={() => {
                         profileQuery.fetchNextPage();
                     }}

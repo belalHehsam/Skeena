@@ -163,7 +163,7 @@ export function Sidebar({ onClose }: SidebarProps) {
           onClick={onClose}
           className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
             location.pathname === "/profile"
-              ? "border-primary bg-primary/10 text-primary border-r-4 rtl:border-r-0 rtl:border-l-4"
+              ? "bg-primary/10 text-primary"
               : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
           }`}
         >

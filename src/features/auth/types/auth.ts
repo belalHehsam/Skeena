@@ -9,8 +9,6 @@ export type UserSettings = {
     allowFriendRequests: boolean;
     showEmail: boolean;
     notificationsEnabled: boolean;
-    showOnlineStatus: boolean;
-    allowTagging: boolean;
 };
 
 export type AuthUser = {

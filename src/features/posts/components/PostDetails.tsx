@@ -81,7 +81,10 @@ export function PostDetails({ post }: PostDetailsProps) {
       <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-4">
         <div className="flex gap-6">
           <button
+            type="button"
             onClick={() => toggleLike(post._id)}
+            title={post.isLiked ? "Unlike" : "Like"}
+            aria-label={post.isLiked ? "Unlike" : "Like"}
             className={`flex items-center gap-2 transition-colors ${post.isLiked ? "font-semibold text-red-500" : "text-gray-500 hover:text-red-500"}`}
           >
             <svg
@@ -103,18 +106,33 @@ export function PostDetails({ post }: PostDetailsProps) {
             </span>
           </button>
 
-          <button className="flex items-center gap-2 text-gray-500 transition-colors hover:text-green-700">
+          <button
+            type="button"
+            title="Comment"
+            aria-label="Comment"
+            className="flex items-center gap-2 text-gray-500 transition-colors hover:text-green-700"
+          >
             <FaRegComment size={22} />
 
             <span className="font-medium">{post.commentsCount}</span>
           </button>
 
-          <button className="flex items-center gap-2 text-gray-500 transition-colors hover:text-green-700">
+          <button
+            type="button"
+            title="Share"
+            aria-label="Share"
+            className="flex items-center gap-2 text-gray-500 transition-colors hover:text-green-700"
+          >
             <IoShareSocialOutline size={23} />
           </button>
         </div>
 
-        <button className="text-gray-500 transition-colors hover:text-green-700">
+        <button
+          type="button"
+          title="Bookmark"
+          aria-label="Bookmark"
+          className="text-gray-500 transition-colors hover:text-green-700"
+        >
           <FaRegBookmark size={22} />
         </button>
       </div>

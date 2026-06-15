@@ -58,17 +58,17 @@ export default function RegisterPage() {
           <img src="/logo-icon.png" alt="Majlis" className="size-8" />
         </div>
 
-        <h1 className="font-heading text-2xl font-bold text-neutral-900">
+        <h1 className="font-heading text-2xl font-bold text-neutral-900 dark:text-white">
           Join the Community
         </h1>
 
-        <p className="mt-1 max-w-sm text-sm text-neutral-500">
+        <p className="mt-1 max-w-sm text-sm text-neutral-500 dark:text-neutral-400">
           Assalamu Alaikum! Welcome to a space of Sakina and respectful
           connection.
         </p>
       </div>
 
-      <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900 p-6 shadow-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <TextField
             id="displayName"
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
-                  className="rounded-sm text-neutral-500 hover:text-neutral-800"
+                  className="rounded-sm text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
@@ -140,7 +140,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword((value) => !value)}
-                  className="rounded-sm text-neutral-500 hover:text-neutral-800"
+                  className="rounded-sm text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
                   aria-label={
                     showConfirmPassword ? "Hide password" : "Show password"
                   }
@@ -158,10 +158,10 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="flex items-start gap-2 text-xs leading-relaxed text-neutral-600">
+            <label className="flex items-start gap-2 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
               <input
                 type="checkbox"
-                className="accent-primary mt-0.5 size-3.5 rounded border-neutral-300"
+                className="accent-primary mt-0.5 size-3.5 rounded border-neutral-300 dark:border-neutral-700"
                 {...register("acceptTerms")}
               />
 
@@ -189,13 +189,13 @@ export default function RegisterPage() {
           </Button>
         </form>
 
-        <div className="my-5 h-px bg-neutral-200" />
+        <div className="my-5 h-px bg-neutral-200 dark:bg-neutral-800" />
 
-        <p className="text-center text-sm text-neutral-600">
+        <p className="text-center text-sm text-neutral-600 dark:text-neutral-400">
           Already a member?{" "}
           <Link
             to="/login"
-            className="text-secondary-700 font-semibold hover:underline"
+            className="text-primary font-semibold hover:underline"
           >
             Sign in
           </Link>

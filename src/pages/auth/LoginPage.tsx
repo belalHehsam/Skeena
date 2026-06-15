@@ -49,22 +49,22 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="w-full max-w-[420px]">
+    <section className="w-full max-w-105">
       <div className="mb-5 flex flex-col items-center text-center">
         <div className="bg-primary/10 mb-3 flex size-12 items-center justify-center rounded-full">
           <img src="/logo-icon.png" alt="Majlis" className="size-8" />
         </div>
 
-        <h1 className="font-heading text-2xl font-bold text-neutral-900">
+        <h1 className="font-heading text-2xl font-bold text-neutral-900 dark:text-white">
           Majlis
         </h1>
 
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
           Welcome to your community of Sakina.
         </p>
       </div>
 
-      <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900 p-6 shadow-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <TextField
             id="email"
@@ -81,7 +81,7 @@ export default function LoginPage() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="text-xs font-semibold text-neutral-800"
+                className="text-xs font-semibold text-neutral-800 dark:text-neutral-200"
               >
                 Password
               </label>
@@ -104,7 +104,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
-                  className="rounded-sm text-neutral-500 hover:text-neutral-800"
+                  className="rounded-sm text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
@@ -119,10 +119,10 @@ export default function LoginPage() {
             />
           </div>
 
-          <label className="flex items-center gap-2 text-xs text-neutral-600">
+          <label className="flex items-center gap-2 text-xs text-neutral-600 dark:text-neutral-400">
             <input
               type="checkbox"
-              className="accent-primary size-3.5 rounded border-neutral-300"
+              className="accent-primary size-3.5 rounded border-neutral-300 dark:border-neutral-700"
               {...register("rememberMe")}
             />
             Keep me signed in
@@ -138,7 +138,7 @@ export default function LoginPage() {
         </form>
       </div>
 
-      <p className="mt-5 text-center text-sm text-neutral-600">
+      <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-400">
         New to Majlis?{" "}
         <Link
           to="/register"

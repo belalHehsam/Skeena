@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useImperativeHandle, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -21,10 +21,12 @@ interface TipTapEditorProps {
   content: string;
   placeholder?: string;
   onChange: (content: string, textLength: number) => void;
+  readonly?: boolean;
 }
 
-export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ content, placeholder, onChange }, ref) => {
+export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ content, placeholder, onChange, readonly }, ref) => {
   const editor = useEditor({
+    editable: !readonly,
     extensions: [
       StarterKit,
       Underline,
@@ -60,6 +62,12 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
     }
   }), [editor]);
 
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(!readonly);
+    }
+  }, [editor, readonly]);
+
   if (!editor) {
     return null
   }
@@ -67,8 +75,9 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
   return (
     <div className="flex flex-col group/editor">
       
-      <div className="flex flex-nowrap items-center gap-1 border-b border-neutral-100 pb-2 mb-2 dark:border-neutral-800 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-        <button
+      {!readonly && (
+        <div className="flex flex-nowrap items-center gap-1 border-b border-neutral-100 pb-2 mb-2 dark:border-neutral-800 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <button
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={`rounded-md p-1.5 transition-colors ${
@@ -212,6 +221,7 @@ export const TipTapEditor = forwardRef<TipTapEditorRef, TipTapEditorProps>(({ co
           <LinkIcon className="h-4 w-4" />
         </button>
       </div>
+      )}
 
       <EditorContent editor={editor} className="mt-2" />
     </div>

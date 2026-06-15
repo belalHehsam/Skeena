@@ -4,7 +4,8 @@ export type User = {
     user: {
       id: string;
       username: string;
-      displayName: type;
+      displayName?: string;
+      avatar?: string;
       settings: {
         theme: string;
         language: string;

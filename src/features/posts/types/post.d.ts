@@ -92,7 +92,6 @@ export type AnalyzePostResponse = {
   };
 };
 
-
 export type Comment = {
   _id: string;
   post: string; 
@@ -127,4 +126,11 @@ export type CreateCommentPayload = {
   postId: string;
   content: string;
   parentId?: string;
+};
+
+export type GetPostByIdResponse = {
+  status: "success";
+  data: {
+    post: Post;
+  };
 };

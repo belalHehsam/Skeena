@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 
 interface PostImagePreviewProps {
   imagePreview: string | null;
-  removeImage: () => void;
+  removeImage?: () => void;
 }
 
 export function PostImagePreview({ imagePreview, removeImage }: PostImagePreviewProps) {
@@ -15,13 +15,15 @@ export function PostImagePreview({ imagePreview, removeImage }: PostImagePreview
         alt="Upload preview"
         className="h-32 w-auto object-cover"
       />
-      <button
-        type="button"
-        onClick={removeImage}
-        className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
-      >
-        <X className="h-4 w-4" />
-      </button>
+      {removeImage && (
+        <button
+          type="button"
+          onClick={removeImage}
+          className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      )}
     </div>
   );
 }

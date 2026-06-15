@@ -2,17 +2,18 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
-import { CreatePostModal } from "@/features/posts/components/CreatePostModal";
+import { PostModal } from "@/features/posts/components/PostModal";
+import { PostModalProvider } from "@/features/posts/context/PostModalContext";
 import { useGlobalChatSocket } from "@/features/chat/hooks/useGlobalChatSocket";
 
 export function MainLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
     // Register global socket listener for chat message notifications
     useGlobalChatSocket();
 
     return (
+        <PostModalProvider>
         <div className="flex h-screen w-full overflow-hidden bg-neutral-50 dark:bg-neutral-950">
             {/* Mobile Sidebar Overlay */}
             {isSidebarOpen && (
@@ -32,7 +33,6 @@ export function MainLayout() {
             >
                 <Sidebar 
                     onClose={() => setIsSidebarOpen(false)} 
-                    onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
                 />
             </div>
             
@@ -46,10 +46,8 @@ export function MainLayout() {
             </div>
 
             {/* Global Modals */}
-            <CreatePostModal 
-                isOpen={isCreatePostModalOpen} 
-                onClose={() => setIsCreatePostModalOpen(false)} 
-            />
+            <PostModal />
         </div>
+        </PostModalProvider>
     );
 }

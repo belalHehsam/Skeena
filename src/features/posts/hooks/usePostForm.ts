@@ -3,16 +3,19 @@ import { useCreatePost } from "./useCreatePost";
 import { useAnalyzePost } from "./useAnalyzePost";
 import type { AnalyzePostResponse, Recommendation } from "../types/post";
 import type { TipTapEditorRef } from "../components/TipTapEditor";
+import { useUpdatePost } from "./useUpdatePost";
+import type { Post } from "../types/post";
+import { toast } from "sonner";
 
 export type PostTag = "quran" | "hadith" | "fiqh" | "general" | "dua" | "tafsir" | "seerah" | "reminder";
 
-export function useCreatePostForm() {
-  const [content, setContent] = useState("");
-  const [contentLength, setContentLength] = useState(0);
-  const [tags, setTags] = useState<PostTag[]>([]);
+export function usePostForm(initialData?: Post | null) {
+  const [content, setContent] = useState(initialData?.content || "");
+  const [contentLength, setContentLength] = useState(initialData?.content?.length || 0);
+  const [tags, setTags] = useState<PostTag[]>((initialData?.tags as PostTag[]) || []);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [commentsEnabled, setCommentsEnabled] = useState(true);
+  const [imagePreview, setImagePreview] = useState<string | null>(initialData?.image || null);
+  const [commentsEnabled, setCommentsEnabled] = useState(initialData?.commentsEnabled ?? true);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showTagDropdown, setShowTagDropdown] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,10 +26,14 @@ export function useCreatePostForm() {
   const [rejectionError, setRejectionError] = useState<{ content: string; violations: string[] } | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [step, setStep] = useState<"draft" | "review">("draft");
+  // Stored from /analyze response so publish doesn't re-run AI
+  const [moderationStatus, setModerationStatus] = useState<"approved" | "needs_review">("approved");
+  const [isFlagged, setIsFlagged] = useState(false);
 
   const { mutate: createPost, isPending: isCreating } = useCreatePost();
+  const { mutate: updatePost, isPending: isUpdating } = useUpdatePost();
   const { mutate: analyzePost, isPending: isAnalyzing } = useAnalyzePost();
-  const isPending = isCreating || isAnalyzing;
+  const isPending = isCreating || isUpdating || isAnalyzing;
 
   function handleImageSelect(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -60,8 +67,8 @@ export function useCreatePostForm() {
     setContentLength(0);
     setTags([]);
     removeImage();
-    setRecommendation(null);
-    setIsRecommendationAttached(false);
+    setRecommendation(initialData?.recommendation || null);
+    setIsRecommendationAttached(!!initialData?.recommendation);
     setRejectionError(null);
     setShowSuccess(false);
     setStep("draft");
@@ -72,15 +79,30 @@ export function useCreatePostForm() {
     analyzePost(formData, {
       onSuccess: (data: AnalyzePostResponse) => {
         setRecommendation(data.data.recommendation);
+        setModerationStatus(data.data.moderation.status);
+        setIsFlagged(data.data.moderation.status === "needs_review");
         setIsRecommendationAttached(false);
         setStep("review");
+        
+        if (data.data.moderation.status === "approved") {
+          toast.success("Post successfully reviewed and approved!");
+        } else if (data.data.moderation.status === "needs_review") {
+          toast.warning("Your post has been flagged and needs manual review.");
+        }
       },
       onError: (error: any) => {
-        if (error.status === 422 && error.errorBody) {
+        if (error.status === 422 && error.errorBody && !Array.isArray(error.errorBody)) {
+          // Moderation rejection — show the rejection banner
           setRejectionError({
             content: error.errorBody.content || "Content does not meet guidelines",
             violations: error.errorBody.violations || [],
           });
+        } else if (error.status === 422 && Array.isArray(error.errorBody)) {
+          // Zod validation error — show as toast with field details
+          const firstIssue = error.errorBody[0];
+          toast.error(`Validation error: ${firstIssue?.message || "Invalid input"}`);
+        } else {
+          toast.error(error.message || "Something went wrong while analyzing the post.");
         }
       },
     });
@@ -88,30 +110,59 @@ export function useCreatePostForm() {
 
   function submitFinalPost(formData: FormData) {
     formData.append("commentsEnabled", String(commentsEnabled));
+    // moderationStatus and isFlagged are only needed for new posts (createPost reads them
+    // from req.body to avoid re-running AI). updatePost manages its own moderation state.
+    if (!initialData?._id) {
+      formData.append("moderationStatus", moderationStatus);
+      formData.append("isFlagged", String(isFlagged));
+    }
     if (imageFile) formData.append("image", imageFile);
     if (isRecommendationAttached && recommendation) {
       formData.append("recommendation", JSON.stringify(recommendation));
     }
 
-    createPost(formData, {
+    const mutateOptions = {
       onSuccess: () => {
         setShowSuccess(true);
       },
       onError: (error: any) => {
-        if (error.status === 422 && error.errorBody) {
+        if (error.status === 422 && error.errorBody && !Array.isArray(error.errorBody)) {
+          // Moderation rejection — show the rejection banner
           setRejectionError({
             content: error.errorBody.content || "Content does not meet guidelines",
             violations: error.errorBody.violations || [],
           });
           setStep("draft");
+        } else if (error.status === 422 && Array.isArray(error.errorBody)) {
+          // Zod validation error — show as toast with field details
+          const firstIssue = error.errorBody[0];
+          toast.error(`Validation error: ${firstIssue?.message || "Invalid input"}`);
+        } else {
+          toast.error(error.message || "Something went wrong while saving the post.");
         }
       },
-    });
+    };
+
+    if (initialData?._id) {
+      updatePost({ postId: initialData._id, formData }, mutateOptions);
+    } else {
+      createPost(formData, mutateOptions);
+    }
   }
 
   function handleAction(e?: FormEvent) {
     if (e) e.preventDefault();
-    if (!content.trim() || isPending || tags.length === 0) return;
+    if (isPending) return;
+
+    if (!content.trim() || contentLength === 0) {
+      toast.error("Post content cannot be empty.");
+      return;
+    }
+
+    if (tags.length === 0) {
+      toast.error("Please select at least one tag for your post.");
+      return;
+    }
 
     setRejectionError(null);
     setShowSuccess(false);
@@ -127,7 +178,7 @@ export function useCreatePostForm() {
     }
   }
 
-  const canSubmit = contentLength > 0 && !isPending && tags.length > 0;
+  const canSubmit = !isPending;
 
   return {
     content, setContent,
@@ -144,7 +195,7 @@ export function useCreatePostForm() {
     rejectionError,
     showSuccess,
     step, setStep,
-    isPending, isCreating, isAnalyzing,
+    isPending, isCreating, isUpdating, isAnalyzing,
     canSubmit,
     handleImageSelect,
     removeImage,

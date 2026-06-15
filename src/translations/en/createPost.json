@@ -26,7 +26,9 @@
       "addTag": "Add Tag"
     },
     "titles": {
-      "selectTags": "Select Tags"
+      "selectTags": "Select Tags",
+      "createPost": "Create Post",
+      "editPost": "Edit Post"
     },
     "settings": {
       "comments": "Comments"

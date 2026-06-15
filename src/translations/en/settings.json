@@ -54,13 +54,5 @@
             "label": "Enable notifications",
             "description": "Receive notifications for supported activity involving your account."
         }
-    },
-    "mentions": {
-        "title": "Mentions",
-        "description": "Manage whether other members can tag you in supported content.",
-        "allowTagging": {
-            "label": "Allow tagging",
-            "description": "Permit other members to tag or mention your account."
-        }
     }
 }

@@ -31,7 +31,7 @@ export function SettingRow({
     );
 
     return (
-        <div className="flex flex-col items-stretch gap-4 px-5 py-4 transition-colors hover:bg-neutral-50 sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:px-6 dark:hover:bg-neutral-900/60">
+        <div className="hover:bg-primary/5 dark:hover:bg-primary/8 flex flex-col items-stretch gap-4 px-5 py-4 transition-colors duration-200 sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:px-6">
             {onActivate ? (
                 <button
                     type="button"

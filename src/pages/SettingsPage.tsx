@@ -303,31 +303,6 @@ export default function SettingsPage() {
                         }
                     />
 
-                    <SettingRow
-                        label={t("privacy.showOnlineStatus.label")}
-                        description={t("privacy.showOnlineStatus.description")}
-                        controlId="setting-show-online-status"
-                        isPending={isSettingPending("showOnlineStatus")}
-                        isDisabled={isAnySettingPending}
-                        onActivate={() =>
-                            updateSetting(
-                                "showOnlineStatus",
-                                !settings.showOnlineStatus,
-                            )
-                        }
-                        control={
-                            <Switch
-                                id="setting-show-online-status"
-                                className={switchClassName}
-                                checked={settings.showOnlineStatus}
-                                onCheckedChange={(checked) => {
-                                    updateSetting("showOnlineStatus", checked);
-                                }}
-                                disabled={isAnySettingPending}
-                                aria-label={t("privacy.showOnlineStatus.label")}
-                            />
-                        }
-                    />
                 </SettingsSection>
 
                 <SettingsSection

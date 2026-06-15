@@ -9,7 +9,6 @@ export type UserSettings = {
     allowFriendRequests: boolean;
     showEmail: boolean;
     notificationsEnabled: boolean;
-    showOnlineStatus: boolean;
 };
 
 export type AuthUser = {

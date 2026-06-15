@@ -33,10 +33,6 @@
         "showEmail": {
             "label": "Show email address",
             "description": "Allow your email address to appear where the backend permits it."
-        },
-        "showOnlineStatus": {
-            "label": "Show online status",
-            "description": "Let other members see when you are online or were last active."
         }
     },
     "friendRequests": {

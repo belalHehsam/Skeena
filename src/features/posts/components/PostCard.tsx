@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { QueryKey } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 
 type PostCardProps = {
   post: Post;
@@ -25,6 +26,7 @@ export function PostCard({
   cacheQueryKey,
   isSinglePost,
 }: PostCardProps) {
+  const { t } = useTranslation("common");
   const navigate = useNavigate();
   const { user } = useAuth();
   const [commentText, setCommentText] = useState("");
@@ -103,7 +105,7 @@ export function PostCard({
                 key={tag}
                 className="bg-primary/10 text-primary rounded-full px-2.5 py-1 text-xs font-semibold"
               >
-                #{tag.toUpperCase()}
+                #{t("categories." + tag, { defaultValue: tag })}
               </span>
             ))}
           </div>
@@ -127,7 +129,7 @@ export function PostCard({
               <img
                 src={post.image}
                 alt="Post image"
-                className="w-full max-h-[300px] sm:max-h-[500px] object-cover"
+                className="w-full max-h-75 sm:max-h-125 object-cover"
                 loading="lazy"
               />
             </DialogTrigger>

@@ -112,14 +112,14 @@ export function Sidebar({ onClose }: SidebarProps) {
               return (
                 <Button
                   key={link.name}
-                  className="w-full min-h-11 justify-start gap-3 bg-emerald-600 px-4 hover:bg-emerald-700 dark:bg-emerald-600 dark:text-white dark:hover:bg-emerald-700"
-                  size="lg"
+                  variant="ghost"
                   onClick={() => {
                     openCreate();
                     onClose?.();
                   }}
+                  className="w-full h-auto justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="size-5" />
                   {t(link.translationKey, link.name)}
                 </Button>
               );

@@ -154,11 +154,11 @@ export function ProfileHeader({
 
                 <div className="relative px-4 pb-6 sm:px-6 sm:pb-7">
                     <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-[minmax(0,1fr)_auto]">
-                        <div className="group/avatar relative -mt-12 w-fit rounded-full sm:col-start-1 sm:row-start-1 sm:-mt-14">
+                        <div className="group/avatar relative -mt-16 w-fit rounded-full sm:col-start-1 sm:row-start-1 sm:-mt-16">
                             <UserAvatar
                                 src={user.avatar}
                                 username={profileName}
-                                size={112}
+                                size={160}
                                 className="border-card border-4 shadow-md"
                             />
 

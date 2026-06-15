@@ -32,6 +32,7 @@ export async function customFetch<T>(
     ...options,
     method: options.method || "GET",
     headers,
+    cache: options.cache || "no-cache",
   });
 
   if (!response.ok) {

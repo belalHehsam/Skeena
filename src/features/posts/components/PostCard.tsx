@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { QueryKey } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 
 type PostCardProps = {
   post: Post;
@@ -26,6 +27,7 @@ export function PostCard({
   isSinglePost,
 }: PostCardProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation("createPost");
   const { user } = useAuth();
   const [commentText, setCommentText] = useState("");
   const { mutate: addComment, isPending: isCommentingPending } = useCreateComment(post._id);
@@ -103,7 +105,7 @@ export function PostCard({
                 key={tag}
                 className="bg-primary/10 text-primary rounded-full px-2.5 py-1 text-xs font-semibold"
               >
-                #{tag.toUpperCase()}
+                #{t(`tags.${tag}`).toUpperCase()}
               </span>
             ))}
           </div>

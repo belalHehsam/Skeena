@@ -1,0 +1,56 @@
+{
+  "title": "استكشف",
+  "subtitle": "اكتشف المنشورات والأشخاص على مجلس",
+  "searchPlaceholderPosts": "ابحث عن المنشورات، المواضيع، أو الكلمات المفتاحية...",
+  "searchPlaceholderPeople": "ابحث عن الأشخاص باسم المستخدم...",
+  "searchPlaceholderGlobal": "البحث في المنشورات...",
+  "trending": "الأكثر تداولاً:",
+  "tabs": {
+    "posts": "المنشورات",
+    "people": "الأشخاص"
+  },
+  "results": {
+    "showingResultsFor": "عرض النتائج لـ <bold>\"{{query}}\"</bold>",
+    "foundCount_zero": " · لم يُعثر على نتائج",
+    "foundCount_one": " · تم العثور على نتيجة واحدة",
+    "foundCount_two": " · تم العثور على نتيجتين",
+    "foundCount_few": " · تم العثور على {{count}} نتائج",
+    "foundCount_many": " · تم العثور على {{count}} نتيجة",
+    "foundCount_other": " · تم العثور على {{count}} نتيجة",
+    "peopleMatching_zero": "لم يتم العثور على أي شخص يطابق \"{{query}}\"",
+    "peopleMatching_one": "تم العثور على شخص <bold>واحد</bold> يطابق \"{{query}}\"",
+    "peopleMatching_two": "تم العثور على شخصين <bold>اثنين</bold> يطابقان \"{{query}}\"",
+    "peopleMatching_few": "تم العثور على <bold>{{count}}</bold> أشخاص يطابقون \"{{query}}\"",
+    "peopleMatching_many": "تم العثور على <bold>{{count}}</bold> شخصاً يطابقون \"{{query}}\"",
+    "peopleMatching_other": "تم العثور على <bold>{{count}}</bold> شخص يطابقون \"{{query}}\"",
+    "youHaveSeenAll": "لقد شاهدت كل النتائج",
+    "peopleFound_zero": "لم يتم العثور على أحد",
+    "peopleFound_one": "تم العثور على شخص <bold>واحد</bold>",
+    "peopleFound_two": "تم العثور على شخصين <bold>اثنين</bold>",
+    "peopleFound_few": "تم العثور على <bold>{{count}}</bold> أشخاص",
+    "peopleFound_many": "تم العثور على <bold>{{count}}</bold> شخصاً",
+    "peopleFound_other": "تم العثور على <bold>{{count}}</bold> شخص"
+  },
+  "empty": {
+    "whatAreYouLookingFor": "عن ماذا تبحث؟",
+    "noResultsFor": "لا توجد نتائج لـ \"{{query}}\"",
+    "typeMinCharsPosts": "اكتب حرفين على الأقل لبدء البحث عن المنشورات",
+    "tryDifferentKeywords": "جرّب كلمات مفتاحية أخرى أو تحقق من الإملاء",
+    "findPeople": "ابحث عن الأشخاص في مجلس",
+    "noUsersMatching": "لا يوجد مستخدمون يطابقون \"{{query}}\"",
+    "typeMinCharsPeople": "اكتب حرفين على الأقل للبحث عن الأشخاص",
+    "tryDifferentName": "جرّب اسماً أو اسم مستخدم آخر",
+    "keepTyping": "اكتب المزيد للبحث في المنشورات...",
+    "noPostsFound": "لم يتم العثور على منشورات",
+    "forQuery": "لـ \"{{query}}\""
+  },
+  "globalSearch": {
+    "clear": "مسح البحث",
+    "seeAll": "عرض جميع النتائج لـ \"{{query}}\"",
+    "postsHeader": "المنشورات"
+  },
+  "pagination": {
+    "prev": "الصفحة السابقة",
+    "next": "الصفحة التالية"
+  }
+}

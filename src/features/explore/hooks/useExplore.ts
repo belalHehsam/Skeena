@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDebounce } from "./useDebounce";
+import { useTranslation } from "react-i18next";
 
 export type ExploreTab = "posts" | "users";
 
 export function useExplore() {
+  const { t } = useTranslation("explore");
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<ExploreTab>("posts");
   const [inputValue, setInputValue] = useState(searchParams.get("q") ?? "");
@@ -30,7 +32,7 @@ export function useExplore() {
   const clearSearch = useCallback(() => setInputValue(""), []);
 
   const placeholder =
-    activeTab === "posts" ? "Search posts, topics, keywords…" : "Search people by username…";
+    activeTab === "posts" ? t("searchPlaceholderPosts") : t("searchPlaceholderPeople");
 
   return {
     activeTab,

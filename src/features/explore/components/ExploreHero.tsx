@@ -1,4 +1,5 @@
 import { Search, X, Compass } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const TRENDING_TAGS = [
   "quran",
@@ -34,6 +35,8 @@ export function ExploreHero({
   onClear,
   onTagClick,
 }: ExploreHeroProps) {
+  const { t } = useTranslation("explore");
+
   return (
     <div className="relative overflow-hidden border-b border-neutral-100 px-4 pb-8 pt-4 dark:border-neutral-800/60">
 
@@ -45,10 +48,10 @@ export function ExploreHero({
           </div>
           <div>
             <h1 className="font-heading text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-              Explore
+              {t("title")}
             </h1>
             <p className="text-xs text-neutral-400 dark:text-neutral-500">
-              Discover posts and people on Majlis
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -79,7 +82,7 @@ export function ExploreHero({
             <button
               onClick={onClear}
               className="absolute top-1/2 right-3.5 -translate-y-1/2 rounded-full p-1 text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-800 dark:hover:text-neutral-300"
-              aria-label="Clear search"
+              aria-label={t("globalSearch.clear")}
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -89,14 +92,14 @@ export function ExploreHero({
         {/* Trending tags */}
         {showTrending && (
           <div className="mt-3.5 flex flex-wrap items-center gap-2">
-            <span className="text-xs text-neutral-400 dark:text-neutral-500">Trending:</span>
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">{t("trending")}</span>
             {TRENDING_TAGS.map((tag) => (
               <button
                 key={tag}
                 onClick={() => onTagClick(tag)}
                 className="rounded-full border border-neutral-200 bg-white px-2.5 py-0.5 text-xs font-medium text-neutral-500 transition-all hover:border-primary/30 hover:bg-primary-50 hover:text-primary dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:border-primary/30 dark:hover:bg-primary/10 dark:hover:text-primary-400"
               >
-                #{tag}
+                #{t("common:categories." + tag, { defaultValue: tag })}
               </button>
             ))}
           </div>

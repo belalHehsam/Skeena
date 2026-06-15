@@ -1,9 +1,10 @@
 import { LayoutList, Users } from "lucide-react";
 import type { ExploreTab } from "../hooks/useExplore";
+import { useTranslation } from "react-i18next";
 
-const TABS: { id: ExploreTab; label: string; icon: typeof LayoutList }[] = [
-  { id: "posts", label: "Posts", icon: LayoutList },
-  { id: "users", label: "People", icon: Users },
+const TABS: { id: ExploreTab; translationKey: "tabs.posts" | "tabs.people"; icon: typeof LayoutList }[] = [
+  { id: "posts", translationKey: "tabs.posts", icon: LayoutList },
+  { id: "users", translationKey: "tabs.people", icon: Users },
 ];
 
 interface ExploreTabBarProps {
@@ -12,12 +13,15 @@ interface ExploreTabBarProps {
 }
 
 export function ExploreTabBar({ activeTab, onTabChange }: ExploreTabBarProps) {
+  const { t } = useTranslation("explore");
+
   return (
     <div className="mb-6 inline-flex rounded-xl border border-neutral-200  p-1 dark:border-neutral-800 ">
-      {TABS.map(({ id, label, icon: Icon }) => {
+      {TABS.map(({ id, translationKey, icon: Icon }) => {
         const isActive = activeTab === id;
         return (
           <button
+            type="button"
             key={id}
             id={`explore-tab-${id}`}
             onClick={() => onTabChange(id)}
@@ -28,7 +32,7 @@ export function ExploreTabBar({ activeTab, onTabChange }: ExploreTabBarProps) {
             }`}
           >
             <Icon className={`h-4 w-4 ${isActive ? "text-white dark:text-primary-400" : ""}`} />
-            {label}
+            {t(translationKey)}
           </button>
         );
       })}

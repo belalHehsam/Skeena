@@ -1,4 +1,5 @@
 import { FileSearch } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const HINT_TAGS = ["quran", "hadith", "dua"];
 
@@ -7,6 +8,7 @@ interface PostsEmptyPromptProps {
 }
 
 export function PostsEmptyPrompt({ query }: PostsEmptyPromptProps) {
+  const { t } = useTranslation("explore");
   const isShort = !query || query.trim().length < 2;
 
   return (
@@ -22,12 +24,12 @@ export function PostsEmptyPrompt({ query }: PostsEmptyPromptProps) {
 
       <div>
         <p className="font-heading text-base font-semibold text-neutral-700 dark:text-neutral-300">
-          {isShort ? "What are you looking for?" : `No results for "${query}"`}
+          {isShort ? t("empty.whatAreYouLookingFor") : t("empty.noResultsFor", { query })}
         </p>
         <p className="mt-1.5 text-sm text-neutral-400 dark:text-neutral-500">
           {isShort
-            ? "Type at least 2 characters to start searching posts"
-            : "Try different keywords or check your spelling"}
+            ? t("empty.typeMinCharsPosts")
+            : t("empty.tryDifferentKeywords")}
         </p>
       </div>
 

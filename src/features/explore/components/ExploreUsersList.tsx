@@ -6,6 +6,7 @@ import Spinner from "@/components/feedbacks/Spinner";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
 import { UsersEmptyPrompt } from "./UsersEmptyPrompt";
 import { UsersPagination } from "./UsersPagination";
+import { useTranslation, Trans } from "react-i18next";
 
 interface ExploreUsersListProps {
   query: string;
@@ -34,6 +35,7 @@ function UserSkeletonGrid() {
 
 export function ExploreUsersList({ query }: ExploreUsersListProps) {
   const [page, setPage] = useState(1);
+  const { t } = useTranslation("explore");
 
   const { data, isLoading, isFetching, isError, refetch } = useSearchUsers(query, page);
 
@@ -51,9 +53,15 @@ export function ExploreUsersList({ query }: ExploreUsersListProps) {
       {/* Results count */}
       {query.trim().length >= 2 && (
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          Found{" "}
-          <span className="font-semibold text-neutral-800 dark:text-neutral-200">{total}</span>{" "}
-          {total === 1 ? "person" : "people"} matching &ldquo;{query}&rdquo;
+          <Trans
+            t={t}
+            i18nKey="results.peopleMatching"
+            count={total}
+            values={{ query }}
+            components={{
+              bold: <span className="font-semibold text-neutral-800 dark:text-neutral-200" />
+            }}
+          />
         </p>
       )}
 

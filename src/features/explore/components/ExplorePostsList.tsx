@@ -8,6 +8,7 @@ import Spinner from "@/components/feedbacks/Spinner";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
 import { PostSkeletonList } from "./PostSkeleton";
 import { PostsEmptyPrompt } from "./PostsEmptyPrompt";
+import { useTranslation, Trans } from "react-i18next";
 
 interface ExplorePostsListProps {
   query: string;
@@ -15,22 +16,32 @@ interface ExplorePostsListProps {
 
 /** Shows a summary line when an active search query returned results. */
 function ResultsHeader({ query, count }: { query: string; count: number }) {
+  const { t } = useTranslation("explore");
   if (!query || query.trim().length < 2) return null;
   return (
     <div className="mb-4 flex items-center gap-2">
       <Sparkles className="h-4 w-4 text-primary" />
       <p className="text-sm text-neutral-500 dark:text-neutral-400">
-        Showing results for{" "}
-        <span className="font-semibold text-neutral-800 dark:text-neutral-200">
-          &ldquo;{query}&rdquo;
-        </span>
-        {count > 0 && <span className="ml-1 text-neutral-400">· {count} found</span>}
+        <Trans
+          t={t}
+          i18nKey="results.showingResultsFor"
+          values={{ query }}
+          components={{
+            bold: <span className="font-semibold text-neutral-800 dark:text-neutral-200" />
+          }}
+        />
+        {count > 0 && (
+          <span className="ml-1 text-neutral-400">
+            {t("results.foundCount", { count })}
+          </span>
+        )}
       </p>
     </div>
   );
 }
 
 export function ExplorePostsList({ query }: ExplorePostsListProps) {
+  const { t } = useTranslation("explore");
   const {
     data,
     isLoading,
@@ -74,7 +85,7 @@ export function ExplorePostsList({ query }: ExplorePostsListProps) {
         {!hasNextPage && posts.length > 0 && (
           <div className="flex items-center gap-2 text-xs text-neutral-400">
             <span className="inline-block h-px w-12 bg-neutral-200 dark:bg-neutral-800" />
-            You&apos;ve seen all results
+            {t("results.youHaveSeenAll")}
             <span className="inline-block h-px w-12 bg-neutral-200 dark:bg-neutral-800" />
           </div>
         )}

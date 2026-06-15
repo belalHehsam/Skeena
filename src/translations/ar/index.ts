@@ -5,6 +5,7 @@ import postAction from "./postAction.json";
 import profile from "./profile.json";
 import settings from "./settings.json";
 import friends from "./friends.json";
+import explore from "./explore.json";
 
 export const ar = {
   common,
@@ -13,5 +14,6 @@ export const ar = {
   postAction,
   profile,
   settings,
-  friends
+  friends,
+  explore
 } as const;

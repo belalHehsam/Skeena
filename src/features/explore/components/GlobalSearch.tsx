@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useDebounce } from "../hooks/useDebounce";
 import { useGetInfinitePosts } from "@/features/posts/hooks/useGetInfinitePosts";
 import DOMPurify from "dompurify";
+import { useTranslation } from "react-i18next";
 
-const FETCH_MIN_LENGTH = 2;   
-const OVERLAY_MIN_LENGTH = 1; 
+const FETCH_MIN_LENGTH = 2;
+const OVERLAY_MIN_LENGTH = 1;
 const MAX_DROPDOWN_RESULTS = 5;
 
-
 export function GlobalSearch() {
+  const { t } = useTranslation("explore");
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,7 +23,11 @@ export function GlobalSearch() {
   const isFetchEnabled = debouncedQuery.trim().length >= FETCH_MIN_LENGTH;
   const showDropdown = isOpen && inputValue.trim().length >= OVERLAY_MIN_LENGTH;
 
-  const { data, isFetching } = useGetInfinitePosts(undefined, debouncedQuery, isFetchEnabled);
+  const { data, isFetching } = useGetInfinitePosts(
+    undefined,
+    debouncedQuery,
+    isFetchEnabled,
+  );
 
   const posts =
     data?.pages
@@ -46,7 +51,9 @@ export function GlobalSearch() {
   // Prevent body scroll when overlay is open
   useEffect(() => {
     document.body.style.overflow = showDropdown ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [showDropdown]);
 
   const openDropdown = useCallback(() => setIsOpen(true), []);
@@ -77,7 +84,8 @@ export function GlobalSearch() {
   const isWaiting = inputValue.trim().length < FETCH_MIN_LENGTH;
   const showSkeleton = !isWaiting && isFetching;
   const showResults = !isWaiting && !isFetching && posts.length > 0;
-  const showEmpty = !isWaiting && !isFetching && posts.length === 0 && isFetchEnabled;
+  const showEmpty =
+    !isWaiting && !isFetching && posts.length === 0 && isFetchEnabled;
 
   return (
     <>
@@ -98,7 +106,7 @@ export function GlobalSearch() {
         {/* ── Input ──────────────────────────────────────────────────────── */}
         <div className="relative">
           <Search
-            className={`absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 pointer-events-none transition-colors duration-200 ${
+            className={`pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transition-colors duration-200 ${
               showDropdown ? "text-primary" : "text-neutral-400"
             }`}
           />
@@ -110,19 +118,22 @@ export function GlobalSearch() {
             onChange={(e) => setInputValue(e.target.value)}
             onFocus={openDropdown}
             onKeyDown={handleKeyDown}
-            placeholder="Search posts..."
+            placeholder={t("searchPlaceholderGlobal")}
             autoComplete="off"
-            className={`h-9 w-full rounded-full border bg-neutral-100 px-9 text-sm text-neutral-900 outline-none transition-all duration-200 placeholder:text-neutral-400 dark:text-neutral-100 dark:placeholder:text-neutral-500 ${
+            className={`h-9 w-full rounded-full border bg-neutral-100 px-9 text-sm text-neutral-900 transition-all duration-200 outline-none placeholder:text-neutral-400 dark:text-neutral-100 dark:placeholder:text-neutral-500 ${
               showDropdown
-                ? "border-primary/40 bg-white ring-2 ring-primary/15 dark:bg-neutral-950"
+                ? "border-primary/40 ring-primary/15 bg-white ring-2 dark:bg-neutral-950"
                 : "border-transparent hover:bg-neutral-200/70 dark:bg-neutral-900 dark:hover:bg-neutral-800"
             }`}
           />
           {inputValue && (
             <button
-              onClick={() => { setInputValue(""); inputRef.current?.focus(); }}
+              onClick={() => {
+                setInputValue("");
+                inputRef.current?.focus();
+              }}
               className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full p-0.5 text-neutral-400 transition-colors hover:text-neutral-600 dark:hover:text-neutral-300"
-              aria-label="Clear search"
+              aria-label={t("globalSearch.clear")}
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -131,13 +142,12 @@ export function GlobalSearch() {
 
         {/* ── Dropdown ───────────────────────────────────────────────────── */}
         {showDropdown && (
-          <div className="absolute top-full left-0 right-0 mt-2 overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-xl dark:border-neutral-800 dark:bg-neutral-950">
-
+          <div className="absolute top-full right-0 left-0 mt-2 overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-xl dark:border-neutral-800 dark:bg-neutral-950">
             {/* Hint when only 1 char typed */}
             {isWaiting && (
               <div className="flex items-center gap-2.5 px-4 py-4 text-sm text-neutral-400">
                 <Clock className="h-4 w-4 flex-shrink-0" />
-                <span>Keep typing to search posts…</span>
+                <span>{t("empty.keepTyping")}</span>
               </div>
             )}
 
@@ -145,7 +155,10 @@ export function GlobalSearch() {
             {showSkeleton && (
               <div className="space-y-px p-2">
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="flex items-center gap-3 rounded-lg px-3 py-3">
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 rounded-lg px-3 py-3"
+                  >
                     <div className="h-4 w-4 flex-shrink-0 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-800" />
                     <div className="flex-1 space-y-1.5">
                       <div className="h-3 w-3/4 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-800" />
@@ -160,10 +173,10 @@ export function GlobalSearch() {
             {showEmpty && (
               <div className="px-4 py-8 text-center">
                 <p className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                  No posts found
+                  {t("empty.noPostsFound")}
                 </p>
                 <p className="mt-1 text-xs text-neutral-400">
-                  for &ldquo;{debouncedQuery}&rdquo;
+                  {t("empty.forQuery", { query: debouncedQuery })}
                 </p>
               </div>
             )}
@@ -171,15 +184,18 @@ export function GlobalSearch() {
             {/* Results */}
             {showResults && (
               <>
-                <div className="px-3 pb-1 pt-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
-                    Posts
+                <div className="px-3 pt-2 pb-1">
+                  <p className="text-[11px] font-semibold tracking-wider text-neutral-400 uppercase">
+                    {t("globalSearch.postsHeader")}
                   </p>
                 </div>
                 <ul>
                   {posts.map((post) => {
-                    const text = DOMPurify.sanitize(post.content, { ALLOWED_TAGS: [] });
-                    const excerpt = text.length > 75 ? `${text.slice(0, 75)}…` : text;
+                    const text = DOMPurify.sanitize(post.content, {
+                      ALLOWED_TAGS: [],
+                    });
+                    const excerpt =
+                      text.length > 75 ? `${text.slice(0, 75)}…` : text;
 
                     return (
                       <li key={post._id}>
@@ -187,8 +203,8 @@ export function GlobalSearch() {
                           onClick={() => handlePostClick(post._id)}
                           className="flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
                         >
-                          <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                            <FileText className="h-3.5 w-3.5 text-primary" />
+                          <div className="bg-primary/10 mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg">
+                            <FileText className="text-primary h-3.5 w-3.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm text-neutral-800 dark:text-neutral-200">
@@ -197,8 +213,8 @@ export function GlobalSearch() {
                             <p className="mt-0.5 text-xs text-neutral-400">
                               {post.author.username}
                               {post.tags.length > 0 && (
-                                <span className="ml-1.5 font-medium text-primary">
-                                  #{post.tags[0]}
+                                <span className="text-primary ml-1.5 font-medium">
+                                  #{t("common:categories." + post.tags[0], { defaultValue: post.tags[0] })}
                                 </span>
                               )}
                             </p>
@@ -213,9 +229,11 @@ export function GlobalSearch() {
                 <div className="m-2 mt-1">
                   <button
                     onClick={handleSeeAll}
-                    className="flex w-full items-center justify-between rounded-xl border border-neutral-100 px-4 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/5 dark:border-neutral-800"
+                    className="text-primary hover:bg-primary/5 flex w-full items-center justify-between rounded-xl border border-neutral-100 px-4 py-2.5 text-sm font-medium transition-colors dark:border-neutral-800"
                   >
-                    <span>See all results for &ldquo;{debouncedQuery}&rdquo;</span>
+                    <span>
+                      {t("globalSearch.seeAll", { query: debouncedQuery })}
+                    </span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>

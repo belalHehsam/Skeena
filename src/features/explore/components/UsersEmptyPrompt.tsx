@@ -1,10 +1,12 @@
 import { UsersIcon, UserSearch } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface UsersEmptyPromptProps {
   query: string;
 }
 
 export function UsersEmptyPrompt({ query }: UsersEmptyPromptProps) {
+  const { t } = useTranslation("explore");
   const isShort = !query || query.trim().length < 2;
 
   return (
@@ -19,12 +21,12 @@ export function UsersEmptyPrompt({ query }: UsersEmptyPromptProps) {
 
       <div>
         <p className="font-heading text-base font-semibold text-neutral-700 dark:text-neutral-300">
-          {isShort ? "Find people on Majlis" : `No users matching "${query}"`}
+          {isShort ? t("empty.findPeople") : t("empty.noUsersMatching", { query })}
         </p>
         <p className="mt-1.5 text-sm text-neutral-400 dark:text-neutral-500">
           {isShort
-            ? "Type at least 2 characters to search for people"
-            : "Try a different name or username"}
+            ? t("empty.typeMinCharsPeople")
+            : t("empty.tryDifferentName")}
         </p>
       </div>
     </div>

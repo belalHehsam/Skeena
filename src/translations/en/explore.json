@@ -1,0 +1,44 @@
+{
+  "title": "Explore",
+  "subtitle": "Discover posts and people on Majlis",
+  "searchPlaceholderPosts": "Search posts, topics, keywords…",
+  "searchPlaceholderPeople": "Search people by username…",
+  "searchPlaceholderGlobal": "Search posts...",
+  "trending": "Trending:",
+  "tabs": {
+    "posts": "Posts",
+    "people": "People"
+  },
+  "results": {
+    "showingResultsFor": "Showing results for <bold>“{{query}}”</bold>",
+    "foundCount_one": " · {{count}} found",
+    "foundCount_other": " · {{count}} found",
+    "peopleMatching_one": "Found <bold>{{count}}</bold> person matching \"{{query}}\"",
+    "peopleMatching_other": "Found <bold>{{count}}</bold> people matching \"{{query}}\"",
+    "youHaveSeenAll": "You've seen all results",
+    "peopleFound_one": "<bold>{{count}}</bold> person found",
+    "peopleFound_other": "<bold>{{count}}</bold> people found"
+  },
+  "empty": {
+    "whatAreYouLookingFor": "What are you looking for?",
+    "noResultsFor": "No results for \"{{query}}\"",
+    "typeMinCharsPosts": "Type at least 2 characters to start searching posts",
+    "tryDifferentKeywords": "Try different keywords or check your spelling",
+    "findPeople": "Find people on Majlis",
+    "noUsersMatching": "No users matching \"{{query}}\"",
+    "typeMinCharsPeople": "Type at least 2 characters to search for people",
+    "tryDifferentName": "Try a different name or username",
+    "keepTyping": "Keep typing to search posts…",
+    "noPostsFound": "No posts found",
+    "forQuery": "for \"{{query}}\""
+  },
+  "globalSearch": {
+    "clear": "Clear search",
+    "seeAll": "See all results for \"{{query}}\"",
+    "postsHeader": "Posts"
+  },
+  "pagination": {
+    "prev": "Previous page",
+    "next": "Next page"
+  }
+}

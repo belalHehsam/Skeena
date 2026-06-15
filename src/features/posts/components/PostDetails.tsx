@@ -3,13 +3,14 @@ import { FaRegComment, FaRegBookmark } from "react-icons/fa";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTogglePostLike } from '../hooks/useTogglePostLike';
+import { useTranslation } from "react-i18next";
 
 interface PostDetailsProps {
   post: Post;
 }
 
 export function PostDetails({ post }: PostDetailsProps) {
-
+    const { t } = useTranslation("createPost");
     const { mutate: toggleLike } = useTogglePostLike();
 
   const formattedDate = new Date(post.createdAt).toLocaleDateString('en-US', {
@@ -62,7 +63,7 @@ export function PostDetails({ post }: PostDetailsProps) {
         <div className="flex flex-wrap gap-2 mt-2">
           {post.tags.map(tag => (
             <span key={tag} className="px-4 py-1.5 bg-gray-50 border border-gray-100 text-gray-600 rounded-full text-sm capitalize">
-              #{tag}
+              #{t(`tags.${tag}`)}
             </span>
           ))}
         </div>

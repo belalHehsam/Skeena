@@ -34,6 +34,10 @@
         "title": "This profile is private",
         "description": "Become friends with this user to see their posts and full profile details."
     },
+    "stats": {
+        "posts_one": "post",
+        "posts_other": "posts"
+    },
     "posts": {
         "title": "Recent Contributions",
         "count_one": "{{count}} post",

@@ -1,10 +1,14 @@
 import { Bell, Palette, Settings, ShieldCheck, UserPlus } from "lucide-react";
+import { useIsMutating } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { UserSettings } from "@/features/auth/types/auth";
 import { SettingRow } from "@/features/profile/components/SettingRow";
 import { SettingsSection } from "@/features/profile/components/SettingsSection";
-import { useUpdateSettings } from "@/features/profile/hooks/useUpdateSettings";
+import {
+    SETTINGS_MUTATION_KEY,
+    useUpdateSettings,
+} from "@/features/profile/hooks/useUpdateSettings";
 import { useDarkMode } from "@/components/context/DarkModeContext";
 import {
     Select,
@@ -22,6 +26,8 @@ export default function SettingsPage() {
     const { setMode } = useDarkMode();
 
     const updateSettingsMutation = useUpdateSettings();
+    const isAnySettingPending =
+        useIsMutating({ mutationKey: SETTINGS_MUTATION_KEY }) > 0;
 
     if (!user) {
         return null;
@@ -52,6 +58,10 @@ export default function SettingsPage() {
         key: K,
         value: UserSettings[K],
     ) {
+        if (isAnySettingPending) {
+            return;
+        }
+
         const previousValue = settings[key];
 
         if (key === "theme") {
@@ -96,13 +106,13 @@ export default function SettingsPage() {
     }
 
     const selectTriggerClassName =
-        "relative h-9 min-w-36 bg-neutral-50 pe-7 transition-colors duration-200 hover:border-primary/50 hover:bg-white disabled:opacity-100 [&>svg]:absolute [&>svg]:end-2 rtl:[&_[data-slot=select-value]]:text-right dark:bg-neutral-900 dark:hover:bg-neutral-950";
+        "relative h-9 min-w-36 bg-neutral-50 pe-7 transition-colors duration-200 hover:border-primary/50 hover:bg-white disabled:cursor-default disabled:opacity-100 [&>svg]:absolute [&>svg]:end-2 rtl:[&_[data-slot=select-value]]:text-right dark:bg-neutral-900 dark:hover:bg-neutral-950";
 
     const selectItemClassName =
         "pe-8 text-start rtl:[&>span:last-child]:right-auto rtl:[&>span:last-child]:left-2";
 
     const switchClassName =
-        "transition-colors duration-200 data-disabled:opacity-100 [&_[data-slot=switch-thumb]]:duration-200";
+        "transition-colors duration-200 data-disabled:cursor-default data-disabled:opacity-100 [&_[data-slot=switch-thumb]]:duration-200";
 
     return (
         <div className="mx-auto w-full max-w-4xl pb-8 rtl:[&_[data-slot=switch-thumb][data-checked]]:-translate-x-[calc(100%-2px)]">
@@ -133,6 +143,7 @@ export default function SettingsPage() {
                         label={t("appearance.theme.label")}
                         description={t("appearance.theme.description")}
                         isPending={isSettingPending("theme")}
+                        isDisabled={isAnySettingPending}
                         control={
                             <Select
                                 value={settings.theme}
@@ -144,7 +155,7 @@ export default function SettingsPage() {
                                         );
                                     }
                                 }}
-                                disabled={isSettingPending("theme")}
+                                disabled={isAnySettingPending}
                             >
                                 <SelectTrigger
                                     className={selectTriggerClassName}
@@ -189,6 +200,7 @@ export default function SettingsPage() {
                         label={t("appearance.language.label")}
                         description={t("appearance.language.description")}
                         isPending={isSettingPending("language")}
+                        isDisabled={isAnySettingPending}
                         control={
                             <Select
                                 value={settings.language}
@@ -200,7 +212,7 @@ export default function SettingsPage() {
                                         );
                                     }
                                 }}
-                                disabled={isSettingPending("language")}
+                                disabled={isAnySettingPending}
                             >
                                 <SelectTrigger
                                     className={selectTriggerClassName}
@@ -247,6 +259,7 @@ export default function SettingsPage() {
                         description={t("privacy.privateProfile.description")}
                         controlId="setting-private-profile"
                         isPending={isSettingPending("isPrivateProfile")}
+                        isDisabled={isAnySettingPending}
                         onActivate={() =>
                             updateSetting(
                                 "isPrivateProfile",
@@ -261,7 +274,7 @@ export default function SettingsPage() {
                                 onCheckedChange={(checked) => {
                                     updateSetting("isPrivateProfile", checked);
                                 }}
-                                disabled={isSettingPending("isPrivateProfile")}
+                                disabled={isAnySettingPending}
                                 aria-label={t("privacy.privateProfile.label")}
                             />
                         }
@@ -272,6 +285,7 @@ export default function SettingsPage() {
                         description={t("privacy.showEmail.description")}
                         controlId="setting-show-email"
                         isPending={isSettingPending("showEmail")}
+                        isDisabled={isAnySettingPending}
                         onActivate={() =>
                             updateSetting("showEmail", !settings.showEmail)
                         }
@@ -283,7 +297,7 @@ export default function SettingsPage() {
                                 onCheckedChange={(checked) => {
                                     updateSetting("showEmail", checked);
                                 }}
-                                disabled={isSettingPending("showEmail")}
+                                disabled={isAnySettingPending}
                                 aria-label={t("privacy.showEmail.label")}
                             />
                         }
@@ -294,6 +308,7 @@ export default function SettingsPage() {
                         description={t("privacy.showOnlineStatus.description")}
                         controlId="setting-show-online-status"
                         isPending={isSettingPending("showOnlineStatus")}
+                        isDisabled={isAnySettingPending}
                         onActivate={() =>
                             updateSetting(
                                 "showOnlineStatus",
@@ -308,7 +323,7 @@ export default function SettingsPage() {
                                 onCheckedChange={(checked) => {
                                     updateSetting("showOnlineStatus", checked);
                                 }}
-                                disabled={isSettingPending("showOnlineStatus")}
+                                disabled={isAnySettingPending}
                                 aria-label={t("privacy.showOnlineStatus.label")}
                             />
                         }
@@ -326,6 +341,7 @@ export default function SettingsPage() {
                         description={t("friendRequests.allow.description")}
                         controlId="setting-allow-friend-requests"
                         isPending={isSettingPending("allowFriendRequests")}
+                        isDisabled={isAnySettingPending}
                         onActivate={() =>
                             updateSetting(
                                 "allowFriendRequests",
@@ -343,9 +359,7 @@ export default function SettingsPage() {
                                         checked,
                                     );
                                 }}
-                                disabled={isSettingPending(
-                                    "allowFriendRequests",
-                                )}
+                                disabled={isAnySettingPending}
                                 aria-label={t("friendRequests.allow.label")}
                             />
                         }
@@ -363,6 +377,7 @@ export default function SettingsPage() {
                         description={t("notifications.enabled.description")}
                         controlId="setting-notifications-enabled"
                         isPending={isSettingPending("notificationsEnabled")}
+                        isDisabled={isAnySettingPending}
                         onActivate={() =>
                             updateSetting(
                                 "notificationsEnabled",
@@ -380,9 +395,7 @@ export default function SettingsPage() {
                                         checked,
                                     );
                                 }}
-                                disabled={isSettingPending(
-                                    "notificationsEnabled",
-                                )}
+                                disabled={isAnySettingPending}
                                 aria-label={t("notifications.enabled.label")}
                             />
                         }

@@ -7,6 +7,7 @@ type SettingRowProps = {
     control: ReactNode;
     controlId?: string;
     isPending?: boolean;
+    isDisabled?: boolean;
     onActivate?: () => void;
 };
 
@@ -16,6 +17,7 @@ export function SettingRow({
     control,
     controlId,
     isPending = false,
+    isDisabled = false,
     onActivate,
 }: SettingRowProps) {
     const content = (
@@ -37,8 +39,8 @@ export function SettingRow({
                     type="button"
                     aria-controls={controlId}
                     onClick={onActivate}
-                    disabled={isPending}
-                    className="focus-visible:ring-primary/30 min-w-0 flex-1 cursor-pointer text-start outline-none focus-visible:rounded-lg focus-visible:ring-2 disabled:cursor-not-allowed"
+                    disabled={isDisabled || isPending}
+                    className="focus-visible:ring-primary/30 min-w-0 flex-1 cursor-pointer text-start outline-none focus-visible:rounded-lg focus-visible:ring-2 disabled:cursor-default"
                 >
                     {content}
                 </button>

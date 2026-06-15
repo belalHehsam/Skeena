@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useIsMutating } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,7 +9,10 @@ import {
    SUPPORTED_LOCALES,
 } from "@/constants/i18nConfig";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { useUpdateSettings } from "@/features/profile/hooks/useUpdateSettings";
+import {
+   SETTINGS_MUTATION_KEY,
+   useUpdateSettings,
+} from "@/features/profile/hooks/useUpdateSettings";
 import { cn } from "@/lib/utils";
 
 const ChangeLanguage = () => {
@@ -17,6 +21,8 @@ const ChangeLanguage = () => {
 
    const updateSettingsMutation =
       useUpdateSettings();
+   const isAnySettingPending =
+      useIsMutating({ mutationKey: SETTINGS_MUTATION_KEY }) > 0;
 
    const rawLocale =
       i18n.resolvedLanguage ??
@@ -45,6 +51,10 @@ const ChangeLanguage = () => {
       locale: Locale,
    ) => {
       if (locale === currentLocale) {
+         return;
+      }
+
+      if (isAnySettingPending) {
          return;
       }
 
@@ -97,7 +107,7 @@ const ChangeLanguage = () => {
                            );
                         }}
                         disabled={
-                           updateSettingsMutation.isPending
+                           isAnySettingPending
                         }
                         className={cn(
                            "rounded-full px-2.5 text-[0.65rem] font-semibold tracking-wide",

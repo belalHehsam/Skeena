@@ -5,12 +5,14 @@ import { Navbar } from "./Navbar";
 import { PostModal } from "@/features/posts/components/PostModal";
 import { PostModalProvider } from "@/features/posts/context/PostModalContext";
 import { useGlobalChatSocket } from "@/features/chat/hooks/useGlobalChatSocket";
+import useTabTitle from "@/features/notifications/hooks/useTabTitle";
 
 export function MainLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Register global socket listener for chat message notifications
   useGlobalChatSocket();
+  useTabTitle();
 
   return (
     <PostModalProvider>

@@ -6,6 +6,8 @@ import profile from "./profile.json";
 import settings from "./settings.json";
 import friends from "./friends.json";
 import explore from "./explore.json";
+import auth from "./auth.json";
+import errors from "./errors.json";
 
 export const en = {
   common,
@@ -15,5 +17,7 @@ export const en = {
   profile,
   settings,
   friends,
-  explore
+  explore,
+  auth,
+  errors
 } as const;

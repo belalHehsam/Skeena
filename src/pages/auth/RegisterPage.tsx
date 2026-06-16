@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/common/TextField";
 import {
@@ -15,6 +16,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation("auth");
 
   const registerMutation = useRegister({
     onSuccess: () => {
@@ -59,12 +61,11 @@ export default function RegisterPage() {
         </div>
 
         <h1 className="font-heading text-2xl font-bold text-neutral-900 dark:text-white">
-          Join the Community
+          {t("register.title")}
         </h1>
 
         <p className="mt-1 max-w-sm text-sm text-neutral-500 dark:text-neutral-400">
-          Assalamu Alaikum! Welcome to a space of Sakina and respectful
-          connection.
+          {t("register.welcome")}
         </p>
       </div>
 
@@ -72,9 +73,9 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <TextField
             id="displayName"
-            label="Full Name"
+            label={t("register.fullNameLabel")}
             type="text"
-            placeholder="E.g. Omar Farooq"
+            placeholder={t("register.fullNamePlaceholder")}
             autoComplete="name"
             startIcon={<User className="size-4" />}
             error={errors.displayName?.message}
@@ -83,9 +84,9 @@ export default function RegisterPage() {
 
           <TextField
             id="username"
-            label="Username"
+            label={t("register.usernameLabel")}
             type="text"
-            placeholder="E.g. omar_farooq"
+            placeholder={t("register.usernamePlaceholder")}
             autoComplete="username"
             startIcon={<User className="size-4" />}
             error={errors.username?.message}
@@ -94,9 +95,9 @@ export default function RegisterPage() {
 
           <TextField
             id="email"
-            label="Email Address"
+            label={t("register.emailLabel")}
             type="email"
-            placeholder="name@domain.com"
+            placeholder={t("register.emailPlaceholder")}
             autoComplete="email"
             startIcon={<Mail className="size-4" />}
             error={errors.email?.message}
@@ -106,9 +107,9 @@ export default function RegisterPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <TextField
               id="password"
-              label="Password"
+              label={t("register.passwordLabel")}
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder={t("register.passwordPlaceholder")}
               autoComplete="new-password"
               startIcon={<Lock className="size-4" />}
               endIcon={
@@ -116,7 +117,7 @@ export default function RegisterPage() {
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
                   className="rounded-sm text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? t("hidePassword", { defaultValue: "Hide password" }) : t("showPassword", { defaultValue: "Show password" })}
                 >
                   {showPassword ? (
                     <EyeOff className="size-4" />
@@ -131,9 +132,9 @@ export default function RegisterPage() {
 
             <TextField
               id="confirmPassword"
-              label="Confirm Password"
+              label={t("register.confirmPasswordLabel")}
               type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm"
+              placeholder={t("register.confirmPasswordPlaceholder")}
               autoComplete="new-password"
               startIcon={<Lock className="size-4" />}
               endIcon={
@@ -142,7 +143,7 @@ export default function RegisterPage() {
                   onClick={() => setShowConfirmPassword((value) => !value)}
                   className="rounded-sm text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
                   aria-label={
-                    showConfirmPassword ? "Hide password" : "Show password"
+                    showConfirmPassword ? t("hidePassword", { defaultValue: "Hide password" }) : t("showPassword", { defaultValue: "Show password" })
                   }
                 >
                   {showConfirmPassword ? (
@@ -166,10 +167,10 @@ export default function RegisterPage() {
               />
 
               <span>
-                I agree to uphold the community values of{" "}
-                <span className="text-primary font-semibold">respect</span>,{" "}
-                <span className="text-primary font-semibold">Sakina</span>, and
-                truthfulness.
+                {t("register.termsText")}
+                <span className="text-primary font-semibold">{t("register.respect")}</span>,{" "}
+                <span className="text-primary font-semibold">{t("register.sakina")}</span>, {t("register.and")}
+                <span className="text-primary font-semibold">{t("register.truthfulness")}</span>.
               </span>
             </label>
 
@@ -185,19 +186,19 @@ export default function RegisterPage() {
             className="bg-primary hover:bg-primary-600 h-10 w-full rounded-md text-sm font-semibold text-white"
             disabled={registerMutation.isPending}
           >
-            {registerMutation.isPending ? "Creating account..." : "Register"}
+            {registerMutation.isPending ? t("register.submitting") : t("register.submit")}
           </Button>
         </form>
 
         <div className="my-5 h-px bg-neutral-200 dark:bg-neutral-800" />
 
         <p className="text-center text-sm text-neutral-600 dark:text-neutral-400">
-          Already a member?{" "}
+          {t("register.alreadyMember")}{" "}
           <Link
             to="/login"
             className="text-primary font-semibold hover:underline"
           >
-            Sign in
+            {t("register.signIn")}
           </Link>
         </p>
       </div>

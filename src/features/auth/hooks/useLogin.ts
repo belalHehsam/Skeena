@@ -4,6 +4,7 @@ import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 import { loginRequest } from "../services/loginRequest";
 import type { AuthPayload, LoginRequest } from "../types/auth";
 import { useAuth } from "./useAuth";
+import i18n from "@/i18n";
 
 import { AUTH_QUERY_KEYS } from "@/features/auth/constants/auth-query-keys";
 type UseLoginOptions = {
@@ -23,11 +24,11 @@ export function useLogin(options?: UseLoginOptions) {
     mutationFn: ({ payload }: LoginVariables) => loginRequest(payload),
     onSuccess: (payload, variables) => {
       setAuthSession(payload, variables.rememberMe ?? true);
-      toast.success("Welcome back");
+      toast.success(i18n.t("auth:login.welcomeBack"));
       options?.onSuccess?.(payload);
     },
     onError: (error) => {
-      toast.error(getApiErrorMessage(error, "Login failed"));
+      toast.error(getApiErrorMessage(error, i18n.t("auth:login.loginFailed")));
     },
   });
 }

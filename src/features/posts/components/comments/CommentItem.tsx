@@ -2,13 +2,16 @@ import type { Comment } from '../../types/post';
 
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getAvatarColorClass } from "@/components/shared/UserAvatar";
+import { useTranslation } from "react-i18next";
 
 interface CommentItemProps {
   comment: Comment;
 }
 
 export function CommentItem({ comment }: CommentItemProps) {
-  const timeFormatted = new Date(comment.createdAt).toLocaleTimeString('en-US', {
+  const { i18n } = useTranslation();
+  const timeFormatted = new Date(comment.createdAt).toLocaleTimeString(i18n.language || 'en', {
     hour: '2-digit',
     minute: '2-digit'
   });
@@ -18,7 +21,7 @@ export function CommentItem({ comment }: CommentItemProps) {
       <Link to={`/profile/${comment.author._id}`}>
         <Avatar className="w-10 h-10 hover:opacity-80 transition-opacity">
           <AvatarImage src={comment.author.avatar} alt={comment.author.username} />
-          <AvatarFallback className="bg-emerald-600 text-sm font-bold text-white">
+          <AvatarFallback className={`text-sm font-bold ${getAvatarColorClass(comment.author.username)}`}>
             {comment.author.username.slice(0, 2).toLocaleUpperCase()}
           </AvatarFallback>
         </Avatar>

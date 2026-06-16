@@ -14,7 +14,7 @@
     }
   },
   "toast": {
-    "copySuccess": "Link copied to clipboard! 📋",
+    "copySuccess": "Link copied to clipboard!",
     "copyError": "Failed to copy link. Please try again."
   }
 }

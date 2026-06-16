@@ -16,6 +16,18 @@
   },
   "subtitles": {
     "friend": "Friend",
-    "requested": "Requested"
+    "requested": "Requested",
+    "joined": "Joined {{time}}"
+  },
+  "actions": {
+    "loading": "loading...",
+    "unavailable": "Friend actions unavailable",
+    "disabled": "Friend requests disabled",
+    "addFriend": "Add Friend",
+    "cancelRequest": "Cancel Request",
+    "accept": "Accept",
+    "reject": "Reject",
+    "remove": "Remove",
+    "friends": "Friends ✓"
   }
 }

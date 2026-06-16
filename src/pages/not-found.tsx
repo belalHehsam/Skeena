@@ -41,7 +41,7 @@ const NotFound = () => {
                         onClick={() => window.history.back()}
                         className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-neutral-200 bg-white px-5 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
                     >
-                        <ArrowLeft className="size-4" />
+                        <ArrowLeft className="size-4 rtl:rotate-180" />
                         {t("notFound.goBack")}
                     </button>
                 </div>

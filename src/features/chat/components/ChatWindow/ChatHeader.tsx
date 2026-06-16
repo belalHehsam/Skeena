@@ -24,7 +24,7 @@ export function ChatHeader({ participant, onBackClick }: ChatHeaderProps) {
           onClick={onBackClick}
           className="h-8 w-8 rounded-full text-neutral-600 dark:text-neutral-300 cursor-pointer lg:hidden shrink-0"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-5 w-5 rtl:rotate-180" />
         </Button>
       )}
 

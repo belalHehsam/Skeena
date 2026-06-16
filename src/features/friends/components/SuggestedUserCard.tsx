@@ -2,12 +2,15 @@ import { BaseUserCard } from "@/components/shared/BaseUserCard";
 import { formatDistanceToNow } from "@/utils/formatDistanceToNow";
 import { FriendshipActions } from "./FriendshipActions";
 import type { RequestUser } from "../types/friends";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   user: RequestUser;
 }
 
 export const SuggestedUserCard = ({ user }: Props) => {
+  const { t } = useTranslation("friends");
+
   return (
     <BaseUserCard
       user={{
@@ -15,7 +18,7 @@ export const SuggestedUserCard = ({ user }: Props) => {
         username: user.username,
         avatar: undefined,
       }}
-      subtitle={`Joined ${formatDistanceToNow(user.createdAt)}`}
+      subtitle={t("subtitles.joined", { time: formatDistanceToNow(user.createdAt) })}
     >
       <FriendshipActions
         userId={user._id}

@@ -4,17 +4,18 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTogglePostLike } from "../hooks/useTogglePostLike";
 import { useTranslation } from "react-i18next";
+import { getAvatarColorClass } from "@/components/shared/UserAvatar";
 
 interface PostDetailsProps {
   post: Post;
 }
 
 export function PostDetails({ post }: PostDetailsProps) {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   const { mutate: toggleLike } = useTogglePostLike();
 
-  const formattedDate = new Date(post.createdAt).toLocaleDateString("en-US", {
+  const formattedDate = new Date(post.createdAt).toLocaleDateString(i18n.language, {
     hour: "numeric",
     minute: "numeric",
     day: "numeric",
@@ -27,7 +28,7 @@ export function PostDetails({ post }: PostDetailsProps) {
         <div className="flex items-center gap-3">
           <Avatar className="h-12 w-12">
             <AvatarImage src={post.author.avatar} alt={post.author.username} />
-            <AvatarFallback className="bg-emerald-600 text-sm font-bold text-white">
+            <AvatarFallback className={`text-sm font-bold ${getAvatarColorClass(post.author.username)}`}>
               {post.author.username.slice(0, 2).toLocaleUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -47,8 +48,8 @@ export function PostDetails({ post }: PostDetailsProps) {
       )}
 
       {post.recommendation && (
-        <blockquote className="my-2 rounded-r-lg border-l-4 border-green-700 bg-green-50/50 py-3 pr-3 pl-4">
-          <p className="text-lg font-medium text-green-800 italic">
+        <blockquote className="my-2 rounded-r-lg border-l-4 border-primary bg-primary-50/50 py-3 pr-3 pl-4">
+          <p className="text-lg font-medium text-primary-800 italic">
             "
             {post.recommendation.translationText ||
               post.recommendation.arabicText}
@@ -83,8 +84,8 @@ export function PostDetails({ post }: PostDetailsProps) {
           <button
             type="button"
             onClick={() => toggleLike(post._id)}
-            title={post.isLiked ? "Unlike" : "Like"}
-            aria-label={post.isLiked ? "Unlike" : "Like"}
+            title={post.isLiked ? t("post.unlike") : t("post.like")}
+            aria-label={post.isLiked ? t("post.unlike") : t("post.like")}
             className={`flex items-center gap-2 transition-colors ${post.isLiked ? "font-semibold text-red-500" : "text-gray-500 hover:text-red-500"}`}
           >
             <svg
@@ -102,15 +103,15 @@ export function PostDetails({ post }: PostDetailsProps) {
               />
             </svg>
             <span className="font-medium">
-              {Math.max(0, post.likesCount)} Like
+              {t("post.likesCount", { count: Math.max(0, post.likesCount) })}
             </span>
           </button>
 
           <button
             type="button"
-            title="Comment"
-            aria-label="Comment"
-            className="flex items-center gap-2 text-gray-500 transition-colors hover:text-green-700"
+            title={t("post.comment")}
+            aria-label={t("post.comment")}
+            className="flex items-center gap-2 text-gray-500 transition-colors hover:text-primary"
           >
             <FaRegComment size={22} />
 
@@ -119,9 +120,9 @@ export function PostDetails({ post }: PostDetailsProps) {
 
           <button
             type="button"
-            title="Share"
-            aria-label="Share"
-            className="flex items-center gap-2 text-gray-500 transition-colors hover:text-green-700"
+            title={t("post.share")}
+            aria-label={t("post.share")}
+            className="flex items-center gap-2 text-gray-500 transition-colors hover:text-primary"
           >
             <IoShareSocialOutline size={23} />
           </button>
@@ -129,9 +130,9 @@ export function PostDetails({ post }: PostDetailsProps) {
 
         <button
           type="button"
-          title="Bookmark"
-          aria-label="Bookmark"
-          className="text-gray-500 transition-colors hover:text-green-700"
+          title={t("post.bookmark")}
+          aria-label={t("post.bookmark")}
+          className="text-gray-500 transition-colors hover:text-primary"
         >
           <FaRegBookmark size={22} />
         </button>

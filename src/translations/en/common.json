@@ -73,7 +73,8 @@
     "photo": "Photo",
     "video": "Video",
     "feeling": "Feeling",
-    "post": "Post"
+    "post": "Post",
+    "back": "Back"
   },
   "layout": {
     "appName": "Majlis",
@@ -95,6 +96,22 @@
       "settings": "Settings",
       "openProfile": "Open profile"
     }
+  },
+  "post": {
+    "likesCount_one": "{{count}} Like",
+    "likesCount_other": "{{count}} Likes",
+    "commentsCount_one": "{{count}} Comment",
+    "commentsCount_other": "{{count}} Comments",
+    "like": "Like",
+    "unlike": "Unlike",
+    "comment": "Comment",
+    "share": "Share",
+    "bookmark": "Bookmark",
+    "writeComment": "Write a comment...",
+    "posting": "Posting...",
+    "postBtn": "Post",
+    "loadMoreComments": "Load More Comments",
+    "loadingMore": "Loading..."
   }
 }
 

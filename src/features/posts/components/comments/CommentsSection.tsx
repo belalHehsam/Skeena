@@ -1,5 +1,7 @@
 import { CommentItem } from './CommentItem';
 import type { Comment } from '../../types/post';
+import { useTranslation } from "react-i18next";
+
 interface CommentsSectionProps {
   comments: Comment[];
   totalComments: number;
@@ -16,11 +18,12 @@ export function CommentsSection({
   hasNextPage,
   isLoadingMore,
 }: CommentsSectionProps) {
+  const { t } = useTranslation("common");
 
   return (
-    <div className="bg-card border-x border-b border-emerald-100 dark:border-emerald-900 rounded-none sm:rounded-b-xl p-4 sm:p-5 shadow-sm pt-0 sm:pt-0">
+    <div className="bg-card border-x border-b border-neutral-200 dark:border-neutral-800 rounded-none sm:rounded-b-xl p-4 sm:p-5 shadow-sm pt-2 sm:pt-2">
       <h3 className="font-bold text-lg text-foreground mb-4">
-        Comments ({totalComments})
+        {t("post.commentsCount", { count: totalComments })}
       </h3>
 
 
@@ -40,10 +43,10 @@ export function CommentsSection({
           {isLoadingMore ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-neutral-600 dark:border-neutral-400"></div>
-              <span>Loading...</span>
+              <span>{t("post.loadingMore")}</span>
             </>
           ) : (
-            'Load More Comments'
+            t("post.loadMoreComments")
           )}
         </button>
       )}

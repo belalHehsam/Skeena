@@ -8,7 +8,7 @@ interface PostsEmptyPromptProps {
 }
 
 export function PostsEmptyPrompt({ query }: PostsEmptyPromptProps) {
-  const { t } = useTranslation("explore");
+  const { t } = useTranslation(["explore", "common"]);
   const isShort = !query || query.trim().length < 2;
 
   return (
@@ -28,8 +28,8 @@ export function PostsEmptyPrompt({ query }: PostsEmptyPromptProps) {
         </p>
         <p className="mt-1.5 text-sm text-neutral-400 dark:text-neutral-500">
           {isShort
-            ? t("empty.typeMinCharsPosts")
-            : t("empty.tryDifferentKeywords")}
+             ? t("empty.typeMinCharsPosts")
+             : t("empty.tryDifferentKeywords")}
         </p>
       </div>
 
@@ -40,7 +40,7 @@ export function PostsEmptyPrompt({ query }: PostsEmptyPromptProps) {
               key={tag}
               className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-medium text-neutral-500 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400"
             >
-              #{tag}
+              #{t("common:categories." + tag, { defaultValue: tag })}
             </span>
           ))}
         </div>

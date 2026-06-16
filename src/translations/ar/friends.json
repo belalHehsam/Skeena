@@ -16,6 +16,18 @@
   },
   "subtitles": {
     "friend": "صديق",
-    "requested": "تم الطلب"
+    "requested": "تم الطلب",
+    "joined": "انضم {{time}}"
+  },
+  "actions": {
+    "loading": "جاري التحميل...",
+    "unavailable": "إجراءات الصداقة غير متوفرة",
+    "disabled": "طلبات الصداقة معطلة",
+    "addFriend": "إضافة صديق",
+    "cancelRequest": "إلغاء الطلب",
+    "accept": "قبول",
+    "reject": "رفض",
+    "remove": "إزالة",
+    "friends": "أصدقاء ✓"
   }
 }

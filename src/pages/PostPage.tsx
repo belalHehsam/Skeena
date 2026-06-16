@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useGetPostComments } from "@/features/posts/hooks/useGetPostComments";
 import { CommentsSection } from "@/features/posts/components/comments/CommentsSection";
+import { useTranslation } from "react-i18next";
 
 export default function PostPage() {
+  const { t } = useTranslation("common");
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data, isLoading, isError, refetch } = useGetPostById(id);
@@ -46,12 +48,11 @@ export default function PostPage() {
       <div className="flex items-center px-4 sm:px-0">
         <Button
           variant="ghost"
-          size="sm"
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+          className="flex items-center gap-2 text-neutral-600 dark:text-neutral-350 hover:text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800 text-sm sm:text-base font-semibold rounded-full py-1.5 px-3.5 h-auto cursor-pointer"
         >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Back</span>
+          <ArrowLeft className="h-5 w-5 rtl:rotate-180" />
+          <span>{t("actions.back")}</span>
         </Button>
       </div>
 

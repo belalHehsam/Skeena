@@ -4,6 +4,7 @@ import { useSendFriendRequest } from "../hooks/useSendFriendRequests";
 import { useCancelFriendRequest } from "../hooks/useCancelFriendRequest";
 import { useAcceptRequest } from "../hooks/useAcceptRequest";
 import { useRejectRequest } from "../hooks/useRejectRequest";
+import { useTranslation } from "react-i18next";
 
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,7 @@ export const FriendshipActions = ({
 
   initialStatus,
 }: FriendshipActionsProps) => {
+  const { t } = useTranslation("friends");
   const { data, isLoading, isError } = useFriendshipStatus(
     userId,
     initialStatus
@@ -53,7 +55,7 @@ export const FriendshipActions = ({
   if (isLoading && status === undefined) {
     return (
       <Button className={cn("w-full", className)} disabled>
-        loading...
+        {t("actions.loading")}
       </Button>
     );
   }
@@ -61,7 +63,7 @@ export const FriendshipActions = ({
   if (isError && status === undefined) {
     return (
       <Button className={cn("w-full", className)} variant="outline" disabled>
-        Friend actions unavailable
+        {t("actions.unavailable")}
       </Button>
     );
   }
@@ -70,14 +72,14 @@ export const FriendshipActions = ({
     if (allowFriendRequests === false) {
       return (
         <Button className={cn("w-full", className)} variant="outline" disabled>
-          Friend requests disabled
+          {t("actions.disabled")}
         </Button>
       );
     }
 
     return (
       <Button
-        className={cn("w-full", className)}
+        className={cn("w-full bg-[#1B5E4F] hover:bg-[#2E8B72] text-white font-medium text-sm px-5 py-2 h-auto rounded-full border-none", className)}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -85,7 +87,7 @@ export const FriendshipActions = ({
         }}
         disabled={sendRequestMutation.isPending}
       >
-        Add Friend
+        {t("actions.addFriend")}
       </Button>
     );
   }
@@ -93,8 +95,8 @@ export const FriendshipActions = ({
   if (status === "pending_sent") {
     return (
       <Button
-        className={cn("w-full", className)}
-        variant="secondary"
+        className={cn("w-full border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full", className)}
+        variant="outline"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -104,7 +106,7 @@ export const FriendshipActions = ({
         }}
         disabled={cancelRequestMutation.isPending}
       >
-        Cancel Request
+        {t("actions.cancelRequest")}
       </Button>
     );
   }
@@ -113,7 +115,7 @@ export const FriendshipActions = ({
     return (
       <>
         <Button
-          className={cn("flex-1", className)}
+          className={cn("flex-1 bg-[#1B5E4F] hover:bg-[#2E8B72] text-white font-medium text-sm px-5 py-2 h-auto rounded-full border-none", className)}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -123,10 +125,10 @@ export const FriendshipActions = ({
           }}
           disabled={acceptRequestMutation.isPending}
         >
-          Accept
+          {t("actions.accept")}
         </Button>
         <Button
-          className={cn("flex-1", className)}
+          className={cn("flex-1 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full", className)}
           variant="outline"
           onClick={(e) => {
             e.preventDefault();
@@ -137,7 +139,7 @@ export const FriendshipActions = ({
           }}
           disabled={rejectRequestMutation.isPending}
         >
-          Reject
+          {t("actions.reject")}
         </Button>
       </>
     );
@@ -156,20 +158,20 @@ export const FriendshipActions = ({
             console.log("Remove friend clicked");
           }}
         >
-          Remove
+          {t("actions.remove")}
         </Button>
       );
     }
     return (
       <Button className={cn("w-full", className)} variant="outline" disabled>
-        Friends ✓
+        {t("actions.friends")}
       </Button>
     );
   }
 
   return (
     <Button className={cn("w-full", className)} variant="outline" disabled>
-      Friend actions unavailable
+      {t("actions.unavailable")}
     </Button>
   );
 };

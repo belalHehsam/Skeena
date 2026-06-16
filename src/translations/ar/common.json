@@ -73,7 +73,8 @@
     "photo": "صورة",
     "video": "فيديو",
     "feeling": "شعور",
-    "post": "نشر"
+    "post": "نشر",
+    "back": "رجوع"
   },
   "layout": {
     "appName": "مجلس",
@@ -95,5 +96,29 @@
       "settings": "الإعدادات",
       "openProfile": "فتح الملف الشخصي"
     }
+  },
+  "post": {
+    "likesCount_zero": "لا توجد إعجابات",
+    "likesCount_one": "إعجاب واحد",
+    "likesCount_two": "إعجابان",
+    "likesCount_few": "{{count}} إعجابات",
+    "likesCount_many": "{{count}} إعجابًا",
+    "likesCount_other": "{{count}} إعجاب",
+    "commentsCount_zero": "لا توجد تعليقات",
+    "commentsCount_one": "تعليق واحد",
+    "commentsCount_two": "تعليقان",
+    "commentsCount_few": "{{count}} تعليقات",
+    "commentsCount_many": "{{count}} تعليقًا",
+    "commentsCount_other": "{{count}} تعليق",
+    "like": "إعجاب",
+    "unlike": "إلغاء الإعجاب",
+    "comment": "تعليق",
+    "share": "مشاركة",
+    "bookmark": "حفظ",
+    "writeComment": "اكتب تعليقاً...",
+    "posting": "جاري النشر...",
+    "postBtn": "نشر",
+    "loadMoreComments": "تحميل المزيد من التعليقات",
+    "loadingMore": "جاري التحميل..."
   }
 }

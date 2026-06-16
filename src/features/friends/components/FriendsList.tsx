@@ -55,7 +55,7 @@ const FriendsList = () => {
             userId={friend._id}
             initialStatus={friend.friendshipStatus}
             initialRequestId={friend.friendshipRequestId}
-            showRemove
+            // showRemove
           />
         </BaseUserCard>
       ))}

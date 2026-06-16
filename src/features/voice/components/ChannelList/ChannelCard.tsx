@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { getCategoryName } from "@/utils/category";
 import type { VoiceChannel } from "../../types/voice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +14,7 @@ interface ChannelCardProps {
 
 export function ChannelCard({ channel, isActive }: ChannelCardProps) {
   const navigate = useNavigate();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const isEnded = channel.status === "ended";
 
   const displayedParticipants = channel.participants || [];
@@ -35,7 +36,7 @@ export function ChannelCard({ channel, isActive }: ChannelCardProps) {
           variant="outline"
           className="border-secondary-500/20 bg-secondary-500/10 text-secondary-600 dark:text-secondary-400 font-semibold px-2 py-0.5 text-[10px]"
         >
-          {channel.category?.name || "General"}
+          {getCategoryName(channel.category, i18n.language) || "General"}
         </Badge>
 
         {!isEnded && (

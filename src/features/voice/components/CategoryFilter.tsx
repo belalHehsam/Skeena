@@ -1,5 +1,6 @@
 import type { Category } from "@/types/category";
 import { useTranslation } from "react-i18next";
+import { getCategoryName } from "@/utils/category";
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -12,7 +13,7 @@ export function CategoryFilter({
   selectedCategoryId,
   onSelectCategory,
 }: CategoryFilterProps) {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   return (
     <div className="flex w-full items-center gap-2 overflow-x-auto pb-3 pt-1 scrollbar-none">
@@ -37,7 +38,7 @@ export function CategoryFilter({
               : "bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-300"
           }`}
         >
-          {category.name}
+          {getCategoryName(category, i18n.language)}
         </button>
       ))}
     </div>

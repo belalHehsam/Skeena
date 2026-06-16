@@ -1,11 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import type { VoiceChannel } from "../../types/voice";
+import { getCategoryName } from "@/utils/category";
+import { useTranslation } from "react-i18next";
 
 interface RoomHeaderProps {
   channel: VoiceChannel;
 }
 
 export function RoomHeader({ channel }: RoomHeaderProps) {
+  const { i18n } = useTranslation();
+
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 border-b bg-background/85 backdrop-blur px-6 py-4 sticky top-0 z-10">
       <div className="space-y-1">
@@ -17,7 +21,7 @@ export function RoomHeader({ channel }: RoomHeaderProps) {
             variant="outline"
             className="border-secondary-500/20 bg-secondary-500/10 text-secondary-600 dark:text-secondary-400 font-semibold px-2 py-0.5 text-[10px]"
           >
-            {channel.category?.name || "General"}
+            {getCategoryName(channel.category, i18n.language) || "General"}
           </Badge>
         </div>
         <p className="text-xs text-neutral-500">

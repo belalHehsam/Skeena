@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import type { Category } from "@/types/category";
+import { getCategoryName } from "@/utils/category";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -35,7 +36,7 @@ export function CreateChannelForm({
   onSubmit,
   isPending,
 }: CreateChannelFormProps) {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
   const {
     register,
     handleSubmit,
@@ -57,7 +58,7 @@ export function CreateChannelForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] text-neutral-400 ml-auto">
+          <span className="text-[10px] text-neutral-400">
             {titleValue.length}/80
           </span>
         </div>
@@ -72,8 +73,8 @@ export function CreateChannelForm({
         />
       </div>
 
-      <div className="space-y-1.5 text-left">
-        <label className="text-xs font-semibold text-neutral-800 dark:text-neutral-200 font-heading">
+      <div className="space-y-1.5 text-start">
+        <label className="text-sm font-semibold text-neutral-800 dark:text-neutral-200 font-heading">
           {t("voice.category")}
         </label>
         <Select
@@ -82,14 +83,12 @@ export function CreateChannelForm({
           disabled={isPending}
         >
           <SelectTrigger className="w-full focus:ring-primary border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 h-10">
-            <SelectValue placeholder={t("voice.selectCategory")}>
-              {(value) => categories.find((c) => c._id === value)?.name || value}
-            </SelectValue>
+            <SelectValue placeholder={t("voice.selectCategory")} />
           </SelectTrigger>
           <SelectContent>
             {categories.map((category) => (
               <SelectItem key={category._id} value={category._id}>
-                {category.name}
+                {getCategoryName(category, i18n.language)}
               </SelectItem>
             ))}
           </SelectContent>

@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { useIsMutating } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
+import { Globe, ChevronDown, Check } from "lucide-react";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
    DEFAULT_LOCALE,
    LANG_DIR,
@@ -13,14 +19,12 @@ import {
    SETTINGS_MUTATION_KEY,
    useUpdateSettings,
 } from "@/features/profile/hooks/useUpdateSettings";
-import { cn } from "@/lib/utils";
 
 const ChangeLanguage = () => {
    const { i18n } = useTranslation();
    const { user } = useAuth();
 
-   const updateSettingsMutation =
-      useUpdateSettings();
+   const updateSettingsMutation = useUpdateSettings();
    const isAnySettingPending =
       useIsMutating({ mutationKey: SETTINGS_MUTATION_KEY }) > 0;
 
@@ -80,54 +84,40 @@ const ChangeLanguage = () => {
    };
 
    return (
-      <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-2 py-1 shadow-sm">
-         <span className="text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground">
-            Lang
-         </span>
+      <DropdownMenu>
+         <DropdownMenuTrigger
+            disabled={isAnySettingPending}
+            className="inline-flex items-center justify-center h-8 gap-2 rounded-lg border border-neutral-200 bg-white/70 px-3 text-xs font-medium text-neutral-700 shadow-sm backdrop-blur-md transition-all hover:bg-neutral-50 hover:text-neutral-900 focus-visible:ring-1 focus-visible:ring-primary dark:border-neutral-800 dark:bg-neutral-900/70 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 cursor-pointer outline-none"
+         >
+            <Globe className="h-3.5 w-3.5 text-primary" />
+            <span className="font-heading">
+               {LOCALE_INFO[currentLocale].name}
+            </span>
+            <ChevronDown className="h-3 w-3 text-neutral-400 dark:text-neutral-500" />
+         </DropdownMenuTrigger>
+         
+         <DropdownMenuContent
+            align="end"
+            className="w-36 rounded-xl border border-neutral-200 bg-white p-1 shadow-md dark:border-neutral-800 dark:bg-neutral-950"
+         >
+            {SUPPORTED_LOCALES.map((locale) => {
+               const isActive = locale === currentLocale;
 
-         <div className="flex items-center rounded-full bg-muted/70 p-0.5">
-            {SUPPORTED_LOCALES.map(
-               (locale) => {
-                  const isActive =
-                     locale === currentLocale;
-
-                  return (
-                     <Button
-                        key={locale}
-                        type="button"
-                        variant={
-                           isActive
-                              ? "secondary"
-                              : "ghost"
-                        }
-                        size="xs"
-                        onClick={() => {
-                           handleChangeLanguage(
-                              locale,
-                           );
-                        }}
-                        disabled={
-                           isAnySettingPending
-                        }
-                        className={cn(
-                           "rounded-full px-2.5 text-[0.65rem] font-semibold tracking-wide",
-                           isActive
-                              ? "shadow-sm"
-                              : "text-foreground/70 hover:text-foreground",
-                        )}
-                     >
-                        <span className="font-heading">
-                           {
-                              LOCALE_INFO[locale]
-                                 .name
-                           }
-                        </span>
-                     </Button>
-                  );
-               },
-            )}
-         </div>
-      </div>
+               return (
+                  <DropdownMenuItem
+                     key={locale}
+                     onClick={() => handleChangeLanguage(locale)}
+                     className="flex cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors focus:bg-neutral-100 focus:text-neutral-900 dark:focus:bg-neutral-800 dark:focus:text-neutral-100"
+                  >
+                     <span className={isActive ? "font-semibold text-primary" : "text-neutral-600 dark:text-neutral-400"}>
+                        {LOCALE_INFO[locale].name}
+                     </span>
+                     {isActive && <Check className="h-3.5 w-3.5 text-primary" />}
+                  </DropdownMenuItem>
+               );
+            })}
+         </DropdownMenuContent>
+      </DropdownMenu>
    );
 };
 

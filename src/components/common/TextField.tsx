@@ -27,7 +27,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
                 <div className="relative">
                     {startIcon && (
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">
+                        <div className="absolute inset-s-3 top-1/2 -translate-y-1/2 text-neutral-400">
                             {startIcon}
                         </div>
                     )}
@@ -38,8 +38,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                         className={cn(
                             "h-10 w-full rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 outline-none transition",
                             "placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:border-primary focus:bg-white dark:focus:bg-neutral-950 focus:ring-2 focus:ring-primary/15",
-                            startIcon ? "pl-9" : "pl-3",
-                            endIcon ? "pr-10" : "pr-3",
+                            startIcon ? "ps-9" : "ps-3",
+                            endIcon ? "pe-10" : "pe-3",
                             error &&
                             "border-destructive focus:border-destructive focus:ring-destructive/15",
                             className,
@@ -48,7 +48,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                     />
 
                     {endIcon && (
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500">
+                        <div className="absolute inset-e-3 top-1/2 -translate-y-1/2 text-neutral-500">
                             {endIcon}
                         </div>
                     )}

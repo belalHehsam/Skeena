@@ -20,7 +20,7 @@ export const FilterTabs: FC<Props> = ({ activeValue, setActiveValue }) => {
           onClick={() => setActiveValue(tab.id)}
           className={`rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
             activeValue === tab.id
-              ? "bg-emerald-500 text-white"
+              ? "bg-primary text-white"
               : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
           }`}
         >

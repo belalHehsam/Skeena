@@ -40,22 +40,23 @@ const NotificationDropdown: FC = () => {
       >
         <Bell className="size-5" />
         {unreadNotifications > 0 && (
-          <span className="ring-background absolute inset-e-0 top-0 flex h-4 min-w-4 translate-x-1 rtl:-translate-x-1 -translate-y-1 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] leading-none font-bold text-white ring-2">
+          <span className="ring-background absolute inset-e-2 top-1.5 flex h-4 min-w-4 translate-x-1 rtl:-translate-x-1 -translate-y-1 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] leading-none font-bold text-white ring-2">
             {notificationLabel}
           </span>
         )}
         <span className="sr-only">{t("title")}</span>
       </PopoverTrigger>
-      <PopoverContent align={isMobile ? "center" : "end"}>
-        <div className="flex items-center justify-between">
-          <PopoverHeader>{t("title")}</PopoverHeader>
+      <PopoverContent align={isMobile ? "center" : "end"} className="p-0 flex flex-col gap-0 w-72 sm:w-80">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100 dark:border-neutral-800">
+          <PopoverHeader className="p-0 font-semibold text-neutral-900 dark:text-neutral-100">{t("title")}</PopoverHeader>
           {unreadNotifications > 0 && (
             <Button
               variant="link"
               size="sm"
               onClick={() => markAllNotificationsRead()}
+              className="text-xs h-auto p-0 flex items-center gap-1 text-primary hover:text-primary/80"
             >
-              <CheckCheckIcon className="size-4" />
+              <CheckCheckIcon className="size-3.5" />
               {t("markAllRead")}
             </Button>
           )}
@@ -63,16 +64,18 @@ const NotificationDropdown: FC = () => {
 
         <NotificationList onItemClick={() => setOpen(false)} />
 
-        <Button
-          variant="outline"
-          className="mt-2 w-full"
-          onClick={() => {
-            setOpen(false);
-            navigate("/notifications");
-          }}
-        >
-          {t("viewAll")}
-        </Button>
+        <div className="px-4 py-3 border-t border-neutral-100 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/20">
+          <Button
+            variant="outline"
+            className="w-full border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-sm font-medium"
+            onClick={() => {
+              setOpen(false);
+              navigate("/notifications");
+            }}
+          >
+            {t("viewAll")}
+          </Button>
+        </div>
       </PopoverContent>
     </Popover>
   );

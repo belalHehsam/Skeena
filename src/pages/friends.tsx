@@ -11,8 +11,8 @@ const Friends = () => {
   const [activeTab, setActiveTab] = useState<FriendsTabs>("list");
 
   return (
-    <div className="flex animate-fade-right flex-col gap-8">
-      <h1 className="m-4 text-3xl font-bold">{t("title")}</h1>
+    <div className="flex animate-fade-right flex-col gap-6 pt-8 px-4 lg:px-6">
+      <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
       <FilterTabs activeValue={activeTab} setActiveValue={setActiveTab} />
       <div>
         {activeTab === "list" && <FriendsList />}

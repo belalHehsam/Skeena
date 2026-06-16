@@ -2,6 +2,7 @@ import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePostModal } from "../context/PostModalContext";
 import { useTranslation } from "react-i18next";
+import { getAvatarColorClass } from "@/components/shared/UserAvatar";
 export default function CreatePostTrigger() {
   const { data } = useGetCurrentUser();
   const { t, i18n } = useTranslation("common");
@@ -17,7 +18,7 @@ export default function CreatePostTrigger() {
             <div className="relative shrink-0">
               <Avatar className="border-background h-10 w-10 border-2">
                 <AvatarImage src={data?.data.user.avatar} alt={data?.data.user.username} />
-                <AvatarFallback className="bg-emerald-600 text-sm font-medium text-white">
+                <AvatarFallback className={`text-sm font-medium ${getAvatarColorClass(data?.data.user.username || "")}`}>
                   {userInitial}
                 </AvatarFallback>
               </Avatar>

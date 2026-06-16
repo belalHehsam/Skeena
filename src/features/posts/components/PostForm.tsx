@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { usePostModal } from "../context/PostModalContext";
 import type { Post } from "../types/post";
+import { getAvatarColorClass } from "@/components/shared/UserAvatar";
 
 interface PostFormProps {
   post?: Post | null;
@@ -87,7 +88,7 @@ export function PostForm({ post }: PostFormProps = {}) {
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10 border border-neutral-200 dark:border-neutral-700">
               <AvatarImage src={user?.avatar} alt={user?.username} />
-              <AvatarFallback className="bg-emerald-600 text-sm font-bold text-white">{user?.username?.[0]?.toUpperCase()}</AvatarFallback>
+              <AvatarFallback className={`text-sm font-bold ${getAvatarColorClass(user?.username || "")}`}>{user?.username?.[0]?.toUpperCase()}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <span className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">{user?.username}</span>

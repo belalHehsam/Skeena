@@ -55,7 +55,7 @@ const Notifications: FC = () => {
   }
 
   return (
-    <div className="mx-auto animate-fade-left max-w-5xl px-4 py-6 lg:px-8">
+    <div className="mx-auto animate-fade-left max-w-5xl px-4 pt-8 pb-6 lg:px-6">
       <NotificationHeader />
 
       <NotificationFilterTabs
@@ -81,7 +81,7 @@ const Notifications: FC = () => {
           <div className="flex flex-col">
             {groupedNotifications.map((group) => (
               <div key={group.label} className="flex flex-col">
-                <div className="mb-2 mt-6 text-sm font-medium text-neutral-500 first:mt-0 dark:text-neutral-400">
+                <div className="mb-2 mt-6 text-xs font-medium uppercase tracking-widest text-neutral-400 first:mt-0 dark:text-neutral-500">
                   {t(group.label)}
                 </div>
                 <div className="flex flex-col gap-2.5">

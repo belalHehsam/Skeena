@@ -34,7 +34,7 @@ export const NotificationHeader = () => {
   return (
     <div className="mb-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">{t("title")}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
         {import.meta.env.DEV && (
           <Button
             variant="outline"
@@ -51,10 +51,10 @@ export const NotificationHeader = () => {
 
       {unreadCount > 0 && (
         <Button
-          variant="ghost"
+          variant="outline"
           onClick={() => markAllRead()}
           disabled={isMarkingRead}
-          className="text-sm font-medium text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700 sm:text-base dark:text-emerald-500 dark:hover:bg-emerald-500/10"
+          className="rounded-full border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-sm font-medium text-neutral-700 dark:text-neutral-300 px-4 py-1.5 h-auto"
         >
           {isMarkingRead ? t("markingRead") : t("markAllRead")}
         </Button>

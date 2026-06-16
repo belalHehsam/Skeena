@@ -77,7 +77,7 @@ export function Sidebar({ onClose }: SidebarProps) {
   }
 
   return (
-    <aside className="bg-background flex h-full w-64 flex-col border-r rtl:border-r-0 rtl:border-l">
+    <aside className="bg-white dark:bg-[#182E27] flex h-full w-64 flex-col border-r border-neutral-200 dark:border-neutral-800 rtl:border-r-0 rtl:border-l rtl:border-neutral-200 dark:rtl:border-neutral-800">
       {/* Logo */}
       <div className="flex items-center justify-between px-6 pt-3">
         <Link

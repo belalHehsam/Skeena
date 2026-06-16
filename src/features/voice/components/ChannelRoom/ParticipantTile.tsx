@@ -18,7 +18,7 @@ export function ParticipantTile({ participant, isSelf, stream }: ParticipantTile
         <div
           className={`rounded-full p-1 transition-all duration-300 ${
             isSpeaking
-              ? "ring-4 ring-emerald-400 animate-pulse shadow-[0_0_15px_rgba(52,211,153,0.5)]"
+              ? "ring-4 ring-primary-400 animate-pulse shadow-[0_0_15px_rgba(46,139,114,0.4)]"
               : "ring-2 ring-transparent"
           }`}
         >

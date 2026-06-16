@@ -77,8 +77,8 @@ export function RoomControls({
             render={
               <Button
                 onClick={onLeave}
-                variant="default"
-                className="h-11 w-11 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer transition-all"
+                variant="destructive"
+                className="h-11 w-11 rounded-full bg-red-500 hover:bg-red-600 text-white cursor-pointer transition-all"
               />
             }
           >

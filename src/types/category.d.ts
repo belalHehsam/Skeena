@@ -3,4 +3,10 @@ export type Category = {
   name: string;
   slug: string;
   description?: string;
+  translations?: {
+    ar?: {
+      name?: string;
+      description?: string;
+    };
+  };
 };

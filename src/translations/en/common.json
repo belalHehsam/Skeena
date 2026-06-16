@@ -1,6 +1,5 @@
 {
   "hello": "Hello",
-  "an-error-occurred": "An error occurred",
   "noData": {
     "default": "No data available",
     "description": "There is no data to display at the moment"

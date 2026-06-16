@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { NOTIFICATION_QUERY_KEYS } from "@/features/notifications/constants/notification-query-keys";
 
 export const NotificationHeader = () => {
-  const { t } = useTranslation("notifications");
+  const { t } = useTranslation(["notifications", "errors"]);
   const queryClient = useQueryClient();
   const unreadCount = useNotificationStore((state) => state.unreadCount);
   const { mutate: markAllRead, isPending: isMarkingRead } =
@@ -23,9 +23,9 @@ export const NotificationHeader = () => {
       setIsTesting(true);
       await customFetch("/notifications/test", { method: "POST" });
       queryClient.invalidateQueries({ queryKey: NOTIFICATION_QUERY_KEYS.all });
-      toast.success("Test notifications triggered successfully!");
+      toast.success(t("errors:notifications.testTriggerSuccess"));
     } catch {
-      toast.error("Failed to trigger test notifications");
+      toast.error(t("errors:notifications.testTriggerFailed"));
     } finally {
       setIsTesting(false);
     }
@@ -44,7 +44,7 @@ export const NotificationHeader = () => {
             className="flex items-center gap-2 border-dashed border-amber-500 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:text-amber-800 dark:bg-amber-950/20 dark:text-amber-400"
           >
             <Bug className="size-4" />
-            Test Realtime
+            {t("testRealtime", { defaultValue: "Test Realtime" })}
           </Button>
         )}
       </div>

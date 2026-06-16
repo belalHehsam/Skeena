@@ -33,16 +33,16 @@ export default function PostAction({
 }) {
   const { mutate: handleDelete } = useDeletePost(post, activeCategory);
   const { data } = useGetCurrentUser();
-  const { t } = useTranslation("postAction");
+  const { t } = useTranslation(["postAction", "errors"]);
   const { openEdit } = usePostModal();
 
   function deleteFun() {
     handleDelete();
-    toast.success("Post Deleted Successfully");
+    toast.success(t("errors:posts.deletedSuccess"));
   }
   return (
       <AlertDialog>
-        <div className="absolute end-4 top-1 z-20">
+        <div className="absolute inset-e-4 top-1 z-20">
           <DropdownMenu>
             <DropdownMenuTrigger className="hover:text-foreground block cursor-pointer rounded-full p-1.5 text-gray-500 transition-colors outline-none hover:bg-neutral-100 dark:hover:bg-neutral-800">
               <MoreHorizontal className="h-5 w-5" />

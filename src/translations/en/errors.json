@@ -1,0 +1,36 @@
+{
+  "notFound": {
+    "badge": "404 — Page Not Found",
+    "title": "This page is not part of the Majlis yet.",
+    "desc": "The page you are looking for may have been moved, deleted, or the URL may be incorrect.",
+    "goHome": "Go Home",
+    "goBack": "Go Back",
+    "footer": "Majlis Community Platform"
+  },
+  "postView": {
+    "failedToLoad": "Failed to load the post. Please try again later.",
+    "goBack": "Go Back",
+    "backToFeeds": "Back to feeds",
+    "back": "Back"
+  },
+  "voice": {
+    "channelNotFound": "Voice channel not found or has already ended.",
+    "goBackList": "Go back to channels list",
+    "failedToCreate": "Failed to create channel",
+    "createdSuccess": "\"{{title}}\" created!",
+    "roomEnded": "Room ended",
+    "failedToEnd": "Failed to end channel"
+  },
+  "notifications": {
+    "markedAllRead": "All notifications marked as read",
+    "testTriggerSuccess": "Test notifications triggered successfully!",
+    "testTriggerFailed": "Failed to trigger test notifications"
+  },
+  "posts": {
+    "reviewedApproved": "Post successfully reviewed and approved!",
+    "flaggedReview": "Your post has been flagged and needs manual review.",
+    "emptyContent": "Post content cannot be empty.",
+    "selectTag": "Please select at least one tag for your post.",
+    "deletedSuccess": "Post Deleted Successfully"
+  }
+}

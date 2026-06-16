@@ -6,6 +6,7 @@ import type { TipTapEditorRef } from "../components/TipTapEditor";
 import { useUpdatePost } from "./useUpdatePost";
 import type { Post } from "../types/post";
 import { toast } from "sonner";
+import i18n from "@/i18n";
 
 export type PostTag = "quran" | "hadith" | "fiqh" | "general" | "dua" | "tafsir" | "seerah" | "reminder";
 
@@ -85,9 +86,9 @@ export function usePostForm(initialData?: Post | null) {
         setStep("review");
         
         if (data.data.moderation.status === "approved") {
-          toast.success("Post successfully reviewed and approved!");
+          toast.success(i18n.t("errors:posts.reviewedApproved"));
         } else if (data.data.moderation.status === "needs_review") {
-          toast.warning("Your post has been flagged and needs manual review.");
+          toast.warning(i18n.t("errors:posts.flaggedReview"));
         }
       },
       onError: (error: any) => {
@@ -155,12 +156,12 @@ export function usePostForm(initialData?: Post | null) {
     if (isPending) return;
 
     if (!content.trim() || contentLength === 0) {
-      toast.error("Post content cannot be empty.");
+      toast.error(i18n.t("errors:posts.emptyContent"));
       return;
     }
 
     if (tags.length === 0) {
-      toast.error("Please select at least one tag for your post.");
+      toast.error(i18n.t("errors:posts.selectTag"));
       return;
     }
 

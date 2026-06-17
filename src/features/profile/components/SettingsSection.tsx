@@ -21,7 +21,7 @@ export function SettingsSection({
             id={id}
             className="bg-card scroll-mt-24 overflow-hidden rounded-2xl border border-neutral-200 shadow-sm dark:border-neutral-800"
         >
-            <div className="flex items-start gap-3 border-b border-neutral-200 px-5 py-5 sm:px-6 dark:border-neutral-800">
+            <div className="flex items-center gap-3 border-b border-neutral-200 px-5 py-5 sm:px-6 dark:border-neutral-800">
                 <div className="bg-primary/10 text-primary grid size-9 shrink-0 place-items-center rounded-xl">
                     <Icon className="size-4.5" aria-hidden="true" />
                 </div>

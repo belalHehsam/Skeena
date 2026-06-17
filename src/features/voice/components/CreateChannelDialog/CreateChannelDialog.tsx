@@ -27,7 +27,7 @@ export function CreateChannelDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle className="font-heading text-xl font-bold text-neutral-900 dark:text-neutral-100">
             {t("voice.startRoomTitle")}

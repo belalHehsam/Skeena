@@ -77,7 +77,7 @@ export function Sidebar({ onClose }: SidebarProps) {
   }
 
   return (
-    <aside className="bg-white dark:bg-[#182E27] flex h-full w-64 flex-col border-r border-neutral-200 dark:border-neutral-800 rtl:border-r-0 rtl:border-l rtl:border-neutral-200 dark:rtl:border-neutral-800">
+    <aside className="bg-sidebar text-sidebar-foreground flex h-full w-64 flex-col border-r border-sidebar-border rtl:border-r-0 rtl:border-l rtl:border-sidebar-border">
       {/* Logo */}
       <div className="flex items-center justify-between px-6 pt-3">
         <Link
@@ -93,7 +93,7 @@ export function Sidebar({ onClose }: SidebarProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
             onClick={onClose}
           >
             <X className="h-5 w-5" />
@@ -107,23 +107,23 @@ export function Sidebar({ onClose }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex flex-1 flex-col gap-2 p-4">
         {navLinks.map((link) => {
-            if (link.name === "Create Post") {
-              const Icon = link.icon;
-              return (
-                <Button
-                  key={link.name}
-                  variant="ghost"
-                  onClick={() => {
-                    openCreate();
-                    onClose?.();
-                  }}
-                  className="w-full h-auto justify-start gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
-                >
-                  <Icon className="size-5" />
-                  {t(link.translationKey, link.name)}
-                </Button>
-              );
-            }
+          if (link.name === "Create Post") {
+            const Icon = link.icon;
+            return (
+              <Button
+                key={link.name}
+                variant="ghost"
+                onClick={() => {
+                  openCreate();
+                  onClose?.();
+                }}
+                className="w-full h-auto justify-start gap-3 rounded-lg px-4 py-3 text-md font-medium transition-colors text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              >
+                <Icon className="size-5" />
+                {t(link.translationKey, link.name)}
+              </Button>
+            );
+          }
 
           const isActive =
             link.href === "/"
@@ -143,10 +143,10 @@ export function Sidebar({ onClose }: SidebarProps) {
                     }
                   : onClose
               }
-              className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 rounded-lg px-4 py-3 text-md font-medium transition-colors ${
                 isActive
-                  ? "bg-primary/10 text-primary"
-                  : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+                  ? "bg-primary/10 text-primary font-semibold"
+                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               }`}
             >
               <Icon className="h-5 w-5" />
@@ -161,10 +161,10 @@ export function Sidebar({ onClose }: SidebarProps) {
         <Link
           to="/profile"
           onClick={onClose}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 text-md font-medium transition-colors ${
             location.pathname === "/profile"
-              ? "bg-primary/10 text-primary"
-              : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+              ? "bg-primary/10 text-primary font-semibold"
+              : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           }`}
         >
           <User className="h-5 w-5" />
@@ -175,7 +175,7 @@ export function Sidebar({ onClose }: SidebarProps) {
           type="button"
           onClick={handleLogout}
           disabled={logoutMutation.isPending}
-          className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-60 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+          className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-md font-medium text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground disabled:cursor-not-allowed disabled:opacity-60"
         >
           <LogOut className="h-5 w-5" />
           {logoutMutation.isPending

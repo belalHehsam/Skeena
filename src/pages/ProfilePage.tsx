@@ -7,7 +7,8 @@ import { ProfilePosts } from "@/features/profile/components/ProfilePosts";
 import { PROFILE_QUERY_KEYS } from "@/features/profile/constants/profile-query-keys";
 import { useProfilePosts } from "@/features/profile/hooks/useProfilePosts";
 import ErrorMessage from "@/components/feedbacks/ErrorMessage";
-import Spinner from "@/components/feedbacks/Spinner";
+import { ProfileHeaderSkeleton } from "@/features/profile/components/ProfileHeaderSkeleton";
+import { PostSkeletonList } from "@/features/explore/components/PostSkeleton";
 
 export default function ProfilePage() {
     const { id } = useParams<{ id?: string }>();
@@ -30,8 +31,9 @@ export default function ProfilePage() {
 
     if (profileQuery.isPending) {
         return (
-            <div className="grid min-h-[60vh] place-items-center">
-                <Spinner />
+            <div className="mx-auto w-full max-w-5xl space-y-6 pb-8">
+                <ProfileHeaderSkeleton />
+                <PostSkeletonList count={2} />
             </div>
         );
     }

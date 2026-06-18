@@ -1,5 +1,6 @@
 import type { Post } from "../types/post";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { getRelativeTime } from "@/utils/formatDate";
 import DOMPurify from "dompurify";
 import { useState } from "react";
@@ -229,11 +230,11 @@ export function PostCard({
 
       {/* comment box */}
       {post.commentsEnabled && (
-        <div className="mt-2 flex items-center gap-2 border-t border-neutral-100 pt-4 dark:border-neutral-800">
-          <Avatar className="ring-primary-100 h-10 w-10 border-2 border-white ring-2">
+        <div className="mt-2 flex items-center gap-1.5 sm:gap-2 border-t border-neutral-100 pt-4 dark:border-neutral-800">
+          <Avatar className="ring-primary-100 h-8 w-8 sm:h-10 sm:w-10 border border-white ring-1 sm:ring-2 sm:border-2">
             <AvatarImage src={user?.avatar} alt={user?.username} />
             <AvatarFallback
-              className={`text-sm font-bold ${getAvatarColorClass(user?.username || "")}`}
+              className={`text-xs sm:text-sm font-bold ${getAvatarColorClass(user?.username || "")}`}
             >
               {user?.username?.slice(0, 2).toLocaleUpperCase() || "U"}
             </AvatarFallback>
@@ -246,16 +247,17 @@ export function PostCard({
             onKeyDown={(e) => {
               if (e.key === "Enter") handlePostComment();
             }}
-            className="text-foreground m-0 flex-1 rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm placeholder:text-neutral-400 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:placeholder:text-neutral-500 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
+            className="text-foreground m-0 flex-1 rounded-lg border border-neutral-300 bg-white px-3 py-2 sm:px-4 sm:py-3 text-sm placeholder:text-neutral-400 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:placeholder:text-neutral-500 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
             placeholder={t("post.writeComment")}
           />
-          <button
+          <Button
+            type="button"
             onClick={handlePostComment}
             disabled={isCommentingPending || !commentText.trim()}
-            className="bg-primary text-primary-foreground cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold disabled:opacity-50"
+            className="rounded-lg text-sm font-semibold px-4 sm:px-8 border-0 self-stretch h-auto"
           >
             {isCommentingPending ? t("post.posting") : t("post.postBtn")}
-          </button>
+          </Button>
         </div>
       )}
     </div>

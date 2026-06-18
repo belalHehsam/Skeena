@@ -1,5 +1,6 @@
 import { CommentItem } from './CommentItem';
 import type { Comment } from '../../types/post';
+import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
 interface CommentsSectionProps {
@@ -35,10 +36,12 @@ export function CommentsSection({
 
 
       {hasNextPage && (
-        <button 
+        <Button 
+          type="button"
           onClick={onLoadMore}
           disabled={isLoadingMore}
-          className="w-full border border-neutral-200 dark:border-neutral-800 text-foreground font-medium py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900/50 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+          variant="outline"
+          className="w-full mt-4 flex justify-center items-center gap-2 rounded-xl text-foreground"
         >
           {isLoadingMore ? (
             <>
@@ -48,7 +51,7 @@ export function CommentsSection({
           ) : (
             t("post.loadMoreComments")
           )}
-        </button>
+        </Button>
       )}
     </div>
   );

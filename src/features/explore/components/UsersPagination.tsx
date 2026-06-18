@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 interface UsersPaginationProps {
   page: number;
@@ -36,28 +37,33 @@ export function UsersPagination({
       </p>
 
       <div className="flex items-center gap-2">
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="icon-sm"
           onClick={onPrev}
           disabled={page <= 1 || isFetching}
-          className="hover:border-primary/40 hover:bg-primary-50 hover:text-primary dark:hover:border-primary/30 dark:hover:bg-primary-950/30 dark:hover:text-primary-400 flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 transition-all disabled:cursor-not-allowed disabled:opacity-40 dark:border-neutral-800"
+          className="rounded-lg text-neutral-500"
           aria-label={t("pagination.prev")}
         >
           <ChevronLeft className="h-4 w-4" />
-        </button>
+        </Button>
 
         <span className="min-w-12 text-center text-sm text-neutral-600 tabular-nums dark:text-neutral-400">
           {page} / {totalPages}
         </span>
 
-        <button
+        <Button
+          type="button"
+          variant="outline"
+          size="icon-sm"
           onClick={onNext}
           disabled={page >= totalPages || isFetching}
-          className="hover:border-primary/40 hover:bg-primary-50 hover:text-primary dark:hover:border-primary/30 dark:hover:bg-primary-950/30 dark:hover:text-primary-400 flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 transition-all disabled:cursor-not-allowed disabled:opacity-40 dark:border-neutral-800"
+          className="rounded-lg text-neutral-500"
           aria-label={t("pagination.next")}
         >
           <ChevronRight className="h-4 w-4" />
-        </button>
+        </Button>
       </div>
     </div>
   );

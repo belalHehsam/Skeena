@@ -1,6 +1,7 @@
 import { ArrowLeft, Home, SearchX } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
     const { t } = useTranslation("errors");
@@ -36,14 +37,15 @@ const NotFound = () => {
                         {t("notFound.goHome")}
                     </Link>
 
-                    <button
+                    <Button
                         type="button"
+                        variant="outline"
                         onClick={() => window.history.back()}
-                        className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-neutral-200 bg-white px-5 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                        className="gap-2 rounded-md text-neutral-700 dark:text-neutral-200"
                     >
                         <ArrowLeft className="size-4 rtl:rotate-180" />
                         {t("notFound.goBack")}
-                    </button>
+                    </Button>
                 </div>
 
                 <div className="mt-7 flex items-center justify-center gap-2 text-xs text-neutral-400">

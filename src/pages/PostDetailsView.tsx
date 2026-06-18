@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { PostCard } from '../features/posts/components/PostCard';
+import { Button } from "@/components/ui/button";
 import { CommentsSection } from '../features/posts/components/comments/CommentsSection';
 // import type { Post, Comment } from '../features/posts/types/post.d';
 import { useGetPostDetails } from '@/features/posts/hooks/useGetPostDetails';
@@ -39,12 +40,13 @@ export function PostDetailsView() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50/50 gap-4">
         <p className="text-red-600 font-medium">Failed to load the post. Please try again later.</p>
-        <button 
+        <Button 
+          type="button"
           onClick={() => navigate(-1)} 
-          className="bg-green-800 text-white px-4 py-2 rounded-lg text-sm font-medium"
+          className="bg-green-800 text-white border-none rounded-lg text-sm font-medium"
         >
           Go Back
-        </button>
+        </Button>
       </div>
     );
   }

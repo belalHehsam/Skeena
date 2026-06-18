@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FiAlertCircle } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import type { ParseKeys } from "i18next";
+import { Button } from "@/components/ui/button";
 
 export interface ErrorMessageProps {
   messageKey?: ParseKeys<"common">;
@@ -54,16 +55,16 @@ function ErrorMessage({
         {t(descriptionKey as any)}
       </p>
       {onRetry && (
-        <button
+        <Button
           type="button"
           onClick={onRetry}
           className={cn(
-            "rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none",
+            "rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none border-none",
             buttonClassName,
           )}
         >
           Try Again
-        </button>
+        </Button>
       )}
     </div>
   );

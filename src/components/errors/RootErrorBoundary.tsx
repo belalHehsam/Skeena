@@ -5,6 +5,7 @@ import {
   useNavigate,
   useRouteError,
 } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 function getErrorDetails(error: unknown) {
   if (isRouteErrorResponse(error)) {
@@ -70,14 +71,14 @@ export default function RootErrorBoundary() {
         )}
 
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-          <button
+          <Button
             type="button"
             onClick={() => window.location.reload()}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary-600"
+            className="gap-2 rounded-md text-white"
           >
             <RotateCcw className="size-4" />
             Reload Page
-          </button>
+          </Button>
 
           <Link
             to="/"
@@ -87,14 +88,15 @@ export default function RootErrorBoundary() {
             Go Home
           </Link>
 
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => navigate(-1)}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-neutral-200 bg-white px-5 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
+            className="gap-2 rounded-md text-neutral-700 dark:text-neutral-200"
           >
             <ArrowLeft className="size-4 rtl:rotate-180" />
             Go Back
-          </button>
+          </Button>
         </div>
 
         <div className="mt-7 flex items-center justify-center gap-2 text-xs text-neutral-400">

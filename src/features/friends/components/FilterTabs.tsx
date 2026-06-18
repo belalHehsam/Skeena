@@ -18,10 +18,10 @@ export const FilterTabs: FC<Props> = ({ activeValue, setActiveValue }) => {
           type="button"
           key={tab.id}
           onClick={() => setActiveValue(tab.id)}
-          className={`rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
+          className={`rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-200 border ${
             activeValue === tab.id
-              ? "bg-primary text-white"
-              : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+              ? "border-primary-200 bg-primary-50 text-primary-700 dark:border-primary-800/60 dark:bg-primary-950/40 dark:text-primary-300"
+              : "bg-transparent border-neutral-200 text-neutral-500 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-900/50"
           }`}
         >
           {t(`tabs.${tab.id}`)}

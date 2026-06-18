@@ -18,8 +18,8 @@ export default function CategoryFilters({
             onClick={() => onCategoryChange(category)}
             className={`flex-shrink-0 cursor-pointer rounded-full border px-5 py-2 text-sm font-medium transition-all duration-200 ${
               isActive
-                ? "border-primary bg-primary text-white"
-                : "bg-background text-muted-foreground hover:bg-primary border hover:text-white dark:hover:bg-primary-950/30 dark:hover:text-primary-400"
+                ? "border-primary-200 bg-primary-50 text-primary-700 dark:border-primary-800/60 dark:bg-primary-950/40 dark:text-primary-300"
+                : "bg-transparent border-neutral-200 text-neutral-500 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-900/50"
             }`}
           >
             {t(`categories.${category}`, {

@@ -20,6 +20,7 @@ interface FriendshipActionsProps {
     | "accepted"
     | "friends";
   initialRequestId?: string | null;
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg";
 }
 
 export const FriendshipActions = ({
@@ -28,8 +29,8 @@ export const FriendshipActions = ({
   className,
   initialRequestId,
   allowFriendRequests,
-
   initialStatus,
+  size = "default",
 }: FriendshipActionsProps) => {
   const { t } = useTranslation("friends");
   const { data, isLoading, isError } = useFriendshipStatus(
@@ -54,7 +55,7 @@ export const FriendshipActions = ({
 
   if (isLoading && status === undefined) {
     return (
-      <Button className={cn("w-full", className)} disabled>
+      <Button className={cn("w-full", className)} size={size} disabled>
         {t("actions.loading")}
       </Button>
     );
@@ -62,7 +63,7 @@ export const FriendshipActions = ({
 
   if (isError && status === undefined) {
     return (
-      <Button className={cn("w-full", className)} variant="outline" disabled>
+      <Button className={cn("w-full", className)} variant="outline" size={size} disabled>
         {t("actions.unavailable")}
       </Button>
     );
@@ -71,7 +72,7 @@ export const FriendshipActions = ({
   if (status === "none" || (status === undefined && allowRequests)) {
     if (allowFriendRequests === false) {
       return (
-        <Button className={cn("w-full", className)} variant="outline" disabled>
+        <Button className={cn("w-full", className)} variant="outline" size={size} disabled>
           {t("actions.disabled")}
         </Button>
       );
@@ -79,7 +80,8 @@ export const FriendshipActions = ({
 
     return (
       <Button
-        className={cn("w-full bg-[#1B5E4F] hover:bg-[#2E8B72] text-white font-medium text-sm px-5 py-2 h-auto rounded-full border-none", className)}
+        className={cn("w-full border-none bg-primary hover:bg-primary/90 text-white font-medium", className)}
+        size={size}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -95,8 +97,9 @@ export const FriendshipActions = ({
   if (status === "pending_sent") {
     return (
       <Button
-        className={cn("w-full border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full", className)}
+        className={cn("w-full", className)}
         variant="outline"
+        size={size}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -115,7 +118,8 @@ export const FriendshipActions = ({
     return (
       <>
         <Button
-          className={cn("flex-1 bg-[#1B5E4F] hover:bg-[#2E8B72] text-white font-medium text-sm px-5 py-2 h-auto rounded-full border-none", className)}
+          className={cn("flex-1 border-none bg-primary hover:bg-primary/90 text-white font-medium", className)}
+          size={size}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -128,8 +132,9 @@ export const FriendshipActions = ({
           {t("actions.accept")}
         </Button>
         <Button
-          className={cn("flex-1 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full", className)}
+          className={cn("flex-1", className)}
           variant="outline"
+          size={size}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -151,6 +156,7 @@ export const FriendshipActions = ({
         <Button
           className={cn("w-full", className)}
           variant="destructive"
+          size={size}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -163,15 +169,16 @@ export const FriendshipActions = ({
       );
     }
     return (
-      <Button className={cn("w-full", className)} variant="outline" disabled>
+      <Button className={cn("w-full", className)} variant="outline" size={size} disabled>
         {t("actions.friends")}
       </Button>
     );
   }
 
   return (
-    <Button className={cn("w-full", className)} variant="outline" disabled>
+    <Button className={cn("w-full", className)} variant="outline" size={size} disabled>
       {t("actions.unavailable")}
     </Button>
   );
 };
+export default FriendshipActions;

@@ -9,7 +9,7 @@ export const FriendRequestNotificationItem = ({
   return (
     <NotificationLayout notification={notification} variant={variant} onClick={onClick}>
       <div className="mt-2 flex gap-2">
-        <FriendshipActions userId={notification.sender._id} className="w-auto" />
+        <FriendshipActions userId={notification.sender._id} className="w-auto" size="xs" />
       </div>
     </NotificationLayout>
   );

@@ -35,7 +35,7 @@ export function ChatHeader({ participant, onBackClick }: ChatHeaderProps) {
         </AvatarFallback>
       </Avatar>
 
-      <div className="flex-1 min-w-0 text-left">
+      <div className="flex-1 min-w-0 text-start">
         <h3 className="text-sm font-bold text-neutral-850 dark:text-neutral-100 truncate">
           {name}
         </h3>

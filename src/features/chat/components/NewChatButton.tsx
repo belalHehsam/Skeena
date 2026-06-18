@@ -31,7 +31,6 @@ export function NewChatButton() {
     queryFn: () => searchUsers(searchQuery),
     staleTime: 5000,
   });
-  console.log('users: ', users)
 
   const handleStartChat = async (userId: string) => {
     setIsStartingChat(true);
@@ -64,40 +63,43 @@ export function NewChatButton() {
         render={
           <Button
             size="icon"
-            className="h-10 w-10 rounded-full bg-primary hover:bg-primary/95 text-white shadow-md cursor-pointer transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
+            className="bg-primary hover:bg-primary/95 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-white shadow-md transition-all hover:scale-105 active:scale-95"
           >
             <MessageSquarePlus className="h-5 w-5" />
           </Button>
         }
       />
-      <DialogContent className="sm:max-w-[425px] rounded-xl border bg-card p-6 shadow-lg">
+      <DialogContent className="bg-card rounded-xl border p-6 shadow-lg sm:max-w-106.25">
         <DialogHeader>
-          <DialogTitle className="font-heading text-lg font-bold text-neutral-850 dark:text-neutral-100">
+          <DialogTitle className="font-heading text-neutral-850 text-lg font-bold dark:text-neutral-100">
             {t("chat.newChat", "New Conversation")}
           </DialogTitle>
           <DialogDescription className="font-sans text-xs text-neutral-500">
-            {t("chat.searchPrompt", "Search by name or username to start a direct message thread.")}
+            {t(
+              "chat.searchPrompt",
+              "Search by name or username to start a direct message thread.",
+            )}
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="relative my-4">
-          <Search className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
+          <Search className="absolute top-3.5 h-4 w-4 text-neutral-400 ltr:left-3 rtl:right-3" />
           <input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t("chat.searchPlaceholder", "Search users...")}
-            className="w-full rounded-lg border border-border bg-background py-2.5 pl-9 pr-4 text-sm outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="border-border bg-background focus:border-primary focus:ring-primary/30 w-full rounded-lg border py-2.5 text-sm transition-all outline-none focus:ring-1 ltr:pr-4 ltr:pl-9 rtl:pr-9 rtl:pl-4"
           />
         </div>
 
-        <div className="max-h-[250px] overflow-y-auto space-y-2 pr-1">
+        <div className="max-h-62.5 space-y-2 overflow-y-auto pr-1">
           {isLoading ? (
-            <div className="flex items-center justify-center py-6 text-neutral-400">
-              <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
+            <div className="flex items-center justify-center gap-2 py-6 text-neutral-400">
+              <Loader2 className="text-primary h-6 w-6 animate-spin" />
               <span className="text-sm">{t("loading", "Loading...")}</span>
             </div>
           ) : users.length === 0 ? (
-            <div className="text-center py-6 text-sm text-neutral-500 dark:text-neutral-400 font-sans">
+            <div className="py-6 text-center font-sans text-sm text-neutral-500 dark:text-neutral-400">
               {t("chat.noUsersFound", "No users found.")}
             </div>
           ) : (
@@ -105,17 +107,19 @@ export function NewChatButton() {
               <div
                 key={user._id}
                 onClick={() => !isStartingChat && handleStartChat(user._id)}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer transition-colors"
+                className="flex cursor-pointer items-center justify-between rounded-lg p-2 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800"
               >
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10 border border-neutral-100 dark:border-neutral-700">
                     <AvatarImage src={user.profileImage || user.avatar} />
                     <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                      {(user.name || user.displayName || user.username || "?").charAt(0).toUpperCase()}
+                      {(user.name || user.displayName || user.username || "?")
+                        .charAt(0)
+                        .toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="text-left">
-                    <div className="text-sm font-semibold text-neutral-850 dark:text-neutral-100">
+                  <div className="text-start">
+                    <div className="text-neutral-850 text-sm font-semibold dark:text-neutral-100">
                       {user.displayName || user.name || user.username}
                     </div>
                     <div className="text-xs text-neutral-500">
@@ -126,7 +130,7 @@ export function NewChatButton() {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="h-8 w-8 p-0 rounded-full text-primary hover:bg-primary/10 hover:text-primary"
+                  className="text-primary hover:bg-primary/10 hover:text-primary h-8 w-8 rounded-full p-0"
                   disabled={isStartingChat}
                 >
                   <UserPlus className="h-4 w-4" />

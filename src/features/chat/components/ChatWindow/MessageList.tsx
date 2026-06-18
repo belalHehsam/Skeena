@@ -148,7 +148,6 @@ export function MessageList({
       onScroll={handleScroll}
       className="flex-1 overflow-y-auto p-4 space-y-2 flex flex-col bg-neutral-50/20 dark:bg-neutral-900/10"
     >
-      {/* Scroll scrollback load trigger */}
       {hasNextPage && (
         <div ref={observerRef} className="flex justify-center p-2">
           {isFetchingNextPage ? (
@@ -161,7 +160,6 @@ export function MessageList({
         </div>
       )}
 
-      {/* Grouped message nodes */}
       {Object.entries(messageGroups).map(([dateStr, groupMessages]) => (
         <div key={dateStr} className="space-y-1">
           <DateDivider dateString={dateStr} />
@@ -171,10 +169,9 @@ export function MessageList({
         </div>
       ))}
 
-      {/* Real-time typing indicators */}
       {isTyping && (
         <div className="pt-2">
-          <TypingIndicator />
+          <TypingIndicator participant={participant} />
         </div>
       )}
     </div>

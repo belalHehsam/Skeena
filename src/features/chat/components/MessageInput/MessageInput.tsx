@@ -58,8 +58,7 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
   };
 
   return (
-    <div className="border-t border-border p-3 bg-background flex flex-col gap-2">
-      {/* Media file preview */}
+    <div className="border-t border-border p-4 bg-background flex flex-col gap-2.5 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
       {selectedMedia && (
         <div className="flex justify-start">
           <MediaPreview
@@ -71,11 +70,11 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex items-end gap-2 max-w-full"
+        className="flex items-center gap-3 max-w-full"
       >
-        {/* Attachment button */}
         <input
           type="file"
+          title="Attachment"
           accept="image/*"
           className="hidden"
           ref={fileInputRef}
@@ -91,12 +90,11 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
           variant="ghost"
           size="icon"
           onClick={() => fileInputRef.current?.click()}
-          className="h-10 w-10 shrink-0 text-neutral-500 hover:text-primary hover:bg-primary/10 rounded-full cursor-pointer flex items-center justify-center"
+          className="h-10 w-10 shrink-0 text-neutral-400 hover:text-primary hover:bg-primary/10 rounded-full cursor-pointer flex items-center justify-center transition-all duration-200"
         >
           <Paperclip className="h-5 w-5" />
         </Button>
 
-        {/* Input box */}
         <div className="flex-1 relative">
           <textarea
             {...register("content")}
@@ -107,16 +105,15 @@ export function MessageInput({ conversationId, recipientId }: MessageInputProps)
               emitTyping();
             }}
             placeholder={t("chat.typeMessage", "Type a message...")}
-            className="w-full rounded-2xl border border-border bg-neutral-50/50 dark:bg-neutral-900/50 py-2.5 px-4 text-sm outline-none resize-none max-h-32 transition-all focus:border-primary focus:bg-background focus:ring-1 focus:ring-primary/20 font-sans"
+            className="w-full rounded-[20px] border border-border bg-neutral-50/40 dark:bg-neutral-900/30 py-2.5 px-4 text-sm outline-none resize-none max-h-32 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/10 dark:focus:ring-primary/20 font-sans"
           />
         </div>
 
-        {/* Send button */}
         <Button
           type="submit"
-          className="h-10 w-10 shrink-0 rounded-full bg-primary hover:bg-primary/95 text-white flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
+          className="h-10 w-10 shrink-0 rounded-full bg-primary hover:bg-primary-600 text-white flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-sm"
         >
-          <Send className="h-5 w-5" />
+          <Send className="h-5 w-5 rtl:rotate-y-180" />
         </Button>
       </form>
     </div>

@@ -4,7 +4,7 @@
 @import "./animations.css";
 @plugin "@tailwindcss/typography";
 @import "@fontsource-variable/plus-jakarta-sans";
-@import "@fontsource/ibm-plex-sans-arabic";
+@import "@fontsource-variable/cairo";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -47,7 +47,7 @@
   --primary-200: #a2d7ca;
   --primary-300: #6cbda9;
   --primary-400: #429f88;
-  --primary-500: #1B5E4F;
+  --primary-500: #1b5e4f;
   --primary-600: #154a3e;
   --primary-700: #113c32;
   --primary-800: #0d2e26;
@@ -59,23 +59,23 @@
   --secondary-200: #f9ecc2;
   --secondary-300: #f4de97;
   --secondary-400: #eecc6b;
-  --secondary-500: #C9963A;
+  --secondary-500: #c9963a;
   --secondary-600: #ab7a28;
   --secondary-700: #895e1e;
   --secondary-800: #674416;
   --secondary-900: #4a300f;
   --secondary-950: #291a07;
 
-  --neutral-50: #F2EFE9;
-  --neutral-100: #E5E0D8;
-  --neutral-200: #D2CAC0;
-  --neutral-300: #B7ABA0;
-  --neutral-400: #91918D;
+  --neutral-50: #f2efe9;
+  --neutral-100: #e5e0d8;
+  --neutral-200: #d2cac0;
+  --neutral-300: #b7aba0;
+  --neutral-400: #91918d;
   --neutral-500: #777774;
-  --neutral-600: #5E5E5C;
+  --neutral-600: #5e5e5c;
   --neutral-700: #474744;
-  --neutral-800: #30312E;
-  --neutral-900: #1B1C1A;
+  --neutral-800: #30312e;
+  --neutral-900: #1b1c1a;
   --neutral-950: #000000;
 }
 
@@ -114,8 +114,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Plus Jakarta Sans Variable', 'IBM Plex Sans Arabic', sans-serif;
-  --font-heading: 'Plus Jakarta Sans Variable', 'IBM Plex Sans Arabic', sans-serif;
+  --font-sans: "Plus Jakarta Sans Variable", "Cairo Variable", sans-serif;
+  --font-heading: "Plus Jakarta Sans Variable", "Cairo Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -190,7 +190,6 @@
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
   --color-neutral-950: var(--neutral-950);
-
 }
 
 * {
@@ -203,9 +202,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
-
-
-
 
 @layer base {
   * {
@@ -228,13 +224,13 @@ body {
   h6 {
     @apply font-heading;
   }
-  button{
+  button {
     cursor: pointer;
   }
 
   /* TipTap Placeholder */
   .tiptap p.is-editor-empty:first-child::before {
-    @apply text-neutral-400 dark:text-neutral-500 float-start h-0 pointer-events-none;
+    @apply pointer-events-none float-start h-0 text-neutral-400 dark:text-neutral-500;
     content: attr(data-placeholder);
   }
 }
@@ -243,9 +239,13 @@ body {
   .majlis-page-pattern {
     background-color: var(--neutral-50);
     background-image:
-      radial-gradient(circle at center, rgba(5, 150, 105, 0.08) 1px, transparent 1px),
-      linear-gradient(rgba(5, 150, 105, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(5, 150, 105, 0.035) 1px, transparent 1px);
+      radial-gradient(
+        circle at center,
+        rgba(27, 94, 79, 0.08) 1px,
+        transparent 1px
+      ),
+      linear-gradient(rgba(27, 94, 79, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(27, 94, 79, 0.035) 1px, transparent 1px);
     background-size:
       28px 28px,
       28px 28px,
@@ -255,8 +255,12 @@ body {
   .dark .majlis-page-pattern {
     background-color: var(--neutral-950);
     background-image:
-      radial-gradient(circle at center, rgba(5, 150, 105, 0.12) 1px, transparent 1px),
-      linear-gradient(rgba(5, 150, 105, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(5, 150, 105, 0.06) 1px, transparent 1px);
+      radial-gradient(
+        circle at center,
+        rgba(27, 94, 79, 0.12) 1px,
+        transparent 1px
+      ),
+      linear-gradient(rgba(27, 94, 79, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(27, 94, 79, 0.06) 1px, transparent 1px);
   }
 }
